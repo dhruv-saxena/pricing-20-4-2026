@@ -714,7 +714,6 @@
               <button class="w-full h-12 rounded-[4px] border border-brand-500 flex items-center justify-center text-[16px] font-bold text-brand-500 hover:bg-brand-50">
                 Buy Now
               </button>            </div>
-            <p class="text-[12px] font-medium text-ink-tertiary text-center leading-none">No offers available for this plan</p>
           </div>
 
           <ul class="mt-5 flex flex-col gap-4 text-[14px] leading-[1.43]" style="width:312px;">
@@ -1370,11 +1369,12 @@
           </div>
           <p class="text-[12px] font-medium text-ink-tertiary">${p.cadence}</p>`;
         if (period === 'annual') {
-          saveEl.innerHTML = `<i class="ph-fill ph-check-circle text-[13px]"></i>You'll save $1,200 this year`;
-          saveEl.classList.add('text-success-fg');
-          saveEl.classList.remove('text-ink-secondary');
+          // No copy under the button in the default yearly state.
+          saveEl.innerHTML = '';
+          saveEl.classList.add('hidden');
         } else {
-          saveEl.innerHTML = `<button type="button" class="underline underline-offset-[3px] decoration-from-font hover:text-ink-primary" data-switch-yearly>Switch to yearly to save $1,200</button>`;
+          saveEl.classList.remove('hidden');
+          saveEl.innerHTML = `<button type="button" class="underline underline-offset-[3px] decoration-from-font hover:text-ink-primary" data-switch-yearly>Switch to yearly to save $1,200 per year</button>`;
           saveEl.classList.remove('text-success-fg');
           saveEl.classList.add('text-ink-secondary');
           saveEl.querySelector('[data-switch-yearly]').addEventListener('click', () => {
@@ -1492,8 +1492,10 @@
           // No discount on monthly: hide the chip.
           proChip.classList.add('hidden');
 
-          const nudge = bumped ? `Switch to yearly for $${save} off` : 'Switch to yearly';
-          proHint.innerHTML = `<button type="button" class="underline underline-offset-[3px] decoration-from-font hover:text-ink-primary" data-pro-switch-yearly>${nudge}</button>`;
+          // Savings = (monthly \$40 - annual \$20) × 12 = \$240. Uses the base
+          // annual rate, not the bumped one — if the bump is active, switching
+          // to yearly reveals \$15/mo as a positive surprise on top.
+          proHint.innerHTML = `<button type="button" class="underline underline-offset-[3px] decoration-from-font hover:text-ink-primary" data-pro-switch-yearly>Switch to yearly to save $240 per year</button>`;
           proHint.classList.remove('text-success-fg', 'hidden');
           proHint.classList.add('text-ink-secondary');
           const switchBtn = proHint.querySelector('[data-pro-switch-yearly]');
