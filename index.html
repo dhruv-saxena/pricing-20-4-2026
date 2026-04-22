@@ -1454,18 +1454,19 @@
             </div>
             <p class="text-[12px] font-medium text-ink-tertiary">billed yearly</p>`;
 
-          // Chip above the CTA carries the discount. During the hour bump it
-          // morphs to include a live countdown. No below-button timer pill.
-          proChip.classList.remove('hidden');
-          proCtaBtn.classList.add('pro-halo');
+          // Chip + halo pulse only appear during the hour bump. The default
+          // yearly state stays calm — the green hint below carries the save.
           if (bumped) {
+            proChip.classList.remove('hidden');
+            proCtaBtn.classList.add('pro-halo');
             proChip.innerHTML = `
               <span>$${save} OFF</span>
               <span aria-hidden="true">·</span>
               <i class="ph-fill ph-clock"></i>
               <span>Ends in <span class="tabular-nums" data-pro-timer>60:00</span></span>`;
           } else {
-            proChip.innerHTML = `$${save} OFF`;
+            proChip.classList.add('hidden');
+            proCtaBtn.classList.remove('pro-halo');
           }
 
           proHint.innerHTML = `<i class="ph-fill ph-check-circle text-[13px]"></i>You'll save $${save} this year`;
