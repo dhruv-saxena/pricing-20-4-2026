@@ -1451,10 +1451,18 @@
 
         if (period === 'annual') {
           const now = bumped ? '15' : '20';
+          // Strike-through only appears when the hour discount is active,
+          // so the markdown from the regular annual rate is visible.
+          const strikeHtml = bumped
+            ? `<p class="text-[17px] font-medium line-through text-ink-tertiary leading-none"><span class="usd">$</span>20</p>`
+            : '';
           proPriceEl.innerHTML = `
-            <div class="flex items-baseline gap-1 fade-in">
-              <p class="text-[24px] font-bold text-ink-primary leading-none"><span class="usd">$</span>${now}</p>
-              <span class="text-[13px] font-medium text-ink-tertiary">/mo</span>
+            <div class="flex items-baseline gap-2 fade-in">
+              ${strikeHtml}
+              <div class="flex items-baseline gap-1">
+                <p class="text-[24px] font-bold text-ink-primary leading-none"><span class="usd">$</span>${now}</p>
+                <span class="text-[13px] font-medium text-ink-tertiary">/mo</span>
+              </div>
             </div>
             <p class="text-[12px] font-medium text-ink-tertiary">billed yearly</p>`;
 
@@ -1474,7 +1482,12 @@
           proHint.classList.add('hidden');
 
           if (sumSave) sumSave.classList.add('hidden');
-          if (sumPrice)   sumPrice.innerHTML   = `<span class="usd">$</span>${now}`;
+          if (sumPrice) {
+            const strike = bumped
+              ? '<span class="text-[14px] font-medium line-through text-ink-tertiary mr-2"><span class="usd">$</span>20</span>'
+              : '';
+            sumPrice.innerHTML = `${strike}<span class="usd">$</span>${now}`;
+          }
           if (sumCadence) sumCadence.textContent = 'billed yearly';
           if (sumPill) {
             sumPill.innerHTML = bumped ? `
