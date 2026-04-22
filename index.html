@@ -762,13 +762,13 @@
 
           <div class="mt-3 flex flex-col gap-[8px]" style="width:312px;">
             <div class="pro-cta-wrap group" id="pro-cta-wrap">
-              <span class="pro-discount-chip" id="pro-discount-chip">$180 OFF</span>
+              <span class="pro-discount-chip" id="pro-discount-chip">$120 OFF</span>
               <button id="pro-ind-cta" class="pro-btn w-full h-12 rounded-[4px] flex items-center justify-center text-white">
                 <span class="text-[16px] font-bold leading-none">Buy Now</span>
               </button>
             </div>
             <p class="text-[12px] font-medium text-success-fg flex items-center justify-center gap-1 leading-none" id="pro-hint">
-              <i class="ph-fill ph-check-circle text-[13px]"></i>You'll save $180 this year
+              <i class="ph-fill ph-check-circle text-[13px]"></i>You'll save $120 in your first year
             </p>
           </div>
 
@@ -867,7 +867,7 @@
               <div class="flex flex-col items-end gap-1">
                 <div class="flex items-baseline gap-1 relative">
                   <p class="absolute right-0 text-[17px] font-medium line-through text-ink-tertiary leading-none" style="bottom: calc(100% + 4px);"><span class="usd">$</span>40</p>
-                  <p class="text-[24px] font-bold text-ink-primary leading-none"><span class="usd">$</span>25</p>
+                  <p class="text-[24px] font-bold text-ink-primary leading-none"><span class="usd">$</span>30</p>
                   <span class="text-[13px] font-medium text-ink-tertiary">/mo</span>
                 </div>
                 <p class="text-[12px] font-medium text-ink-tertiary">billed yearly</p>
@@ -1085,11 +1085,11 @@
       </div>
       <div class="flex flex-col items-center justify-center gap-2 p-5 border-l border-tertiary">
         <div class="flex flex-col items-center leading-none gap-1">
-          <p class="text-[11px] font-medium text-success-fg" id="sum-pro-save">Save <span class="usd">$</span>180 yearly</p>
+          <p class="text-[11px] font-medium text-success-fg" id="sum-pro-save">Save <span class="usd">$</span>120 yearly</p>
           <div class="flex items-baseline gap-2">
             <p class="text-[14px] font-medium line-through text-ink-tertiary leading-none" id="sum-pro-strike"><span class="usd">$</span>40</p>
             <div class="flex items-baseline gap-1">
-              <p class="text-[22px] font-bold text-ink-primary leading-none" id="sum-pro-price"><span class="usd">$</span>25</p>
+              <p class="text-[22px] font-bold text-ink-primary leading-none" id="sum-pro-price"><span class="usd">$</span>30</p>
               <p class="text-[12px] text-ink-tertiary">/mo</p>
             </div>
           </div>
@@ -1451,7 +1451,7 @@
       function renderPro() {
         const period = proToggle.getAttribute('aria-checked') === 'true' ? 'annual' : 'monthly';
         const bumped = bumpRemaining() > 0;
-        const save   = bumped ? 300 : 180;
+        const save   = bumped ? 180 : 120;
 
         const sumSave    = document.getElementById('sum-pro-save');
         const sumStrike  = document.getElementById('sum-pro-strike');
@@ -1460,7 +1460,7 @@
         const sumPill    = document.getElementById('sum-pro-pill-slot');
 
         if (period === 'annual') {
-          const now = bumped ? '15' : '25';
+          const now = bumped ? '25' : '30';
           proPriceEl.innerHTML = `
             <div class="flex items-baseline gap-1 relative fade-in">
               <p class="absolute right-0 text-[17px] font-medium line-through text-ink-tertiary leading-none" style="bottom: calc(100% + 4px);"><span class="usd">$</span>40</p>
@@ -1658,7 +1658,7 @@
             <span class="fb-gift">🎁</span>
             <span class="fb-tag" id="fb-tag-label">Help us improve and get</span>
             <div class="fb-panel-title" id="fb-title">
-              <span class="amt"><span class="sym">$</span>300</span>
+              <span class="amt"><span class="sym">$</span>180</span>
               <span class="off">off Pro</span>
             </div>
             <p class="fb-panel-sub" id="fb-panel-sub">
@@ -1707,7 +1707,7 @@
                   <i class="ph-fill ph-lock"></i>
                   <i class="ph-fill ph-lock-open"></i>
                 </span>
-                Submit to unlock $300 off Pro
+                Submit to unlock $180 off Pro
               </button>
             </div>
           </div>
@@ -1716,7 +1716,7 @@
           <div id="fb-step-success" class="hidden" style="position: relative;">
             <h2 class="fb-success-title">Thank you</h2>
             <p class="fb-success-body">
-              We heard you. As a token of appreciation, we've unlocked <strong>$300 off Pro</strong> for the next <strong>one hour</strong>.
+              We heard you. As a token of appreciation, we've unlocked <strong>$180 off Pro</strong> for the next <strong>one hour</strong>.
             </p>
             <div class="fb-actions fb-cta-wrap">
               <span class="fb-cta-badge" aria-hidden="true">
@@ -1724,7 +1724,7 @@
                 Expires in <span id="fb-success-timer" class="fb-btn-timer">59:59</span>
               </span>
               <button class="fb-btn-primary" id="fb-claim">
-                Buy Pro at $300 off
+                Buy Pro at $180 off
               </button>
             </div>
           </div>
