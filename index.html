@@ -441,20 +441,27 @@
   .fb-btn-primary:not([disabled]) .fb-lock .ph-lock { opacity: 0; }
   .fb-btn-primary:not([disabled]) .fb-lock .ph-lock-open {
     opacity: 1;
-    animation: lock-pop 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+    animation: lock-pop 0.55s cubic-bezier(0.34, 1.35, 0.64, 1);
   }
   @keyframes lock-pop {
-    0%   { transform: rotate(-14deg) scale(0.7); opacity: 0; }
-    100% { transform: rotate(0deg) scale(1);     opacity: 1; }
+    0%   { transform: rotate(-18deg) scale(0.6);  opacity: 0; }
+    60%  { transform: rotate(8deg)   scale(1.15); opacity: 1; }
+    100% { transform: rotate(0deg)   scale(1);    opacity: 1; }
   }
 
-  /* Subtle pulse ring the moment the button becomes enabled */
-  .fb-btn-primary.just-unlocked {
-    animation: cta-unlock 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+  /* Shine sweep when the button becomes enabled — no scale/shadow pulse */
+  .fb-btn-primary.just-unlocked::before {
+    content: '';
+    position: absolute; inset: 0;
+    border-radius: inherit;
+    background: linear-gradient(100deg, transparent 30%, rgba(255,255,255,0.5) 50%, transparent 70%);
+    background-size: 200% 100%;
+    animation: cta-shine 0.75s linear;
+    pointer-events: none;
   }
-  @keyframes cta-unlock {
-    0%   { box-shadow: 0 0 0 0 rgba(255, 85, 0, 0.35); }
-    100% { box-shadow: 0 0 0 6px rgba(255, 85, 0, 0); }
+  @keyframes cta-shine {
+    0%   { background-position: 150% 0; }
+    100% { background-position: -50% 0; }
   }
   .fb-btn-primary { position: relative; overflow: hidden; }
   .fb-btn-secondary {
@@ -1657,7 +1664,7 @@
           // force reflow so the animation restarts if class was previously applied
           void submitBtn.offsetWidth;
           submitBtn.classList.add('just-unlocked');
-          setTimeout(() => submitBtn.classList.remove('just-unlocked'), 520);
+          setTimeout(() => submitBtn.classList.remove('just-unlocked'), 800);
         }
       }
 
