@@ -364,13 +364,13 @@
   }
 
   .fb-panel-title {
-    display: flex; align-items: baseline; gap: 6px;
+    display: flex; flex-direction: column; align-items: flex-start;
     margin-top: 4px; line-height: 1;
-    white-space: nowrap;
-    font-size: 32px; letter-spacing: -0.02em;
+    letter-spacing: -0.02em;
   }
   .fb-panel-title .amt {
     font-size: 36px; font-weight: 800;
+    line-height: 1;
     background: linear-gradient(180deg, #ff8a4c 0%, #ff5500 100%);
     -webkit-background-clip: text; background-clip: text; color: transparent;
   }
@@ -380,7 +380,10 @@
     vertical-align: 0.35em;
     margin-right: 1px;
   }
-  .fb-panel-title .off { font-weight: 400; color: #171717; }
+  .fb-panel-title .off {
+    font-size: 22px; font-weight: 500; color: #171717;
+    margin-top: 4px; line-height: 1.15;
+  }
 
   .fb-panel-sub {
     font-size: 12px; line-height: 1.55; color: #525252;
@@ -1687,7 +1690,7 @@
                   <i class="ph-fill ph-lock"></i>
                   <i class="ph-fill ph-lock-open"></i>
                 </span>
-                Submit to unlock $60 off Pro Annual
+                Submit to unlock discount
               </button>
             </div>
           </div>
