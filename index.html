@@ -119,11 +119,9 @@
     padding: 5px 12px; border-radius: 999px;
     white-space: nowrap;
     font-variant-numeric: tabular-nums;
-    /* Pop-in when the discount is unlocked, then settle into a
-       continuous bob + glow so the pill stays the focal point. */
-    animation: pro-chip-in 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) both,
-               pro-chip-bob 2.6s ease-in-out infinite 0.5s,
-               pro-chip-glow 2.2s ease-in-out infinite 0.5s;
+    /* Bob + glow pulse: the chip itself draws attention, not the button. */
+    animation: pro-chip-bob 2.6s ease-in-out infinite,
+               pro-chip-glow 2.2s ease-in-out infinite;
   }
   .pro-discount-chip::after {
     content: ''; position: absolute;
@@ -133,11 +131,6 @@
     border-radius: 1px;
   }
   .pro-discount-chip i { font-size: 12px; color: #ff8a4c; }
-  @keyframes pro-chip-in {
-    0%   { opacity: 0; transform: scale(0.6); }
-    60%  { opacity: 1; transform: scale(1.1); }
-    100% { opacity: 1; transform: scale(1); }
-  }
   @keyframes pro-chip-bob {
     0%, 100% { transform: translateY(0); }
     50%      { transform: translateY(-3px); }
@@ -164,9 +157,8 @@
     letter-spacing: 0.06em;
     font-variant-numeric: tabular-nums;
     white-space: nowrap;
-    animation: pro-chip-in 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) both,
-               pro-pill-bob 2.6s ease-in-out infinite 0.5s,
-               pro-pill-glow 2.2s ease-in-out infinite 0.5s;
+    animation: pro-pill-bob 2.6s ease-in-out infinite,
+               pro-pill-glow 2.2s ease-in-out infinite;
   }
   .pro-bumped-pill::before {
     content: ''; position: absolute;
@@ -1459,10 +1451,26 @@
         const sumCadence = document.getElementById('sum-pro-cadence');
         const sumPill    = document.getElementById('sum-pro-pill-slot');
 
+        // Summary row always mirrors the annual plan — no monthly mirror.
+        const annualNow = bumped ? '15' : '20';
+        if (sumSave) sumSave.classList.add('hidden');
+        if (sumPrice) {
+          const sumStrike = bumped
+            ? '<span class="text-[14px] font-medium line-through text-ink-tertiary mr-2"><span class="usd">$</span>20</span>'
+            : '';
+          sumPrice.innerHTML = `${sumStrike}<span class="usd">$</span>${annualNow}`;
+        }
+        if (sumCadence) sumCadence.textContent = 'billed annually';
+        if (sumPill) {
+          sumPill.innerHTML = bumped ? `
+            <span class="pro-bumped-pill">
+              <span>$${save} off</span>
+              <i class="ph-fill ph-clock"></i>
+              <span>Ends in <span class="tabular-nums" data-pro-timer>60:00</span></span>
+            </span>` : '';
+        }
+
         if (period === 'annual') {
-          const now = bumped ? '15' : '20';
-          // Strike-through only appears when the hour discount is active,
-          // so the markdown from the regular annual rate is visible.
           const strikeHtml = bumped
             ? `<p class="text-[17px] font-medium line-through text-ink-tertiary leading-none"><span class="usd">$</span>20</p>`
             : '';
@@ -1470,13 +1478,12 @@
             <div class="flex items-baseline gap-2 fade-in">
               ${strikeHtml}
               <div class="flex items-baseline gap-1">
-                <p class="text-[24px] font-bold text-ink-primary leading-none"><span class="usd">$</span>${now}</p>
+                <p class="text-[24px] font-bold text-ink-primary leading-none"><span class="usd">$</span>${annualNow}</p>
                 <span class="text-[13px] font-medium text-ink-tertiary">/mo</span>
               </div>
             </div>
             <p class="text-[12px] font-medium text-ink-tertiary">billed annually</p>`;
 
-          // Chip only appears during the hour bump.
           if (bumped) {
             proChip.classList.remove('hidden');
             proChip.innerHTML = `
@@ -1487,26 +1494,8 @@
             proChip.classList.add('hidden');
           }
 
-          // No copy under the button in annual — strike-through price is enough.
           proHint.innerHTML = '';
           proHint.classList.add('hidden');
-
-          if (sumSave) sumSave.classList.add('hidden');
-          if (sumPrice) {
-            const strike = bumped
-              ? '<span class="text-[14px] font-medium line-through text-ink-tertiary mr-2"><span class="usd">$</span>20</span>'
-              : '';
-            sumPrice.innerHTML = `${strike}<span class="usd">$</span>${now}`;
-          }
-          if (sumCadence) sumCadence.textContent = 'billed annually';
-          if (sumPill) {
-            sumPill.innerHTML = bumped ? `
-              <span class="pro-bumped-pill">
-                <span>$${save} off</span>
-                <i class="ph-fill ph-clock"></i>
-                <span>Ends in <span class="tabular-nums" data-pro-timer>60:00</span></span>
-              </span>` : '';
-          }
         } else {
           proPriceEl.innerHTML = `
             <div class="flex items-baseline gap-1 fade-in">
@@ -1515,13 +1504,12 @@
             </div>
             <p class="text-[12px] font-medium text-ink-tertiary">billed monthly</p>`;
 
-          // No discount on monthly: hide the chip.
           proChip.classList.add('hidden');
 
-          // Savings = (monthly \$40 - annual \$20) × 12 = \$240. Uses the base
-          // annual rate, not the bumped one — if the bump is active, switching
-          // to yearly reveals \$15/mo as a positive surprise on top.
-          proHint.innerHTML = `<button type="button" class="underline underline-offset-[3px] decoration-from-font hover:text-ink-primary" data-pro-switch-yearly>Switch to annual to save $240 per year</button>`;
+          // Base monthly→annual saving is \$240. While the hour bump is live,
+          // the \$60 extra piles on so the nudge reflects the full value.
+          const yearlySave = 240 + (bumped ? save : 0);
+          proHint.innerHTML = `<button type="button" class="underline underline-offset-[3px] decoration-from-font hover:text-ink-primary" data-pro-switch-yearly>Switch to annual to save $${yearlySave} per year</button>`;
           proHint.classList.remove('text-success-fg', 'hidden');
           proHint.classList.add('text-ink-secondary');
           const switchBtn = proHint.querySelector('[data-pro-switch-yearly]');
@@ -1530,11 +1518,6 @@
             proHint.classList.remove('text-ink-secondary');
             renderPro();
           });
-
-          if (sumSave) sumSave.classList.add('hidden');
-          if (sumPrice)   sumPrice.innerHTML   = '<span class="usd">$</span>40';
-          if (sumCadence) sumCadence.textContent = 'billed monthly';
-          if (sumPill)    sumPill.innerHTML    = '';
         }
       }
 
