@@ -73,53 +73,34 @@
   .illus { width: 44px; height: 44px; display: inline-flex; align-items: center; justify-content: center; line-height: 1; }
   .illus img, .illus svg { width: 44px; height: 44px; display: block; object-fit: contain; }
 
-  /* Gold card: annual toggle switch (top-right of card) */
-  .gold-toggle {
-    display: inline-flex; align-items: center; gap: 8px;
-    padding: 0;
-    background: transparent;
-    border: none;
-    cursor: pointer;
-    line-height: 1; white-space: nowrap;
+  /* Monthly / Annual segmented control (Pro and Gold cards) */
+  .plan-seg {
+    display: inline-flex;
+    padding: 2px;
+    background: #f5f5f5;
+    border-radius: 4px;
+    border: 1px solid #e5e5e5;
+    line-height: 1;
   }
-  .gold-toggle-label {
+  .plan-seg-btn {
+    padding: 5px 10px;
     font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
     font-size: 10px;
-    font-weight: 600;
+    font-weight: 700;
     letter-spacing: 0.6px;
     color: #525252;
+    text-transform: uppercase;
+    border-radius: 3px;
+    cursor: pointer;
+    line-height: 1;
+    white-space: nowrap;
+    transition: background .15s ease, color .15s ease;
   }
-  .gold-toggle-switch {
-    width: 30px; height: 20px;
-    background: #d4d4d4;
-    border-radius: 4px;
-    position: relative;
-    transition: background-color .2s ease;
-    flex-shrink: 0;
+  .plan-seg-btn.is-active {
+    background: #ffffff;
+    color: #171717;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.08);
   }
-  .gold-toggle-switch::after {
-    content: '';
-    position: absolute;
-    top: 3px; left: 3px;
-    width: 14px; height: 14px;
-    background: #fff;
-    border-radius: 4px;
-    box-shadow: 0 1px 2px rgba(0,0,0,0.2);
-    transition: transform .2s ease;
-  }
-  .gold-toggle[aria-checked="true"] .gold-toggle-switch { background: #ff5500; }
-  .gold-toggle[aria-checked="true"] .gold-toggle-switch::after { transform: translateX(0); }
-  .gold-toggle[aria-checked="false"] .gold-toggle-switch::after { transform: translateX(10px); }
-  .gold-toggle-dot {
-    display: inline-block;
-    width: 3px; height: 3px;
-    background: #171717;
-    border-radius: 999px;
-    margin: 0 4px;
-    vertical-align: middle;
-    opacity: 0.5;
-  }
-  .gold-toggle-save { color: #16a34a; font-weight: 600; }
 
   .fade-in { animation: fadeIn .18s ease; }
   @keyframes fadeIn { from { opacity: 0; transform: translateY(2px); } to { opacity: 1; transform: translateY(0); } }
@@ -749,10 +730,10 @@
           <div class="flex flex-col gap-3" style="width:312px;">
             <div class="flex items-start justify-between">
               <div class="illus illus-pro" aria-hidden="true"></div>
-              <button type="button" class="gold-toggle" role="switch" aria-checked="true" aria-label="Yearly billing" data-pro-toggle>
-                <span class="gold-toggle-switch" aria-hidden="true"></span>
-                <span class="gold-toggle-label">YEARLY</span>
-              </button>
+              <div class="plan-seg" role="tablist" aria-label="Billing period" data-pro-seg>
+                <button type="button" class="plan-seg-btn" data-period="monthly" role="tab" aria-selected="false">Monthly</button>
+                <button type="button" class="plan-seg-btn is-active" data-period="annual" role="tab" aria-selected="true">Annual</button>
+              </div>
             </div>
             <div class="flex items-baseline justify-between gap-2" style="width:312px;">
               <h3 class="text-[24px] font-bold text-ink-primary leading-none">Pro</h3>
@@ -807,10 +788,10 @@
           <div class="flex flex-col gap-3" >
             <div class="flex items-start justify-between">
               <div class="illus illus-gold" aria-hidden="true"></div>
-              <button type="button" class="gold-toggle" role="switch" aria-checked="true" aria-label="Yearly billing" data-gold-toggle>
-                <span class="gold-toggle-switch" aria-hidden="true"></span>
-                <span class="gold-toggle-label">YEARLY</span>
-              </button>
+              <div class="plan-seg" role="tablist" aria-label="Billing period" data-gold-seg>
+                <button type="button" class="plan-seg-btn" data-period="monthly" role="tab" aria-selected="false">Monthly</button>
+                <button type="button" class="plan-seg-btn is-active" data-period="annual" role="tab" aria-selected="true">Annual</button>
+              </div>
             </div>
             <!-- Title + price on the right -->
             <div class="flex items-baseline justify-between gap-2" style="width:312px;">
@@ -1361,7 +1342,15 @@
       const card = document.getElementById('gold-card');
       const priceEl = card.querySelector('[data-gold-price]');
       const saveEl = card.querySelector('[data-gold-save]');
-      const goldToggle = card.querySelector('[data-gold-toggle]');
+      const goldSeg = card.querySelector('[data-gold-seg]');
+
+      function setGoldPeriod(period) {
+        goldSeg.querySelectorAll('.plan-seg-btn').forEach(btn => {
+          const active = btn.dataset.period === period;
+          btn.classList.toggle('is-active', active);
+          btn.setAttribute('aria-selected', String(active));
+        });
+      }
 
       function render(period) {
         const p = PRICES[period];
@@ -1381,15 +1370,18 @@
           saveEl.classList.remove('text-success-fg');
           saveEl.classList.add('text-ink-secondary');
           saveEl.querySelector('[data-switch-yearly]').addEventListener('click', () => {
-            goldToggle.click();
+            setGoldPeriod('annual');
+            render('annual');
           });
         }
       }
 
-      goldToggle.addEventListener('click', () => {
-        const checked = goldToggle.getAttribute('aria-checked') === 'true';
-        goldToggle.setAttribute('aria-checked', String(!checked));
-        render(!checked ? 'annual' : 'monthly');
+      goldSeg.querySelectorAll('.plan-seg-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const period = btn.dataset.period;
+          setGoldPeriod(period);
+          render(period);
+        });
       });
       render('annual');
 
@@ -1419,9 +1411,21 @@
       // Monthly never discounts — the hour bump only applies to yearly.
       const BUMP_MS = 60 * 60 * 1000; // 1 hour
       const proPriceEl   = document.querySelector('[data-pro-price]');
-      const proToggle    = document.querySelector('[data-pro-toggle]');
+      const proSeg       = document.querySelector('[data-pro-seg]');
       const proChip      = document.getElementById('pro-discount-chip');
       const proHint      = document.getElementById('pro-hint');
+
+      function setProPeriod(period) {
+        proSeg.querySelectorAll('.plan-seg-btn').forEach(btn => {
+          const active = btn.dataset.period === period;
+          btn.classList.toggle('is-active', active);
+          btn.setAttribute('aria-selected', String(active));
+        });
+      }
+      function getProPeriod() {
+        const active = proSeg.querySelector('.plan-seg-btn.is-active');
+        return active ? active.dataset.period : 'annual';
+      }
       const closeBtn     = document.querySelector('[aria-label="Close"]');
       let bumpIntervalId = null;
 
@@ -1439,7 +1443,7 @@
       }
 
       function renderPro() {
-        const period = proToggle.getAttribute('aria-checked') === 'true' ? 'annual' : 'monthly';
+        const period = getProPeriod();
         const bumped = bumpRemaining() > 0;
         // Savings copy only exists inside the nudge/bump flow.
         const save   = 60;
@@ -1515,7 +1519,11 @@
           proHint.classList.remove('text-success-fg', 'hidden');
           proHint.classList.add('text-ink-secondary');
           const switchBtn = proHint.querySelector('[data-pro-switch-yearly]');
-          if (switchBtn) switchBtn.addEventListener('click', () => proToggle.click());
+          if (switchBtn) switchBtn.addEventListener('click', () => {
+            setProPeriod('annual');
+            proHint.classList.remove('text-ink-secondary');
+            renderPro();
+          });
 
           if (sumSave) sumSave.classList.add('hidden');
           if (sumPrice)   sumPrice.innerHTML   = '<span class="usd">$</span>40';
@@ -1524,11 +1532,12 @@
         }
       }
 
-      proToggle.addEventListener('click', () => {
-        const checked = proToggle.getAttribute('aria-checked') === 'true';
-        proToggle.setAttribute('aria-checked', String(!checked));
-        proHint.classList.remove('text-ink-secondary');
-        renderPro();
+      proSeg.querySelectorAll('.plan-seg-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          setProPeriod(btn.dataset.period);
+          proHint.classList.remove('text-ink-secondary');
+          renderPro();
+        });
       });
 
       function startBumpCountdown() {
@@ -1561,8 +1570,8 @@
       window.applyProBump = function () {
         localStorage.setItem('proBumpStart', String(Date.now()));
         sessionStorage.setItem('proFeedbackSubmitted', 'true');
-        // Force to yearly so the discount is visible
-        proToggle.setAttribute('aria-checked', 'true');
+        // Force to annual so the discount is visible
+        setProPeriod('annual');
         renderPro();
         startBumpCountdown();
       };
