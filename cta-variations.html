@@ -8,13 +8,15 @@
   <link href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.1/src/regular/style.css" rel="stylesheet" />
   <link href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.1/src/fill/style.css" rel="stylesheet" />
   <link href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.1/src/bold/style.css" rel="stylesheet" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
   <style>
     :root {
       font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
     }
     body { background: #f5f5f5; color: #171717; }
 
-    /* Tokens pulled from the main pricing file so variants feel native */
     .text-brand-500    { color: #ff5500; }
     .text-ink-primary  { color: #171717; }
     .text-ink-secondary{ color: #525252; }
@@ -31,18 +33,10 @@
     .pro-btn {
       background: linear-gradient(180deg, #ff732d 0%, #ff5500 100%);
     }
-    .pro-btn:hover {
-      background: linear-gradient(180deg, #ff5500 0%, #e14a00 100%);
-    }
     .usd {
-      font-size: 0.6em;
-      font-weight: 600;
-      vertical-align: 0.22em;
-      margin-right: 1px;
-      letter-spacing: 0;
+      font-size: 0.6em; font-weight: 600;
+      vertical-align: 0.22em; margin-right: 1px; letter-spacing: 0;
     }
-
-    /* Floating timer pill (reused from main page so bumped state matches). */
     .pro-bumped-pill {
       position: relative;
       display: inline-flex; align-items: center; gap: 6px;
@@ -66,160 +60,293 @@
     }
     .pro-bumped-pill i { font-size: 12px; color: #ff8a4c; }
 
-    /* ---- Variant-specific styles ---- */
-
-    /* V1 Split pill */
-    .v1-btn {
-      display: flex; width: 100%; height: 48px;
-      border-radius: 4px; overflow: hidden;
-      box-shadow: 0 1px 0 rgba(0,0,0,0.06);
-    }
-    .v1-btn .left {
-      flex: 1.3; display: flex; align-items: center; justify-content: center;
-      background: linear-gradient(180deg, #ff732d 0%, #ff5500 100%);
-      color: #fff; font-weight: 700; font-size: 16px; line-height: 1;
-    }
-    .v1-btn .right {
-      flex: 1; display: flex; align-items: center; justify-content: center;
-      background: linear-gradient(180deg, #e04c00 0%, #c64200 100%);
-      color: #fff; font-weight: 700; font-size: 13px; line-height: 1;
-      letter-spacing: 0.02em;
-    }
-
-    /* V2 Stacked */
-    .v2-btn {
+    /* Plain full-orange base used by variants that only decorate around the button */
+    .btn-base {
       width: 100%; height: 48px;
       background: linear-gradient(180deg, #ff732d 0%, #ff5500 100%);
       color: #fff; border-radius: 4px;
-      display: flex; flex-direction: column; align-items: center; justify-content: center;
-      line-height: 1; gap: 3px;
-    }
-    .v2-btn .primary   { font-weight: 700; font-size: 15px; }
-    .v2-btn .secondary {
-      font-weight: 600; font-size: 11px; letter-spacing: 0.04em;
-      color: #ffe1d0; text-transform: uppercase;
+      font-weight: 700; font-size: 16px;
+      display: flex; align-items: center; justify-content: center;
+      line-height: 1;
     }
 
-    /* V3 Inline dash */
-    .v3-btn {
+    /* ===== V1 — Inline dash (kept) ===== */
+    .v1-btn {
       width: 100%; height: 48px;
       background: linear-gradient(180deg, #ff732d 0%, #ff5500 100%);
       color: #fff; border-radius: 4px;
       display: flex; align-items: center; justify-content: center;
       font-weight: 700; font-size: 16px; line-height: 1; gap: 10px;
     }
-    .v3-btn .sep {
-      width: 1px; height: 16px; background: rgba(255,255,255,0.45);
+    .v1-btn .sep { width: 1px; height: 16px; background: rgba(255,255,255,0.45); }
+    .v1-btn .save {
+      font-weight: 600; font-size: 14px; color: #fff5ed;
+      animation: v1-breathe 2.8s ease-in-out infinite;
     }
-    .v3-btn .save { font-weight: 600; font-size: 14px; color: #fff5ed; }
+    @keyframes v1-breathe {
+      0%, 100% { color: #fff5ed; text-shadow: 0 0 0 rgba(255,255,255,0); }
+      50%      { color: #ffffff; text-shadow: 0 0 8px rgba(255,255,255,0.55); }
+    }
 
-    /* V4 Price-math */
-    .v4-btn {
-      width: 100%; height: 48px;
+    /* ===== V2 — Sunburst seal ===== */
+    .v2-wrap { position: relative; }
+    .v2-seal {
+      position: absolute; top: -22px; right: -14px;
+      width: 68px; height: 68px;
+      transform: rotate(-12deg);
+      filter: drop-shadow(0 4px 10px rgba(0,0,0,0.18));
+      animation: v2-wiggle 4s ease-in-out infinite;
+      pointer-events: none;
+    }
+    @keyframes v2-wiggle {
+      0%, 100% { transform: rotate(-12deg); }
+      50%      { transform: rotate(-8deg); }
+    }
+
+    /* ===== V3 — Dangling price tag ===== */
+    .v3-wrap { position: relative; padding-top: 2px; }
+    .v3-string {
+      position: absolute; top: -14px; right: 30px;
+      width: 1px; height: 18px;
+      background: #737373;
+      z-index: 0;
+    }
+    .v3-tag {
+      position: absolute; top: -6px; right: 10px;
+      transform: rotate(8deg); transform-origin: 2px 12px;
+      animation: v3-swing 3.2s ease-in-out infinite;
+      z-index: 1;
+    }
+    @keyframes v3-swing {
+      0%, 100% { transform: rotate(8deg);  }
+      50%      { transform: rotate(-2deg); }
+    }
+
+    /* ===== V4 — Rotated stamp overlay ===== */
+    .v4-wrap { position: relative; }
+    .v4-stamp {
+      position: absolute; right: -8px; top: -20px;
+      transform: rotate(-10deg);
+      border: 2px solid #c64200;
+      color: #c64200;
+      padding: 5px 10px 4px;
+      font-weight: 900; font-size: 13px; letter-spacing: 0.14em;
+      background: rgba(255, 238, 229, 0.9);
+      border-radius: 3px;
+      box-shadow: inset 0 0 0 2px rgba(255, 238, 229, 0.9),
+                  inset 0 0 0 3px #c64200;
+      text-shadow: 0 0 1px rgba(198, 66, 0, 0.1);
+      line-height: 1;
+      /* slight wobble to feel rubber-stamped */
+      filter: contrast(1.02);
+    }
+    .v4-stamp::after {
+      /* "worn" speckle via subtle gradient dots */
+      content: ''; position: absolute; inset: 0;
+      background:
+        radial-gradient(circle at 20% 30%, rgba(255,238,229,0.6) 1px, transparent 2px),
+        radial-gradient(circle at 70% 70%, rgba(255,238,229,0.7) 1px, transparent 2px),
+        radial-gradient(circle at 85% 15%, rgba(255,238,229,0.4) 1px, transparent 2px);
+      background-size: 12px 12px, 14px 14px, 10px 10px;
+      pointer-events: none;
+      mix-blend-mode: screen;
+      border-radius: inherit;
+    }
+
+    /* ===== V5 — Typography hero (discount-first hierarchy) ===== */
+    .v5-btn {
+      width: 100%; height: 56px;
       background: linear-gradient(180deg, #ff732d 0%, #ff5500 100%);
       color: #fff; border-radius: 4px;
       display: flex; align-items: center; justify-content: center;
-      font-weight: 700; font-size: 16px; line-height: 1; gap: 8px;
+      gap: 12px; line-height: 1;
     }
-    .v4-btn .strike {
-      font-weight: 500; font-size: 13px; color: #ffd2b8;
-      text-decoration: line-through; text-decoration-thickness: 1.5px;
+    .v5-btn .mega {
+      font-weight: 900; font-size: 30px; letter-spacing: -0.02em;
+      text-shadow: 0 1px 0 rgba(0,0,0,0.08);
+      animation: v5-pulse 3.2s ease-in-out infinite;
+      transform-origin: center;
     }
-    .v4-btn .price  { font-weight: 700; font-size: 16px; }
-    .v4-btn .cta    { font-weight: 700; font-size: 14px; color: #fff5ed;
-                      border-left: 1px solid rgba(255,255,255,0.4); padding-left: 10px; }
+    @keyframes v5-pulse {
+      0%, 100% { transform: scale(1);    filter: brightness(1); }
+      50%      { transform: scale(1.035); filter: brightness(1.08); }
+    }
+    .v5-btn .mega .usd { font-size: 0.5em; vertical-align: 0.4em; }
+    .v5-btn .divider {
+      width: 1px; height: 30px; background: rgba(255,255,255,0.45);
+    }
+    .v5-btn .meta {
+      display: flex; flex-direction: column; align-items: flex-start; gap: 3px;
+    }
+    .v5-btn .off {
+      font-weight: 700; font-size: 10px; letter-spacing: 0.18em;
+      color: #ffe1d0; text-transform: uppercase;
+    }
+    .v5-btn .cta {
+      font-weight: 700; font-size: 14px; display: inline-flex; align-items: center; gap: 4px;
+    }
+    .v5-btn .cta i { font-size: 11px; }
 
-    /* V5 Corner ribbon */
-    .v5-wrap { position: relative; }
-    .v5-btn {
+    /* ===== V6 — Diagonal banner corner ===== */
+    .v6-btn {
+      position: relative; overflow: hidden;
       width: 100%; height: 48px;
       background: linear-gradient(180deg, #ff732d 0%, #ff5500 100%);
       color: #fff; border-radius: 4px;
       display: flex; align-items: center; justify-content: center;
       font-weight: 700; font-size: 16px; line-height: 1;
     }
-    .v5-ribbon {
-      position: absolute; top: -9px; right: -6px;
+    .v6-banner {
+      position: absolute;
+      top: 11px; right: -36px;
+      width: 130px;
+      transform: rotate(32deg);
       background: #171717; color: #fff;
-      font-size: 10px; font-weight: 700; letter-spacing: 0.05em;
-      padding: 4px 9px 4px 10px;
-      border-radius: 3px;
-      box-shadow: 0 3px 8px rgba(0,0,0,0.22);
+      font-size: 10px; font-weight: 800; letter-spacing: 0.14em;
+      text-align: center;
+      padding: 4px 0;
       text-transform: uppercase;
+      box-shadow: 0 0 0 1px rgba(255,255,255,0.15) inset,
+                  0 2px 6px rgba(0,0,0,0.25);
+      overflow: hidden;
     }
-    .v5-ribbon::after {
+    .v6-banner::before {
       content: ''; position: absolute;
-      bottom: -4px; right: 10px;
-      border: 4px solid transparent;
-      border-top-color: #171717;
-      border-left-color: #171717;
+      top: 0; bottom: 0; left: -40%;
+      width: 40%;
+      background: linear-gradient(100deg, transparent 0%, rgba(255,255,255,0.45) 50%, transparent 100%);
+      animation: v6-sweep 3.2s ease-in-out infinite;
+    }
+    @keyframes v6-sweep {
+      0%   { left: -40%; }
+      60%  { left: 110%; }
+      100% { left: 110%; }
     }
 
-    /* V6 Prefix pill */
-    .v6-btn {
+    /* ===== V7 — Handwritten scribble ===== */
+    .v7-wrap { position: relative; padding-top: 14px; }
+    .v7-scribble {
+      position: absolute;
+      right: 14px; top: -10px;
+      font-family: 'Caveat', cursive;
+      font-weight: 700;
+      font-size: 26px;
+      color: #171717;
+      transform: rotate(-6deg);
+      line-height: 1;
+      white-space: nowrap;
+      pointer-events: none;
+    }
+    .v7-scribble::after {
+      content: ''; display: block;
+      height: 6px; margin-top: -2px;
+      background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 80 6'><path d='M2 4 Q 10 1, 20 4 T 40 4 T 60 4 T 78 4' fill='none' stroke='%23ff5500' stroke-width='2' stroke-linecap='round'/></svg>") no-repeat center / 100% 100%;
+      width: 100%;
+    }
+    .v7-arrow {
+      position: absolute;
+      right: 28px; top: 20px;
+      color: #171717;
+      font-size: 20px;
+      line-height: 1;
+      transform: rotate(18deg);
+      pointer-events: none;
+      animation: v7-bob 2s ease-in-out infinite;
+    }
+    @keyframes v7-bob {
+      0%, 100% { transform: rotate(18deg) translateY(0); }
+      50%      { transform: rotate(18deg) translateY(4px); }
+    }
+
+    /* ===== V8 — Coupon stub (perforated) ===== */
+    .v8-btn {
       position: relative;
       width: 100%; height: 48px;
       background: linear-gradient(180deg, #ff732d 0%, #ff5500 100%);
       color: #fff; border-radius: 4px;
+      display: flex; align-items: stretch;
+      overflow: hidden;
     }
-    .v6-btn .prefix {
-      position: absolute; left: 8px; top: 50%; transform: translateY(-50%);
-      background: #fff; color: #ff5500;
-      font-weight: 700; font-size: 11px; letter-spacing: 0.04em;
-      padding: 5px 8px; border-radius: 3px; line-height: 1;
-    }
-    .v6-btn .label {
-      position: absolute; inset: 0;
-      display: flex; align-items: center; justify-content: center;
+    .v8-btn .cta {
+      flex: 1.6; display: flex; align-items: center; justify-content: center;
       font-weight: 700; font-size: 16px; line-height: 1;
     }
-
-    /* V7 Attached banner (2-row visual unit) */
-    .v7-wrap {
-      width: 100%; border-radius: 4px; overflow: hidden;
-      box-shadow: 0 1px 0 rgba(0,0,0,0.06);
+    .v8-btn .perf {
+      position: relative;
+      width: 0; border-left: 2px dashed rgba(255, 255, 255, 0.55);
+      margin: 10px 0;
     }
-    .v7-main {
-      width: 100%; height: 44px;
-      background: linear-gradient(180deg, #ff732d 0%, #ff5500 100%);
+    .v8-btn .perf::before,
+    .v8-btn .perf::after {
+      content: ''; position: absolute; left: -8px;
+      width: 14px; height: 14px; border-radius: 50%;
+      background: #f5f5f5;
+      box-shadow: inset 0 0 0 1px rgba(0,0,0,0.04);
+    }
+    .v8-btn .perf::before { top: -17px; }
+    .v8-btn .perf::after  { bottom: -17px; }
+    .v8-btn .discount {
+      position: relative; overflow: hidden;
+      flex: 1; display: flex; align-items: center; justify-content: center;
+      font-weight: 800; font-size: 14px; letter-spacing: 0.04em;
       color: #fff;
-      display: flex; align-items: center; justify-content: center;
-      font-weight: 700; font-size: 16px; line-height: 1;
+      background: linear-gradient(180deg, #e04c00 0%, #c64200 100%);
     }
-    .v7-strip {
-      height: 24px;
-      background: #171717;
-      color: #ffd8c0;
-      display: flex; align-items: center; justify-content: center; gap: 6px;
-      font-weight: 700; font-size: 11px; letter-spacing: 0.04em;
-      text-transform: uppercase;
+    .v8-btn .discount::before {
+      content: ''; position: absolute;
+      top: 0; bottom: 0; left: -60%;
+      width: 50%;
+      background: linear-gradient(100deg, transparent 0%, rgba(255,255,255,0.35) 50%, transparent 100%);
+      animation: v8-shimmer 3.6s ease-in-out infinite;
+      pointer-events: none;
     }
-    .v7-strip i { color: #ff8a4c; font-size: 13px; }
+    @keyframes v8-shimmer {
+      0%   { left: -60%; }
+      55%  { left: 110%; }
+      100% { left: 110%; }
+    }
+    .v8-btn .discount span { position: relative; z-index: 1; }
 
-    /* V8 Arrow + save */
-    .v8-btn {
+    /* ===== V9 — Halo pulse + floating chip ===== */
+    .v9-wrap { position: relative; padding-top: 14px; }
+    .v9-chip {
+      position: absolute; top: -4px; left: 50%;
+      background: #171717; color: #fff;
+      font-size: 11px; font-weight: 800; letter-spacing: 0.06em;
+      padding: 5px 12px; border-radius: 999px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.25);
+      z-index: 2;
+      white-space: nowrap;
+      transform: translateX(-50%);
+      animation: v9-bob 2.6s ease-in-out infinite;
+    }
+    @keyframes v9-bob {
+      0%, 100% { transform: translateX(-50%) translateY(0); }
+      50%      { transform: translateX(-50%) translateY(-3px); }
+    }
+    .v9-chip::after {
+      content: ''; position: absolute;
+      bottom: -4px; left: 50%;
+      width: 8px; height: 8px;
+      background: #171717; transform: translateX(-50%) rotate(45deg);
+      border-radius: 1px;
+    }
+    .v9-btn {
       width: 100%; height: 48px;
       background: linear-gradient(180deg, #ff732d 0%, #ff5500 100%);
       color: #fff; border-radius: 4px;
+      font-weight: 700; font-size: 16px;
       display: flex; align-items: center; justify-content: center;
-      font-weight: 700; font-size: 16px; line-height: 1; gap: 8px;
+      position: relative; line-height: 1;
+      animation: halo-pulse 2.2s ease-in-out infinite;
     }
-    .v8-btn .arrow {
-      display: inline-flex; align-items: center; justify-content: center;
-      width: 20px; height: 20px; border-radius: 999px;
-      background: rgba(255,255,255,0.18);
-      transition: transform .15s ease;
-    }
-    .v8-btn:hover .arrow { transform: translateX(2px); }
-    .v8-btn .save {
-      font-weight: 600; font-size: 13px;
-      color: #fff4eb;
-      padding-left: 10px;
-      border-left: 1px solid rgba(255,255,255,0.4);
-      letter-spacing: 0.01em;
+    @keyframes halo-pulse {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(255, 85, 0, 0.55); }
+      70%      { box-shadow: 0 0 0 10px rgba(255, 85, 0, 0); }
+      100%     { box-shadow: 0 0 0 0 rgba(255, 85, 0, 0); }
     }
 
-    /* Mini Pro-card shell (mimics pricing page) */
+    /* Mini Pro-card shell */
     .mini-card {
       position: relative;
       width: 360px;
@@ -230,31 +357,17 @@
       box-shadow: 0 1px 3px rgba(0,0,0,0.04);
     }
 
-    /* Header chrome */
-    .chip {
-      display: inline-flex; align-items: center; gap: 6px;
-      padding: 6px 12px; border-radius: 999px;
-      background: #fff; border: 1px solid #e5e5e5;
-      font-size: 13px; font-weight: 600;
-    }
-    .chip.active { background: #171717; color: #fff; border-color: #171717; }
-
-    /* Segmented toggle */
+    /* Header controls */
     .seg {
       display: inline-flex; padding: 3px; background: #e5e5e5; border-radius: 999px;
     }
     .seg button {
       padding: 6px 14px; font-size: 12px; font-weight: 700;
-      border-radius: 999px; color: #525252;
-      letter-spacing: 0.03em;
+      border-radius: 999px; color: #525252; letter-spacing: 0.03em;
     }
     .seg button.active { background: #fff; color: #171717; box-shadow: 0 1px 2px rgba(0,0,0,0.08); }
 
-    /* Switch */
-    .switch {
-      display: inline-flex; align-items: center; gap: 8px;
-      cursor: pointer;
-    }
+    .switch { display: inline-flex; align-items: center; gap: 8px; cursor: pointer; }
     .switch-track {
       width: 34px; height: 20px; background: #d4d4d4; border-radius: 999px;
       position: relative; transition: background .15s ease;
@@ -278,16 +391,21 @@
       width: 20px; height: 20px; border-radius: 999px;
       background: #171717; color: #fff; font-size: 10px;
     }
+    .keep-badge {
+      display: inline-block; margin-left: 6px;
+      font-size: 9px; font-weight: 800; letter-spacing: 0.08em;
+      background: #16a34a; color: #fff;
+      padding: 2px 6px; border-radius: 3px;
+    }
   </style>
 </head>
 <body class="min-h-screen">
 
-  <!-- HEADER -->
   <header class="sticky top-0 z-30 bg-white border-b border-neutral-200">
     <div class="max-w-[1120px] mx-auto px-6 py-4 flex items-center gap-6 flex-wrap">
       <div class="flex-1 min-w-[260px]">
-        <h1 class="text-[20px] font-bold text-ink-primary leading-tight">Pro CTA — button variations</h1>
-        <p class="text-[13px] text-ink-tertiary">Button carries the discount; monthly strips it to just "Buy Now".</p>
+        <h1 class="text-[20px] font-bold text-ink-primary leading-tight">Pro CTA — button variations v2</h1>
+        <p class="text-[13px] text-ink-tertiary">More divergent: shape, metaphor, hierarchy. V1 (Inline dash) kept from round one.</p>
       </div>
       <div class="flex items-center gap-6">
         <div class="flex items-center gap-2">
@@ -305,92 +423,132 @@
     </div>
   </header>
 
-  <!-- GRID -->
   <main class="max-w-[1120px] mx-auto px-6 py-8">
-    <div id="grid" class="grid grid-cols-2 gap-x-10 gap-y-10"></div>
+    <div id="grid" class="grid grid-cols-2 gap-x-10 gap-y-12"></div>
     <p class="mt-10 text-[12px] text-ink-tertiary max-w-[720px]">
-      Each variant shows the Pro price area and the full CTA unit. The hint line under the button
-      is the same across variants (green "You'll save $X", timer pill when bumped, or
-      "Switch to yearly" nudge when monthly). Only the button differs.
+      Each variant keeps the price block and hint line identical. Only the button differs.
+      On monthly every variant collapses to a flat "Buy Now" — the discount motifs unique to
+      each treatment only appear during yearly (with $180 → $300 during the hour).
     </p>
   </main>
 
   <script>
+    // Shared SVG pieces
+    const sealSVG = (amount) => `
+      <svg class="v2-seal" viewBox="0 0 100 100">
+        <defs>
+          <filter id="sealShadow"><feDropShadow dx="0" dy="1" stdDeviation="1" flood-opacity="0.2"/></filter>
+        </defs>
+        <g filter="url(#sealShadow)">
+          <!-- 16-point starburst -->
+          <polygon fill="#171717"
+            points="50,2 56,14 68,8 68,22 82,22 76,34 90,40 78,48 88,58 74,62 80,76 66,72 64,86 54,76 50,92 46,76 36,86 34,72 20,76 26,62 12,58 22,48 10,40 24,34 18,22 32,22 32,8 44,14" />
+          <circle cx="50" cy="50" r="26" fill="#ff5500" />
+        </g>
+        <text x="50" y="48" text-anchor="middle" fill="#fff"
+              font-family="Inter, sans-serif" font-weight="900" font-size="18">$${amount}</text>
+        <text x="50" y="62" text-anchor="middle" fill="#fff"
+              font-family="Inter, sans-serif" font-weight="800" font-size="10" letter-spacing="1.5">OFF</text>
+      </svg>`;
+
+    const tagSVG = (amount) => `
+      <svg class="v3-tag" width="96" height="30" viewBox="0 0 96 30">
+        <path d="M 14 0 L 94 0 Q 96 0 96 2 L 96 28 Q 96 30 94 30 L 14 30 L 0 15 Z" fill="#171717"/>
+        <circle cx="12" cy="15" r="3" fill="#f5f5f5"/>
+        <text x="54" y="20" text-anchor="middle" fill="#fff"
+              font-family="Inter, sans-serif" font-weight="800" font-size="13" letter-spacing="0.5">$${amount} OFF</text>
+      </svg>`;
+
     const VARIANTS = [
       {
-        name: 'Split pill',
-        note: 'Button splits in two. Left does the CTA job, right carries the discount. One pill, two messages.',
+        name: 'Inline dash',
+        keep: true,
+        note: 'Kept from v1. Single line, separator between CTA and discount. "Save $X" gently breathes with a soft white glow.',
         render: (save) => `
           <button class="v1-btn">
-            <span class="left">Buy Now</span>
-            <span class="right">$${save} OFF</span>
-          </button>`,
-      },
-      {
-        name: 'Stacked',
-        note: 'CTA primary, discount as secondary caption inside the button.',
-        render: (save) => `
-          <button class="v2-btn">
-            <span class="primary">Buy Now</span>
-            <span class="secondary">Save $${save} this year</span>
-          </button>`,
-      },
-      {
-        name: 'Inline dash',
-        note: 'Single line, separator bar between CTA and discount.',
-        render: (save) => `
-          <button class="v3-btn">
             <span>Buy Pro</span>
             <span class="sep"></span>
             <span class="save">Save $${save}</span>
           </button>`,
       },
       {
-        name: 'Price math',
-        note: 'Leads with the real monthly price and strikes the old one. Discount is implied by the numbers.',
-        render: (save, now) => `
-          <button class="v4-btn">
-            <span class="strike">$40</span>
-            <span class="price">$${now}/mo</span>
-            <span class="cta">Buy Pro</span>
-          </button>`,
-      },
-      {
-        name: 'Corner ribbon',
-        note: 'Clean CTA. Dark ribbon on top-right corner carries the discount like a sticker.',
+        name: 'Sunburst seal',
+        note: 'Retail-sticker metaphor. Starburst badge pinned to the button corner gently wiggles for attention.',
         render: (save) => `
-          <div class="v5-wrap">
-            <button class="v5-btn">Buy Now</button>
-            <span class="v5-ribbon">Save $${save}</span>
+          <div class="v2-wrap">
+            <button class="btn-base">Buy Now</button>
+            ${sealSVG(save)}
           </div>`,
       },
       {
-        name: 'Prefix pill',
-        note: 'White pill on the left inside the button leads with the deal. CTA reads after.',
+        name: 'Dangling price tag',
+        note: 'Literal price-tag metaphor hangs off the button on a thin string and swings slowly.',
+        render: (save) => `
+          <div class="v3-wrap">
+            <button class="btn-base">Buy Now</button>
+            <span class="v3-string"></span>
+            ${tagSVG(save)}
+          </div>`,
+      },
+      {
+        name: 'Rubber stamp',
+        note: '"SAVE $X" stamped at an angle over the corner — deal stamped onto the product.',
+        render: (save) => `
+          <div class="v4-wrap">
+            <button class="btn-base">Buy Now</button>
+            <span class="v4-stamp">SAVE&nbsp;$${save}</span>
+          </div>`,
+      },
+      {
+        name: 'Number hero',
+        note: 'Hierarchy flipped. The discount is the loudest element; CTA shrinks but stays clickable. The big number pulses subtly.',
+        render: (save) => `
+          <button class="v5-btn">
+            <span class="mega"><span class="usd">$</span>${save}</span>
+            <span class="divider"></span>
+            <span class="meta">
+              <span class="off">OFF</span>
+              <span class="cta">Buy Pro <i class="ph-bold ph-arrow-right"></i></span>
+            </span>
+          </button>`,
+      },
+      {
+        name: 'Diagonal banner',
+        note: 'A dark promo ribbon slashes the top-right corner — classic sale-banner visual with a slow light-sweep shimmer.',
         render: (save) => `
           <button class="v6-btn">
-            <span class="prefix">$${save} OFF</span>
-            <span class="label">Buy Pro</span>
+            Buy Now
+            <span class="v6-banner">$${save} OFF</span>
           </button>`,
       },
       {
-        name: 'Attached strip',
-        note: 'CTA on top, dark strip beneath carries the discount. Reads as one button, two surfaces.',
+        name: 'Handwritten scribble',
+        note: 'Casual, promo-flyer vibe. Caveat script with a squiggle underline and hand-drawn arrow pointing down.',
         render: (save) => `
           <div class="v7-wrap">
-            <button class="v7-main">Buy Now</button>
-            <div class="v7-strip"><i class="ph-fill ph-check-circle"></i>$${save} off applied</div>
+            <button class="btn-base">Buy Pro</button>
+            <span class="v7-scribble">save $${save}!</span>
+            <span class="v7-arrow">↓</span>
           </div>`,
       },
       {
-        name: 'Arrow forward',
-        note: 'Motion-leaning. Arrow suggests progress; discount sits after a divider.',
+        name: 'Coupon stub',
+        note: 'Perforated coupon with tear-off discount panel and circular notches. A soft shimmer sweeps across the discount side.',
         render: (save) => `
           <button class="v8-btn">
-            <span>Buy Pro</span>
-            <span class="arrow"><i class="ph-bold ph-arrow-right" style="font-size:12px;"></i></span>
-            <span class="save">Save $${save}</span>
+            <span class="cta">Buy Pro</span>
+            <span class="perf"></span>
+            <span class="discount"><span>$${save} OFF</span></span>
           </button>`,
+      },
+      {
+        name: 'Halo pulse',
+        note: 'Attention without decoration: the button emits a soft pulsing ring while the chip above bobs gently up and down.',
+        render: (save) => `
+          <div class="v9-wrap">
+            <span class="v9-chip">$${save} OFF · ENDS SOON</span>
+            <button class="v9-btn">Buy Now</button>
+          </div>`,
       },
     ];
 
@@ -401,10 +559,8 @@
       const { period, bumped } = state;
       const save = bumped ? 300 : 180;
       const now  = bumped ? '15' : '25';
-      const strike = '<span class="absolute right-0 text-[14px] font-medium line-through text-ink-tertiary leading-none" style="bottom: calc(100% + 4px);"><span class="usd">$</span>40</span>';
 
       grid.innerHTML = VARIANTS.map((v, i) => {
-        // Price area (matches main page)
         const priceBlock = period === 'annual'
           ? `<div class="flex items-baseline gap-1 relative">
                <p class="absolute right-0 text-[14px] font-medium line-through text-ink-tertiary leading-none" style="bottom: calc(100% + 4px);"><span class="usd">$</span>40</p>
@@ -418,16 +574,13 @@
              </div>
              <p class="text-[12px] font-medium text-ink-tertiary">billed monthly</p>`;
 
-        // Button (the variation)
         let btnHtml;
         if (period === 'monthly') {
-          // Monthly: all variants collapse to a plain "Buy Now" CTA
-          btnHtml = `<button class="w-full h-12 rounded-[4px] pro-btn text-white font-bold text-[16px]">Buy Now</button>`;
+          btnHtml = `<button class="btn-base">Buy Now</button>`;
         } else {
           btnHtml = v.render(save, now);
         }
 
-        // Hint below the button
         let hint;
         if (period === 'monthly') {
           hint = `<p class="text-[12px] font-medium text-ink-secondary flex items-center justify-center gap-1 leading-none">
@@ -446,19 +599,19 @@
                   </p>`;
         }
 
+        const keepBadge = v.keep ? '<span class="keep-badge">KEEP</span>' : '';
+
         return `
           <section class="flex flex-col gap-3">
             <div class="flex items-center justify-between">
               <span class="variant-label">
-                <span class="variant-num">${i + 1}</span>${v.name}
+                <span class="variant-num">${i + 1}</span>${v.name}${keepBadge}
               </span>
             </div>
             <div class="mini-card">
               <div class="flex items-baseline justify-between gap-2 mb-5">
                 <h3 class="text-[22px] font-bold text-ink-primary leading-none">Pro</h3>
-                <div class="flex flex-col items-end gap-1">
-                  ${priceBlock}
-                </div>
+                <div class="flex flex-col items-end gap-1">${priceBlock}</div>
               </div>
               <div class="flex flex-col gap-2">
                 <div class="relative">${btnHtml}</div>
@@ -470,7 +623,6 @@
       }).join('');
     }
 
-    // Wire controls
     document.querySelectorAll('[data-period]').forEach(btn => {
       btn.addEventListener('click', () => {
         document.querySelectorAll('[data-period]').forEach(b => b.classList.remove('active'));
