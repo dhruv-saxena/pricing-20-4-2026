@@ -1,0 +1,493 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Pro CTA — button variations</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.1/src/regular/style.css" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.1/src/fill/style.css" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.1/src/bold/style.css" rel="stylesheet" />
+  <style>
+    :root {
+      font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+    body { background: #f5f5f5; color: #171717; }
+
+    /* Tokens pulled from the main pricing file so variants feel native */
+    .text-brand-500    { color: #ff5500; }
+    .text-ink-primary  { color: #171717; }
+    .text-ink-secondary{ color: #525252; }
+    .text-ink-tertiary { color: #737373; }
+    .text-success-fg   { color: #16a34a; }
+    .border-brand-secondary { border-color: #ffb48f; }
+    .border-brand-500  { border-color: #ff5500; }
+    .bg-brand-500      { background-color: #ff5500; }
+    .bg-brand-50       { background-color: #fff2ea; }
+
+    .pro-card-bg {
+      background-image: linear-gradient(125.62deg, #ffffff 2.19%, #ffffff 41.38%, #ffeee5 98.14%);
+    }
+    .pro-btn {
+      background: linear-gradient(180deg, #ff732d 0%, #ff5500 100%);
+    }
+    .pro-btn:hover {
+      background: linear-gradient(180deg, #ff5500 0%, #e14a00 100%);
+    }
+    .usd {
+      font-size: 0.6em;
+      font-weight: 600;
+      vertical-align: 0.22em;
+      margin-right: 1px;
+      letter-spacing: 0;
+    }
+
+    /* Floating timer pill (reused from main page so bumped state matches). */
+    .pro-bumped-pill {
+      position: relative;
+      display: inline-flex; align-items: center; gap: 6px;
+      margin-top: 4px;
+      padding: 5px 12px;
+      background: #171717;
+      color: #fff;
+      border-radius: 999px;
+      font-size: 11px; font-weight: 700;
+      letter-spacing: 0.02em;
+      font-variant-numeric: tabular-nums;
+      box-shadow: 0 6px 16px rgba(0,0,0,0.22);
+      white-space: nowrap;
+    }
+    .pro-bumped-pill::before {
+      content: ''; position: absolute;
+      top: -4px; left: 50%;
+      width: 8px; height: 8px; background: #171717;
+      transform: translateX(-50%) rotate(45deg);
+      border-radius: 1px;
+    }
+    .pro-bumped-pill i { font-size: 12px; color: #ff8a4c; }
+
+    /* ---- Variant-specific styles ---- */
+
+    /* V1 Split pill */
+    .v1-btn {
+      display: flex; width: 100%; height: 48px;
+      border-radius: 4px; overflow: hidden;
+      box-shadow: 0 1px 0 rgba(0,0,0,0.06);
+    }
+    .v1-btn .left {
+      flex: 1.3; display: flex; align-items: center; justify-content: center;
+      background: linear-gradient(180deg, #ff732d 0%, #ff5500 100%);
+      color: #fff; font-weight: 700; font-size: 16px; line-height: 1;
+    }
+    .v1-btn .right {
+      flex: 1; display: flex; align-items: center; justify-content: center;
+      background: linear-gradient(180deg, #e04c00 0%, #c64200 100%);
+      color: #fff; font-weight: 700; font-size: 13px; line-height: 1;
+      letter-spacing: 0.02em;
+    }
+
+    /* V2 Stacked */
+    .v2-btn {
+      width: 100%; height: 48px;
+      background: linear-gradient(180deg, #ff732d 0%, #ff5500 100%);
+      color: #fff; border-radius: 4px;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      line-height: 1; gap: 3px;
+    }
+    .v2-btn .primary   { font-weight: 700; font-size: 15px; }
+    .v2-btn .secondary {
+      font-weight: 600; font-size: 11px; letter-spacing: 0.04em;
+      color: #ffe1d0; text-transform: uppercase;
+    }
+
+    /* V3 Inline dash */
+    .v3-btn {
+      width: 100%; height: 48px;
+      background: linear-gradient(180deg, #ff732d 0%, #ff5500 100%);
+      color: #fff; border-radius: 4px;
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 700; font-size: 16px; line-height: 1; gap: 10px;
+    }
+    .v3-btn .sep {
+      width: 1px; height: 16px; background: rgba(255,255,255,0.45);
+    }
+    .v3-btn .save { font-weight: 600; font-size: 14px; color: #fff5ed; }
+
+    /* V4 Price-math */
+    .v4-btn {
+      width: 100%; height: 48px;
+      background: linear-gradient(180deg, #ff732d 0%, #ff5500 100%);
+      color: #fff; border-radius: 4px;
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 700; font-size: 16px; line-height: 1; gap: 8px;
+    }
+    .v4-btn .strike {
+      font-weight: 500; font-size: 13px; color: #ffd2b8;
+      text-decoration: line-through; text-decoration-thickness: 1.5px;
+    }
+    .v4-btn .price  { font-weight: 700; font-size: 16px; }
+    .v4-btn .cta    { font-weight: 700; font-size: 14px; color: #fff5ed;
+                      border-left: 1px solid rgba(255,255,255,0.4); padding-left: 10px; }
+
+    /* V5 Corner ribbon */
+    .v5-wrap { position: relative; }
+    .v5-btn {
+      width: 100%; height: 48px;
+      background: linear-gradient(180deg, #ff732d 0%, #ff5500 100%);
+      color: #fff; border-radius: 4px;
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 700; font-size: 16px; line-height: 1;
+    }
+    .v5-ribbon {
+      position: absolute; top: -9px; right: -6px;
+      background: #171717; color: #fff;
+      font-size: 10px; font-weight: 700; letter-spacing: 0.05em;
+      padding: 4px 9px 4px 10px;
+      border-radius: 3px;
+      box-shadow: 0 3px 8px rgba(0,0,0,0.22);
+      text-transform: uppercase;
+    }
+    .v5-ribbon::after {
+      content: ''; position: absolute;
+      bottom: -4px; right: 10px;
+      border: 4px solid transparent;
+      border-top-color: #171717;
+      border-left-color: #171717;
+    }
+
+    /* V6 Prefix pill */
+    .v6-btn {
+      position: relative;
+      width: 100%; height: 48px;
+      background: linear-gradient(180deg, #ff732d 0%, #ff5500 100%);
+      color: #fff; border-radius: 4px;
+    }
+    .v6-btn .prefix {
+      position: absolute; left: 8px; top: 50%; transform: translateY(-50%);
+      background: #fff; color: #ff5500;
+      font-weight: 700; font-size: 11px; letter-spacing: 0.04em;
+      padding: 5px 8px; border-radius: 3px; line-height: 1;
+    }
+    .v6-btn .label {
+      position: absolute; inset: 0;
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 700; font-size: 16px; line-height: 1;
+    }
+
+    /* V7 Attached banner (2-row visual unit) */
+    .v7-wrap {
+      width: 100%; border-radius: 4px; overflow: hidden;
+      box-shadow: 0 1px 0 rgba(0,0,0,0.06);
+    }
+    .v7-main {
+      width: 100%; height: 44px;
+      background: linear-gradient(180deg, #ff732d 0%, #ff5500 100%);
+      color: #fff;
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 700; font-size: 16px; line-height: 1;
+    }
+    .v7-strip {
+      height: 24px;
+      background: #171717;
+      color: #ffd8c0;
+      display: flex; align-items: center; justify-content: center; gap: 6px;
+      font-weight: 700; font-size: 11px; letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+    .v7-strip i { color: #ff8a4c; font-size: 13px; }
+
+    /* V8 Arrow + save */
+    .v8-btn {
+      width: 100%; height: 48px;
+      background: linear-gradient(180deg, #ff732d 0%, #ff5500 100%);
+      color: #fff; border-radius: 4px;
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 700; font-size: 16px; line-height: 1; gap: 8px;
+    }
+    .v8-btn .arrow {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 20px; height: 20px; border-radius: 999px;
+      background: rgba(255,255,255,0.18);
+      transition: transform .15s ease;
+    }
+    .v8-btn:hover .arrow { transform: translateX(2px); }
+    .v8-btn .save {
+      font-weight: 600; font-size: 13px;
+      color: #fff4eb;
+      padding-left: 10px;
+      border-left: 1px solid rgba(255,255,255,0.4);
+      letter-spacing: 0.01em;
+    }
+
+    /* Mini Pro-card shell (mimics pricing page) */
+    .mini-card {
+      position: relative;
+      width: 360px;
+      background-image: linear-gradient(125.62deg, #ffffff 2.19%, #ffffff 41.38%, #ffeee5 98.14%);
+      border: 2px solid #ffb48f;
+      border-radius: 4px;
+      padding: 20px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+    }
+
+    /* Header chrome */
+    .chip {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 6px 12px; border-radius: 999px;
+      background: #fff; border: 1px solid #e5e5e5;
+      font-size: 13px; font-weight: 600;
+    }
+    .chip.active { background: #171717; color: #fff; border-color: #171717; }
+
+    /* Segmented toggle */
+    .seg {
+      display: inline-flex; padding: 3px; background: #e5e5e5; border-radius: 999px;
+    }
+    .seg button {
+      padding: 6px 14px; font-size: 12px; font-weight: 700;
+      border-radius: 999px; color: #525252;
+      letter-spacing: 0.03em;
+    }
+    .seg button.active { background: #fff; color: #171717; box-shadow: 0 1px 2px rgba(0,0,0,0.08); }
+
+    /* Switch */
+    .switch {
+      display: inline-flex; align-items: center; gap: 8px;
+      cursor: pointer;
+    }
+    .switch-track {
+      width: 34px; height: 20px; background: #d4d4d4; border-radius: 999px;
+      position: relative; transition: background .15s ease;
+    }
+    .switch-track::after {
+      content: ''; position: absolute; top: 3px; left: 3px;
+      width: 14px; height: 14px; background: #fff; border-radius: 999px;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.2);
+      transition: transform .15s ease;
+    }
+    .switch[aria-pressed="true"] .switch-track { background: #ff5500; }
+    .switch[aria-pressed="true"] .switch-track::after { transform: translateX(14px); }
+
+    .variant-label {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-size: 11px; font-weight: 700; letter-spacing: 0.08em;
+      text-transform: uppercase; color: #737373;
+    }
+    .variant-num {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 20px; height: 20px; border-radius: 999px;
+      background: #171717; color: #fff; font-size: 10px;
+    }
+  </style>
+</head>
+<body class="min-h-screen">
+
+  <!-- HEADER -->
+  <header class="sticky top-0 z-30 bg-white border-b border-neutral-200">
+    <div class="max-w-[1120px] mx-auto px-6 py-4 flex items-center gap-6 flex-wrap">
+      <div class="flex-1 min-w-[260px]">
+        <h1 class="text-[20px] font-bold text-ink-primary leading-tight">Pro CTA — button variations</h1>
+        <p class="text-[13px] text-ink-tertiary">Button carries the discount; monthly strips it to just "Buy Now".</p>
+      </div>
+      <div class="flex items-center gap-6">
+        <div class="flex items-center gap-2">
+          <span class="text-[11px] font-bold uppercase tracking-wider text-ink-tertiary">Billing</span>
+          <div class="seg" role="tablist">
+            <button type="button" data-period="annual" class="active">YEARLY</button>
+            <button type="button" data-period="monthly">MONTHLY</button>
+          </div>
+        </div>
+        <button type="button" class="switch" aria-pressed="false" data-bump>
+          <span class="switch-track"></span>
+          <span class="text-[12px] font-semibold text-ink-secondary">Simulate hour</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- GRID -->
+  <main class="max-w-[1120px] mx-auto px-6 py-8">
+    <div id="grid" class="grid grid-cols-2 gap-x-10 gap-y-10"></div>
+    <p class="mt-10 text-[12px] text-ink-tertiary max-w-[720px]">
+      Each variant shows the Pro price area and the full CTA unit. The hint line under the button
+      is the same across variants (green "You'll save $X", timer pill when bumped, or
+      "Switch to yearly" nudge when monthly). Only the button differs.
+    </p>
+  </main>
+
+  <script>
+    const VARIANTS = [
+      {
+        name: 'Split pill',
+        note: 'Button splits in two. Left does the CTA job, right carries the discount. One pill, two messages.',
+        render: (save) => `
+          <button class="v1-btn">
+            <span class="left">Buy Now</span>
+            <span class="right">$${save} OFF</span>
+          </button>`,
+      },
+      {
+        name: 'Stacked',
+        note: 'CTA primary, discount as secondary caption inside the button.',
+        render: (save) => `
+          <button class="v2-btn">
+            <span class="primary">Buy Now</span>
+            <span class="secondary">Save $${save} this year</span>
+          </button>`,
+      },
+      {
+        name: 'Inline dash',
+        note: 'Single line, separator bar between CTA and discount.',
+        render: (save) => `
+          <button class="v3-btn">
+            <span>Buy Pro</span>
+            <span class="sep"></span>
+            <span class="save">Save $${save}</span>
+          </button>`,
+      },
+      {
+        name: 'Price math',
+        note: 'Leads with the real monthly price and strikes the old one. Discount is implied by the numbers.',
+        render: (save, now) => `
+          <button class="v4-btn">
+            <span class="strike">$40</span>
+            <span class="price">$${now}/mo</span>
+            <span class="cta">Buy Pro</span>
+          </button>`,
+      },
+      {
+        name: 'Corner ribbon',
+        note: 'Clean CTA. Dark ribbon on top-right corner carries the discount like a sticker.',
+        render: (save) => `
+          <div class="v5-wrap">
+            <button class="v5-btn">Buy Now</button>
+            <span class="v5-ribbon">Save $${save}</span>
+          </div>`,
+      },
+      {
+        name: 'Prefix pill',
+        note: 'White pill on the left inside the button leads with the deal. CTA reads after.',
+        render: (save) => `
+          <button class="v6-btn">
+            <span class="prefix">$${save} OFF</span>
+            <span class="label">Buy Pro</span>
+          </button>`,
+      },
+      {
+        name: 'Attached strip',
+        note: 'CTA on top, dark strip beneath carries the discount. Reads as one button, two surfaces.',
+        render: (save) => `
+          <div class="v7-wrap">
+            <button class="v7-main">Buy Now</button>
+            <div class="v7-strip"><i class="ph-fill ph-check-circle"></i>$${save} off applied</div>
+          </div>`,
+      },
+      {
+        name: 'Arrow forward',
+        note: 'Motion-leaning. Arrow suggests progress; discount sits after a divider.',
+        render: (save) => `
+          <button class="v8-btn">
+            <span>Buy Pro</span>
+            <span class="arrow"><i class="ph-bold ph-arrow-right" style="font-size:12px;"></i></span>
+            <span class="save">Save $${save}</span>
+          </button>`,
+      },
+    ];
+
+    const grid = document.getElementById('grid');
+    let state = { period: 'annual', bumped: false };
+
+    function renderGrid() {
+      const { period, bumped } = state;
+      const save = bumped ? 300 : 180;
+      const now  = bumped ? '15' : '25';
+      const strike = '<span class="absolute right-0 text-[14px] font-medium line-through text-ink-tertiary leading-none" style="bottom: calc(100% + 4px);"><span class="usd">$</span>40</span>';
+
+      grid.innerHTML = VARIANTS.map((v, i) => {
+        // Price area (matches main page)
+        const priceBlock = period === 'annual'
+          ? `<div class="flex items-baseline gap-1 relative">
+               <p class="absolute right-0 text-[14px] font-medium line-through text-ink-tertiary leading-none" style="bottom: calc(100% + 4px);"><span class="usd">$</span>40</p>
+               <p class="text-[24px] font-bold text-ink-primary leading-none"><span class="usd">$</span>${now}</p>
+               <span class="text-[13px] font-medium text-ink-tertiary">/mo</span>
+             </div>
+             <p class="text-[12px] font-medium text-ink-tertiary">billed yearly</p>`
+          : `<div class="flex items-baseline gap-1">
+               <p class="text-[24px] font-bold text-ink-primary leading-none"><span class="usd">$</span>40</p>
+               <span class="text-[13px] font-medium text-ink-tertiary">/mo</span>
+             </div>
+             <p class="text-[12px] font-medium text-ink-tertiary">billed monthly</p>`;
+
+        // Button (the variation)
+        let btnHtml;
+        if (period === 'monthly') {
+          // Monthly: all variants collapse to a plain "Buy Now" CTA
+          btnHtml = `<button class="w-full h-12 rounded-[4px] pro-btn text-white font-bold text-[16px]">Buy Now</button>`;
+        } else {
+          btnHtml = v.render(save, now);
+        }
+
+        // Hint below the button
+        let hint;
+        if (period === 'monthly') {
+          hint = `<p class="text-[12px] font-medium text-ink-secondary flex items-center justify-center gap-1 leading-none">
+                    <button class="underline underline-offset-[3px] decoration-from-font hover:text-ink-primary">Switch to yearly to save $${save}</button>
+                  </p>`;
+        } else if (bumped) {
+          hint = `<p class="flex items-center justify-center leading-none">
+                    <span class="pro-bumped-pill">
+                      <i class="ph-fill ph-clock"></i>
+                      Discount ends in <span class="tabular-nums">59:42</span>
+                    </span>
+                  </p>`;
+        } else {
+          hint = `<p class="text-[12px] font-medium text-success-fg flex items-center justify-center gap-1 leading-none">
+                    <i class="ph-fill ph-check-circle text-[13px]"></i>You'll save $${save} this year
+                  </p>`;
+        }
+
+        return `
+          <section class="flex flex-col gap-3">
+            <div class="flex items-center justify-between">
+              <span class="variant-label">
+                <span class="variant-num">${i + 1}</span>${v.name}
+              </span>
+            </div>
+            <div class="mini-card">
+              <div class="flex items-baseline justify-between gap-2 mb-5">
+                <h3 class="text-[22px] font-bold text-ink-primary leading-none">Pro</h3>
+                <div class="flex flex-col items-end gap-1">
+                  ${priceBlock}
+                </div>
+              </div>
+              <div class="flex flex-col gap-2">
+                <div class="relative">${btnHtml}</div>
+                ${hint}
+              </div>
+            </div>
+            <p class="text-[12px] text-ink-tertiary leading-snug max-w-[360px]">${v.note}</p>
+          </section>`;
+      }).join('');
+    }
+
+    // Wire controls
+    document.querySelectorAll('[data-period]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('[data-period]').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        state.period = btn.dataset.period;
+        renderGrid();
+      });
+    });
+
+    const bumpBtn = document.querySelector('[data-bump]');
+    bumpBtn.addEventListener('click', () => {
+      state.bumped = !state.bumped;
+      bumpBtn.setAttribute('aria-pressed', String(state.bumped));
+      renderGrid();
+    });
+
+    renderGrid();
+  </script>
+</body>
+</html>
