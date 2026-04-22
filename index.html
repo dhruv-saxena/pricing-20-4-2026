@@ -441,37 +441,20 @@
   .fb-btn-primary:not([disabled]) .fb-lock .ph-lock { opacity: 0; }
   .fb-btn-primary:not([disabled]) .fb-lock .ph-lock-open {
     opacity: 1;
-    animation: lock-pop 0.7s cubic-bezier(0.34, 1.56, 0.64, 1);
+    animation: lock-pop 0.45s cubic-bezier(0.22, 1, 0.36, 1);
   }
   @keyframes lock-pop {
-    0%   { transform: translateY(-16px) rotate(-55deg) scale(0.3); opacity: 0; }
-    45%  { transform: translateY(0) rotate(18deg) scale(1.35); opacity: 1; }
-    70%  { transform: translateY(0) rotate(-8deg) scale(0.95); }
-    100% { transform: translateY(0) rotate(0deg) scale(1); opacity: 1; }
+    0%   { transform: rotate(-14deg) scale(0.7); opacity: 0; }
+    100% { transform: rotate(0deg) scale(1);     opacity: 1; }
   }
 
-  /* Glow/pulse ring the moment the button becomes enabled */
+  /* Subtle pulse ring the moment the button becomes enabled */
   .fb-btn-primary.just-unlocked {
-    animation: cta-unlock 0.85s cubic-bezier(0.22, 1, 0.36, 1);
+    animation: cta-unlock 0.5s cubic-bezier(0.22, 1, 0.36, 1);
   }
   @keyframes cta-unlock {
-    0%   { transform: scale(1);    box-shadow: 0 0 0 0 rgba(255, 85, 0, 0.55); }
-    30%  { transform: scale(1.035); box-shadow: 0 0 0 10px rgba(255, 85, 0, 0); }
-    60%  { transform: scale(0.99); }
-    100% { transform: scale(1);    box-shadow: 0 0 0 0 rgba(255, 85, 0, 0); }
-  }
-  .fb-btn-primary.just-unlocked::before {
-    content: '';
-    position: absolute; inset: 0;
-    border-radius: inherit;
-    background: linear-gradient(100deg, transparent 30%, rgba(255,255,255,0.55) 50%, transparent 70%);
-    background-size: 200% 100%;
-    animation: cta-shine 0.85s linear;
-    pointer-events: none;
-  }
-  @keyframes cta-shine {
-    0%   { background-position: 150% 0; }
-    100% { background-position: -50% 0; }
+    0%   { box-shadow: 0 0 0 0 rgba(255, 85, 0, 0.35); }
+    100% { box-shadow: 0 0 0 6px rgba(255, 85, 0, 0); }
   }
   .fb-btn-primary { position: relative; overflow: hidden; }
   .fb-btn-secondary {
@@ -1674,7 +1657,7 @@
           // force reflow so the animation restarts if class was previously applied
           void submitBtn.offsetWidth;
           submitBtn.classList.add('just-unlocked');
-          setTimeout(() => submitBtn.classList.remove('just-unlocked'), 900);
+          setTimeout(() => submitBtn.classList.remove('just-unlocked'), 520);
         }
       }
 
