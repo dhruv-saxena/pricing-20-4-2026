@@ -164,7 +164,7 @@
                            0 0 0 0   rgba(255, 85, 0, 0); }
   }
 
-  /* Kept for summary table — mini urgency cue when the hour bump is active. */
+  /* Summary-row mirror of the card chip. Same bob + glow behaviour. */
   .pro-bumped-pill {
     position: relative;
     display: inline-flex; align-items: center; gap: 6px;
@@ -173,11 +173,12 @@
     background: #171717;
     color: #fff;
     border-radius: 999px;
-    font-size: 11px; font-weight: 700;
-    letter-spacing: 0.02em;
+    font-size: 11px; font-weight: 800;
+    letter-spacing: 0.06em;
     font-variant-numeric: tabular-nums;
-    box-shadow: 0 6px 16px rgba(0,0,0,0.22);
     white-space: nowrap;
+    animation: pro-pill-bob 2.6s ease-in-out infinite,
+               pro-pill-glow 2.2s ease-in-out infinite;
   }
   .pro-bumped-pill::before {
     content: ''; position: absolute;
@@ -187,6 +188,18 @@
     border-radius: 1px;
   }
   .pro-bumped-pill i { font-size: 12px; color: #ff8a4c; }
+  @keyframes pro-pill-bob {
+    0%, 100% { transform: translateY(0); }
+    50%      { transform: translateY(-3px); }
+  }
+  @keyframes pro-pill-glow {
+    0%, 100% { box-shadow: 0 6px 16px rgba(0,0,0,0.22),
+                           0 0 0 0   rgba(255, 85, 0, 0.55); }
+    70%      { box-shadow: 0 6px 16px rgba(0,0,0,0.22),
+                           0 0 0 9px rgba(255, 85, 0, 0); }
+    100%     { box-shadow: 0 6px 16px rgba(0,0,0,0.22),
+                           0 0 0 0   rgba(255, 85, 0, 0); }
+  }
 
   /* Plan hover hint (sits above the whole card, triggered by card hover) */
   .plan-hint {
@@ -853,7 +866,7 @@
               <h3 class="text-[24px] font-bold text-ink-primary leading-none">Pro</h3>
               <div class="flex flex-col items-end gap-1">
                 <div class="flex items-baseline gap-1 relative">
-                  <p class="absolute right-0 text-[14px] font-medium line-through text-ink-tertiary leading-none" style="bottom: calc(100% + 4px);"><span class="usd">$</span>40</p>
+                  <p class="absolute right-0 text-[17px] font-medium line-through text-ink-tertiary leading-none" style="bottom: calc(100% + 4px);"><span class="usd">$</span>40</p>
                   <p class="text-[24px] font-bold text-ink-primary leading-none"><span class="usd">$</span>25</p>
                   <span class="text-[13px] font-medium text-ink-tertiary">/mo</span>
                 </div>
@@ -923,7 +936,7 @@
               <h3 class="text-[24px] font-bold text-ink-primary leading-none">Gold</h3>
               <div class="flex flex-col items-end gap-1">
                 <div class="flex items-baseline gap-1 relative">
-                  <p class="absolute right-0 text-[14px] font-medium line-through text-ink-tertiary leading-none" style="bottom: calc(100% + 4px);"><span class="usd">$</span>199</p>
+                  <p class="absolute right-0 text-[17px] font-medium line-through text-ink-tertiary leading-none" style="bottom: calc(100% + 4px);"><span class="usd">$</span>199</p>
                   <p class="text-[24px] font-bold text-ink-primary leading-none"><span class="usd">$</span>99</p>
                   <span class="text-[13px] font-medium text-ink-tertiary">/mo</span>
                 </div>
@@ -1361,7 +1374,7 @@
       function render(period) {
         const p = PRICES[period];
         const strike = p.strike
-          ? `<p class="absolute right-0 text-[14px] font-medium line-through text-ink-tertiary leading-none" style="bottom: calc(100% + 4px);">${p.strike}</p>` : '';
+          ? `<p class="absolute right-0 text-[17px] font-medium line-through text-ink-tertiary leading-none" style="bottom: calc(100% + 4px);">${p.strike}</p>` : '';
         priceEl.innerHTML = `
           <div class="flex items-baseline gap-1 fade-in relative">
             ${strike}
@@ -1450,7 +1463,7 @@
           const now = bumped ? '15' : '25';
           proPriceEl.innerHTML = `
             <div class="flex items-baseline gap-1 relative fade-in">
-              <p class="absolute right-0 text-[14px] font-medium line-through text-ink-tertiary leading-none" style="bottom: calc(100% + 4px);"><span class="usd">$</span>40</p>
+              <p class="absolute right-0 text-[17px] font-medium line-through text-ink-tertiary leading-none" style="bottom: calc(100% + 4px);"><span class="usd">$</span>40</p>
               <p class="text-[24px] font-bold text-ink-primary leading-none"><span class="usd">$</span>${now}</p>
               <span class="text-[13px] font-medium text-ink-tertiary">/mo</span>
             </div>
@@ -1462,7 +1475,6 @@
             proChip.classList.remove('hidden');
             proChip.innerHTML = `
               <span>$${save} OFF</span>
-              <span aria-hidden="true">·</span>
               <i class="ph-fill ph-clock"></i>
               <span>Ends in <span class="tabular-nums" data-pro-timer>60:00</span></span>`;
           } else {
@@ -1487,7 +1499,6 @@
             sumPill.innerHTML = bumped ? `
               <span class="pro-bumped-pill">
                 <span>$${save} OFF</span>
-                <span aria-hidden="true">·</span>
                 <i class="ph-fill ph-clock"></i>
                 <span>Ends in <span class="tabular-nums" data-pro-timer>60:00</span></span>
               </span>` : '';
