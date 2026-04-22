@@ -135,12 +135,13 @@
     background: #171717; color: #fff;
     font-size: 11px; font-weight: 800; letter-spacing: 0.06em;
     padding: 5px 12px; border-radius: 999px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.25);
     z-index: 2;
     white-space: nowrap;
     font-variant-numeric: tabular-nums;
     transform: translateX(-50%);
-    animation: pro-chip-bob 2.6s ease-in-out infinite;
+    /* Bob + glow pulse: the chip itself draws attention now, not the button. */
+    animation: pro-chip-bob 2.6s ease-in-out infinite,
+               pro-chip-glow 2.2s ease-in-out infinite;
   }
   .pro-discount-chip::after {
     content: ''; position: absolute;
@@ -154,11 +155,13 @@
     0%, 100% { transform: translateX(-50%) translateY(0); }
     50%      { transform: translateX(-50%) translateY(-3px); }
   }
-  .pro-halo { animation: pro-halo-pulse 2.2s ease-in-out infinite; }
-  @keyframes pro-halo-pulse {
-    0%, 100% { box-shadow: 0 0 0 0 rgba(255, 85, 0, 0.55); }
-    70%      { box-shadow: 0 0 0 10px rgba(255, 85, 0, 0); }
-    100%     { box-shadow: 0 0 0 0 rgba(255, 85, 0, 0); }
+  @keyframes pro-chip-glow {
+    0%, 100% { box-shadow: 0 4px 10px rgba(0,0,0,0.25),
+                           0 0 0 0   rgba(255, 85, 0, 0.55); }
+    70%      { box-shadow: 0 4px 10px rgba(0,0,0,0.25),
+                           0 0 0 9px rgba(255, 85, 0, 0); }
+    100%     { box-shadow: 0 4px 10px rgba(0,0,0,0.25),
+                           0 0 0 0   rgba(255, 85, 0, 0); }
   }
 
   /* Kept for summary table — mini urgency cue when the hour bump is active. */
@@ -747,7 +750,7 @@
           <div class="mt-3 flex flex-col gap-[8px]" style="width:312px;">
             <div class="pro-cta-wrap group" id="pro-cta-wrap">
               <span class="pro-discount-chip" id="pro-discount-chip">$180 OFF</span>
-              <button id="pro-ind-cta" class="pro-btn pro-halo w-full h-12 rounded-[4px] flex items-center justify-center text-white">
+              <button id="pro-ind-cta" class="pro-btn w-full h-12 rounded-[4px] flex items-center justify-center text-white">
                 <span class="text-[16px] font-bold leading-none">Buy Now</span>
               </button>
             </div>
@@ -1415,7 +1418,6 @@
       const proPriceEl   = document.querySelector('[data-pro-price]');
       const proToggle    = document.querySelector('[data-pro-toggle]');
       const proChip      = document.getElementById('pro-discount-chip');
-      const proCtaBtn    = document.getElementById('pro-ind-cta');
       const proHint      = document.getElementById('pro-hint');
       const closeBtn     = document.querySelector('[aria-label="Close"]');
       let bumpIntervalId = null;
@@ -1454,11 +1456,10 @@
             </div>
             <p class="text-[12px] font-medium text-ink-tertiary">billed yearly</p>`;
 
-          // Chip + halo pulse only appear during the hour bump. The default
-          // yearly state stays calm — the green hint below carries the save.
+          // Chip only appears during the hour bump. The chip itself pulses
+          // (via CSS) to draw attention — the button stays calm.
           if (bumped) {
             proChip.classList.remove('hidden');
-            proCtaBtn.classList.add('pro-halo');
             proChip.innerHTML = `
               <span>$${save} OFF</span>
               <span aria-hidden="true">·</span>
@@ -1466,10 +1467,9 @@
               <span>Ends in <span class="tabular-nums" data-pro-timer>60:00</span></span>`;
           } else {
             proChip.classList.add('hidden');
-            proCtaBtn.classList.remove('pro-halo');
           }
 
-          proHint.innerHTML = `<i class="ph-fill ph-check-circle text-[13px]"></i>You'll save $${save} this year`;
+          proHint.innerHTML = `<i class="ph-fill ph-check-circle text-[13px]"></i>You'll save $${save} in your first year`;
           proHint.classList.add('text-success-fg');
           proHint.classList.remove('text-ink-secondary');
 
@@ -1486,8 +1486,10 @@
           if (sumPill) {
             sumPill.innerHTML = bumped ? `
               <span class="pro-bumped-pill">
+                <span>$${save} OFF</span>
+                <span aria-hidden="true">·</span>
                 <i class="ph-fill ph-clock"></i>
-                Discount ends in <span class="tabular-nums" data-pro-timer>60:00</span>
+                <span>Ends in <span class="tabular-nums" data-pro-timer>60:00</span></span>
               </span>` : '';
           }
         } else {
@@ -1498,9 +1500,8 @@
             </div>
             <p class="text-[12px] font-medium text-ink-tertiary">billed monthly</p>`;
 
-          // No discount on monthly: hide chip, drop halo pulse.
+          // No discount on monthly: hide the chip.
           proChip.classList.add('hidden');
-          proCtaBtn.classList.remove('pro-halo');
 
           proHint.innerHTML = `<button type="button" class="underline underline-offset-[3px] decoration-from-font hover:text-ink-primary" data-pro-switch-yearly>Switch to yearly to save $${save}</button>`;
           proHint.classList.remove('text-success-fg');
