@@ -63,9 +63,30 @@
       width: fit-content; max-width: calc(100% - 4px);
     }
 
-    /* Chip-as-input — when 10+ chip is active, its label becomes editable */
-    .seat-chip-input {
+    /* Custom chip when active: holds [-] [input] [+] as one unit */
+    .seat-chip.custom.active {
+      padding: 0 2px;
+      box-shadow: inset 0 0 0 1px #0A1925, 0 0 0 3px rgba(10,25,37,0.08);
+    }
+    .seat-chip-stepper {
+      display: flex; align-items: center; justify-content: space-between;
       width: 100%; height: 100%;
+    }
+    .seat-chip-stepper .step {
+      width: 22px; height: 26px;
+      display: inline-flex; align-items: center; justify-content: center;
+      border-radius: 3px;
+      color: #0A1925;
+      background: transparent;
+      transition: background .12s;
+      flex: none;
+    }
+    .seat-chip-stepper .step:hover:not(:disabled) { background: #e6ebf1; }
+    .seat-chip-stepper .step:disabled { opacity: 0.3; cursor: not-allowed; }
+    .seat-chip-stepper .step i { font-size: 14px; line-height: 1; }
+
+    .seat-chip-input {
+      flex: 1; min-width: 0;
       background: transparent;
       border: none;
       outline: none;
@@ -73,17 +94,13 @@
       font: inherit;
       color: inherit;
       font-variant-numeric: tabular-nums;
+      font-weight: 700;
       padding: 0;
       caret-color: #ff5500;
     }
     .seat-chip-input::-webkit-outer-spin-button,
     .seat-chip-input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
     .seat-chip-input { -moz-appearance: textfield; }
-
-    .seat-chip.custom.active {
-      /* Amber-edge nudge the active custom chip so the field-ness is hinted */
-      box-shadow: inset 0 0 0 1px #0A1925, 0 0 0 3px rgba(10,25,37,0.08);
-    }
 
     /* Hint under the chips when the custom chip is live */
     .chip-hint {
@@ -190,58 +207,69 @@
     const hint      = document.querySelector('[data-hint]');
 
     // state: n = active seat count, custom = is the custom chip the active one?
-    let n = 5, custom = false, hasTyped = false, input = null;
+    let n = 5, custom = false, hasTyped = false, stepper = null, input = null, decBtn = null, incBtn = null;
 
     function setStandard(val) {
       custom = false;
       hasTyped = false;
       n = val;
-      // Restore custom chip's label if we had swapped it for an input
-      if (input) {
-        input.remove(); input = null;
+      if (stepper) {
+        stepper.remove();
+        stepper = input = decBtn = incBtn = null;
         customLbl.style.display = '';
         customLbl.textContent = '10+';
       }
       render();
     }
 
+    function bump(delta) {
+      n = Math.max(10, Math.min(999, n + delta));
+      hasTyped = true;
+      render();
+    }
+
     function activateCustom() {
+      const firstTime = !custom;
       custom = true;
-      if (!hasTyped) {
-        // First activation: seed the number to 10, swap label for input
-        n = 10;
-      }
-      // Swap label for input field
+      if (!hasTyped) n = 10;
+
       customLbl.style.display = 'none';
-      if (!input) {
-        input = document.createElement('input');
-        input.type = 'number';
-        input.min = '10';
-        input.max = '999';
-        input.className = 'seat-chip-input';
-        input.setAttribute('aria-label', 'Seat count');
-        customChip.appendChild(input);
+      if (!stepper) {
+        stepper = document.createElement('div');
+        stepper.className = 'seat-chip-stepper';
+        stepper.innerHTML = `
+          <button type="button" class="step" data-dec aria-label="Decrease seats"><i class="ph ph-minus"></i></button>
+          <input type="number" class="seat-chip-input" min="10" max="999" aria-label="Seat count">
+          <button type="button" class="step" data-inc aria-label="Increase seats"><i class="ph ph-plus"></i></button>`;
+        customChip.appendChild(stepper);
+
+        input  = stepper.querySelector('input');
+        decBtn = stepper.querySelector('[data-dec]');
+        incBtn = stepper.querySelector('[data-inc]');
+
+        // Keep clicks on the buttons from re-triggering the chip's click handler.
+        decBtn.addEventListener('click', (e) => { e.stopPropagation(); bump(-1); input.focus(); });
+        incBtn.addEventListener('click', (e) => { e.stopPropagation(); bump(+1); input.focus(); });
+
+        input.addEventListener('click', (e) => e.stopPropagation());
         input.addEventListener('input', () => {
           const v = parseInt(input.value, 10);
-          if (Number.isNaN(v)) return;                 // allow empty while typing
+          if (Number.isNaN(v)) return;
           n = Math.max(10, Math.min(999, v));
           hasTyped = true;
           render(/* skipInputSync */ true);
         });
         input.addEventListener('blur', () => {
-          if (!input.value || parseInt(input.value, 10) < 10) {
-            input.value = n;
-          }
+          if (!input.value || parseInt(input.value, 10) < 10) input.value = n;
         });
       }
       input.value = n;
-      input.focus();
-      input.select();
+      if (firstTime) { input.focus(); input.select(); }
       render(/* skipInputSync */ true);
     }
 
     chipNodes.forEach(c => {
-      c.addEventListener('click', () => {
+      c.addEventListener('click', (e) => {
         const v = c.dataset.value;
         if (v === 'custom') activateCustom();
         else setStandard(parseInt(v, 10));
@@ -281,6 +309,7 @@
       }
 
       if (input && !skipInputSync) input.value = n;
+      if (decBtn) decBtn.disabled = n <= 10;
     }
 
     render();
