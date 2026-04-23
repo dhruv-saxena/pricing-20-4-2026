@@ -1,0 +1,513 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=1480" />
+<title>Top-link variations — Presentations AI Pricing</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.1/src/regular/style.css" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.1/src/bold/style.css" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.1/src/fill/style.css" />
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        fontFamily: { sans: ['Inter', 'system-ui', 'sans-serif'] },
+        colors: {
+          brand: { 50: '#ffeee5', 100: '#ffd1ba', 500: '#ff5500' },
+          ink: { primary: '#171717', secondary: '#525252', tertiary: '#a3a3a3' },
+        },
+        boxShadow: {
+          card: '0 1px 2px 0 rgba(0,0,0,0.08), 0 4px 10px 0 rgba(0,0,0,0.06)',
+        },
+      },
+    },
+  };
+</script>
+<style>
+  html, body { background: #f5f5f5; color: #171717; }
+  body {
+    font-family: 'Inter', system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  .border-primary { border-color: rgba(26, 26, 26, 0.2); }
+  .border-tertiary { border-color: rgba(26, 26, 26, 0.06); }
+  .pro-btn { background: linear-gradient(180deg, #ff732d 0%, #ff5500 100%); }
+  .pro-title {
+    background: linear-gradient(180deg, #ffd1ba 0%, #ff5500 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .pro-card-bg {
+    background-image: linear-gradient(125.62deg, #ffffff 2.19%, #ffffff 41.38%, #ffeee5 98.14%);
+  }
+
+  /* Stage: a miniaturised 1280-wide pricing canvas shrunk to fit each cell */
+  .stage-wrap {
+    position: relative;
+    width: 640px;
+    height: 360px;
+    overflow: hidden;
+    border-radius: 12px;
+    background: #ffffff;
+    box-shadow: 0 1px 2px rgba(0,0,0,.06), 0 8px 24px rgba(0,0,0,.06);
+    border: 1px solid rgba(0,0,0,.06);
+  }
+  .stage {
+    width: 1280px;
+    height: 720px;
+    transform: scale(0.5);
+    transform-origin: top left;
+    position: relative;
+  }
+  /* Card tops peeking up from the bottom of the stage, just to give realistic visual weight */
+  .card-top {
+    position: absolute;
+    top: 240px;
+    width: 360px;
+    height: 480px;
+    background: #fff;
+    border: 1px solid rgba(26,26,26,.2);
+    border-radius: 4px;
+    padding: 24px;
+  }
+  .card-top.pro {
+    border-color: #ff5500;
+    box-shadow: 0 1px 2px 0 rgba(0,0,0,0.08), 0 4px 10px 0 rgba(0,0,0,0.06);
+    top: 215px;
+    height: 505px;
+    background-image: linear-gradient(125.62deg, #ffffff 2.19%, #ffffff 41.38%, #ffeee5 98.14%);
+  }
+
+  /* Shared headline chrome inside each stage */
+  .page-title {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    top: 24px;
+    width: 1000px;
+    text-align: center;
+    font-size: 24px;
+    line-height: 1.3;
+    letter-spacing: -0.24px;
+    color: #171717;
+  }
+  .page-close {
+    position: absolute;
+    top: 24px; right: 32px;
+    width: 36px; height: 36px;
+    border-radius: 9999px;
+    border: 1px solid rgba(26,26,26,.2);
+    background: #fff;
+    display: inline-flex; align-items: center; justify-content: center;
+    color: #171717;
+  }
+
+  /* Treatment 1: pill buttons */
+  .pill-row {
+    position: absolute; left: 50%; transform: translateX(-50%); top: 72px;
+    display: inline-flex; gap: 12px;
+  }
+  .pill {
+    display: inline-flex; align-items: center; gap: 8px;
+    height: 40px; padding: 0 18px;
+    border-radius: 9999px;
+    font-size: 14px; font-weight: 600;
+    background: #fff;
+    border: 1px solid rgba(26,26,26,.18);
+    color: #171717;
+    box-shadow: 0 1px 2px rgba(0,0,0,.04);
+  }
+  .pill.brand {
+    background: #fff6f0;
+    border-color: #ffb48f;
+    color: #ff5500;
+  }
+  .pill i { font-size: 16px; }
+
+  /* Treatment 2: split banner */
+  .split-banner {
+    position: absolute; left: 50%; transform: translateX(-50%); top: 74px;
+    width: 780px; height: 72px;
+    display: grid; grid-template-columns: 1fr 1px 1fr;
+    border: 1px solid rgba(26,26,26,.12);
+    border-radius: 10px;
+    overflow: hidden;
+    background: #fff;
+    box-shadow: 0 1px 2px rgba(0,0,0,.04), 0 6px 16px rgba(0,0,0,.04);
+  }
+  .split-banner .half {
+    display: flex; align-items: center; gap: 14px;
+    padding: 0 22px;
+    cursor: pointer;
+    transition: background .15s;
+  }
+  .split-banner .half:hover { background: #fff6f0; }
+  .split-banner .divider { background: rgba(26,26,26,.08); }
+  .split-banner .iconbox {
+    width: 40px; height: 40px; border-radius: 8px;
+    display: inline-flex; align-items: center; justify-content: center;
+    background: #fff6f0; color: #ff5500; font-size: 20px;
+    flex: 0 0 auto;
+  }
+  .split-banner .head { font-size: 14px; font-weight: 700; color: #171717; line-height: 1.1; }
+  .split-banner .sub  { font-size: 12px; color: #525252; margin-top: 2px; }
+  .split-banner .arrow { margin-left: auto; color: #ff5500; font-size: 16px; }
+
+  /* Treatment 3: segmented tabs */
+  .seg-tabs {
+    position: absolute; left: 50%; transform: translateX(-50%); top: 80px;
+    display: inline-flex;
+    background: #f5f5f5;
+    border-radius: 10px;
+    padding: 4px;
+    gap: 2px;
+  }
+  .seg-tabs .tab {
+    display: inline-flex; align-items: center; gap: 8px;
+    height: 36px; padding: 0 18px;
+    border-radius: 8px;
+    font-size: 13px; font-weight: 600;
+    color: #525252;
+    background: transparent;
+    cursor: pointer;
+  }
+  .seg-tabs .tab.active {
+    background: #ffffff;
+    color: #171717;
+    box-shadow: 0 1px 2px rgba(0,0,0,.08);
+  }
+  .seg-tabs .tab .dot {
+    width: 6px; height: 6px; border-radius: 999px; background: #ff5500;
+  }
+
+  /* Treatment 4: icon tiles */
+  .tile-row {
+    position: absolute; left: 50%; transform: translateX(-50%); top: 68px;
+    display: flex; gap: 16px;
+  }
+  .tile {
+    width: 312px; height: 76px;
+    border-radius: 12px;
+    background: #fff;
+    border: 1px solid rgba(26,26,26,.12);
+    display: grid; grid-template-columns: 48px 1fr 20px;
+    align-items: center;
+    padding: 0 18px;
+    gap: 14px;
+    cursor: pointer;
+    transition: transform .12s, box-shadow .12s, border-color .12s;
+  }
+  .tile:hover {
+    border-color: #ffb48f;
+    box-shadow: 0 4px 14px rgba(255,85,0,.12);
+    transform: translateY(-1px);
+  }
+  .tile .iconbox {
+    width: 40px; height: 40px; border-radius: 10px;
+    display: inline-flex; align-items: center; justify-content: center;
+    background: linear-gradient(180deg, #fff6f0 0%, #ffeadd 100%);
+    color: #ff5500; font-size: 22px;
+  }
+  .tile .t-head { font-size: 14px; font-weight: 700; color: #171717; line-height: 1.15; }
+  .tile .t-sub  { font-size: 12px; color: #525252; margin-top: 2px; }
+  .tile .t-arr { color: #ff5500; font-size: 18px; }
+
+  /* Treatment 5: callout card */
+  .callout {
+    position: absolute; left: 50%; transform: translateX(-50%); top: 70px;
+    width: 560px;
+    background: linear-gradient(180deg, #ffffff 0%, #fff6f0 100%);
+    border: 1px solid #ffb48f;
+    border-radius: 12px;
+    padding: 14px 18px;
+    display: flex; align-items: center; gap: 16px;
+    box-shadow: 0 8px 20px rgba(255,85,0,.08);
+  }
+  .callout .lede {
+    font-size: 13px; color: #525252;
+    flex: 1;
+  }
+  .callout .lede b { color: #171717; font-weight: 700; }
+  .callout .cta-row { display: inline-flex; gap: 8px; }
+  .callout .cta {
+    display: inline-flex; align-items: center; gap: 6px;
+    height: 36px; padding: 0 14px;
+    border-radius: 8px;
+    font-size: 13px; font-weight: 700;
+    cursor: pointer;
+  }
+  .callout .cta.primary {
+    background: linear-gradient(180deg, #ff732d 0%, #ff5500 100%);
+    color: #fff;
+    box-shadow: 0 1px 2px rgba(255,85,0,.25);
+  }
+  .callout .cta.ghost {
+    background: #fff;
+    color: #ff5500;
+    border: 1px solid #ffb48f;
+  }
+
+  /* Treatment 6: corner flags */
+  .flag {
+    position: absolute;
+    top: 72px;
+    height: 56px;
+    display: flex; align-items: center; gap: 10px;
+    padding: 0 18px 0 16px;
+    background: #fff;
+    border: 1px solid rgba(26,26,26,.12);
+    box-shadow: 0 4px 12px rgba(0,0,0,.06);
+    font-size: 13px; font-weight: 600;
+    color: #171717;
+    cursor: pointer;
+  }
+  .flag .iconbox {
+    width: 32px; height: 32px; border-radius: 8px;
+    background: #fff6f0; color: #ff5500;
+    display: inline-flex; align-items: center; justify-content: center;
+    font-size: 18px;
+  }
+  .flag .sub { display: block; font-size: 11px; font-weight: 500; color: #525252; margin-top: 1px; }
+  .flag.left {
+    left: 80px;
+    border-top-right-radius: 999px;
+    border-bottom-right-radius: 999px;
+    padding-right: 22px;
+  }
+  .flag.right {
+    right: 80px;
+    border-top-left-radius: 999px;
+    border-bottom-left-radius: 999px;
+    padding-left: 22px;
+    flex-direction: row-reverse;
+  }
+
+  /* Grid of variation cells */
+  .explorer {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 48px 32px 80px;
+  }
+  .explorer h1 {
+    font-size: 28px; font-weight: 800; letter-spacing: -0.4px;
+    color: #171717;
+  }
+  .explorer .lead {
+    font-size: 14px; color: #525252; margin-top: 6px; max-width: 720px;
+  }
+  .grid-variations {
+    margin-top: 36px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 32px;
+  }
+  .cell {
+    background: #ffffff;
+    border: 1px solid rgba(0,0,0,.06);
+    border-radius: 16px;
+    padding: 20px;
+    display: flex; flex-direction: column; gap: 14px;
+  }
+  .label {
+    display: inline-flex; align-items: center; gap: 10px;
+    font-size: 12px; font-weight: 700; letter-spacing: 0.06em;
+    color: #171717; text-transform: uppercase;
+  }
+  .label .num {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 22px; height: 22px; border-radius: 6px;
+    background: #171717; color: #fff; font-size: 12px; font-weight: 700;
+  }
+  .note {
+    font-size: 13px; color: #525252; line-height: 1.5;
+  }
+</style>
+</head>
+<body>
+
+<div class="explorer">
+  <h1>Top-of-page affordance — exploration</h1>
+  <p class="lead">Six treatments for surfacing <b>Team & Enterprise</b> and <b>API</b> as two distinct paths above the plan cards. Each is rendered in the live page chrome at 50% scale so visual weight is honest.</p>
+
+  <div class="grid-variations">
+
+    <!-- 1 PILL BUTTONS -->
+    <div class="cell">
+      <div class="label"><span class="num">1</span> Pill buttons</div>
+      <div class="stage-wrap">
+        <div class="stage">
+          <p class="page-title">Pick a plan that grows with you</p>
+          <button class="page-close"><i class="ph ph-x" style="font-size:20px"></i></button>
+
+          <div class="pill-row">
+            <button class="pill brand"><i class="ph-bold ph-users-three"></i>Team & Enterprise</button>
+            <button class="pill"><i class="ph-bold ph-code"></i>API access</button>
+          </div>
+
+          <div class="card-top" style="left:100px;"></div>
+          <div class="card-top pro" style="left:460px;"></div>
+          <div class="card-top" style="left:820px;"></div>
+        </div>
+      </div>
+      <p class="note">Two tappable pill buttons sit where a link used to. Tint difference gives T&E primary weight, API stays secondary but still clearly clickable — far more committed than underlined text.</p>
+    </div>
+
+    <!-- 2 SPLIT BANNER -->
+    <div class="cell">
+      <div class="label"><span class="num">2</span> Split banner</div>
+      <div class="stage-wrap">
+        <div class="stage">
+          <p class="page-title">Pick a plan that grows with you</p>
+          <button class="page-close"><i class="ph ph-x" style="font-size:20px"></i></button>
+
+          <div class="split-banner">
+            <div class="half">
+              <div class="iconbox"><i class="ph-fill ph-buildings"></i></div>
+              <div>
+                <div class="head">Team & Enterprise</div>
+                <div class="sub">Seats, SSO, admin controls</div>
+              </div>
+              <i class="ph-bold ph-arrow-right arrow"></i>
+            </div>
+            <div class="divider"></div>
+            <div class="half">
+              <div class="iconbox"><i class="ph-fill ph-code"></i></div>
+              <div>
+                <div class="head">API access</div>
+                <div class="sub">Generate decks programmatically</div>
+              </div>
+              <i class="ph-bold ph-arrow-right arrow"></i>
+            </div>
+          </div>
+
+          <div class="card-top" style="left:100px; top:260px;"></div>
+          <div class="card-top pro" style="left:460px; top:235px;"></div>
+          <div class="card-top" style="left:820px; top:260px;"></div>
+        </div>
+      </div>
+      <p class="note">One bordered banner, split in two. Each half has icon, name and one-line subtitle. Reads as a real destination, not a link — equal weight for both paths.</p>
+    </div>
+
+    <!-- 3 SEGMENTED TABS -->
+    <div class="cell">
+      <div class="label"><span class="num">3</span> Segmented tabs</div>
+      <div class="stage-wrap">
+        <div class="stage">
+          <p class="page-title">Pick a plan that grows with you</p>
+          <button class="page-close"><i class="ph ph-x" style="font-size:20px"></i></button>
+
+          <div class="seg-tabs">
+            <button class="tab active"><span class="dot"></span>Individual</button>
+            <button class="tab"><i class="ph ph-users-three"></i>Team & Enterprise</button>
+            <button class="tab"><i class="ph ph-code"></i>API</button>
+          </div>
+
+          <div class="card-top" style="left:100px; top:250px;"></div>
+          <div class="card-top pro" style="left:460px; top:225px;"></div>
+          <div class="card-top" style="left:820px; top:250px;"></div>
+        </div>
+      </div>
+      <p class="note">Frames all three audiences as peers. The active tab implies the grid below could swap — treating T&E and API as first-class alternate views rather than exits.</p>
+    </div>
+
+    <!-- 4 ICON TILES -->
+    <div class="cell">
+      <div class="label"><span class="num">4</span> Icon tiles</div>
+      <div class="stage-wrap">
+        <div class="stage">
+          <p class="page-title">Pick a plan that grows with you</p>
+          <button class="page-close"><i class="ph ph-x" style="font-size:20px"></i></button>
+
+          <div class="tile-row">
+            <div class="tile">
+              <div class="iconbox"><i class="ph-fill ph-users-three"></i></div>
+              <div>
+                <div class="t-head">Team & Enterprise</div>
+                <div class="t-sub">Volume pricing, SSO, admin</div>
+              </div>
+              <i class="ph-bold ph-arrow-right t-arr"></i>
+            </div>
+            <div class="tile">
+              <div class="iconbox"><i class="ph-fill ph-terminal"></i></div>
+              <div>
+                <div class="t-head">API access</div>
+                <div class="t-sub">Build decks in code</div>
+              </div>
+              <i class="ph-bold ph-arrow-right t-arr"></i>
+            </div>
+          </div>
+
+          <div class="card-top" style="left:100px; top:270px;"></div>
+          <div class="card-top pro" style="left:460px; top:245px;"></div>
+          <div class="card-top" style="left:820px; top:270px;"></div>
+        </div>
+      </div>
+      <p class="note">Two roomy bordered cards, each with icon, title, and subtitle. More breathing room than the banner; feels like a considered menu rather than a navigation link.</p>
+    </div>
+
+    <!-- 5 CALLOUT CARD -->
+    <div class="cell">
+      <div class="label"><span class="num">5</span> Callout card</div>
+      <div class="stage-wrap">
+        <div class="stage">
+          <p class="page-title">Pick a plan that grows with you</p>
+          <button class="page-close"><i class="ph ph-x" style="font-size:20px"></i></button>
+
+          <div class="callout">
+            <div class="lede"><b>Not for you?</b> We also offer plans for larger orgs and developers.</div>
+            <div class="cta-row">
+              <button class="cta primary"><i class="ph-bold ph-buildings"></i>Team & Enterprise</button>
+              <button class="cta ghost"><i class="ph-bold ph-code"></i>API</button>
+            </div>
+          </div>
+
+          <div class="card-top" style="left:100px; top:260px;"></div>
+          <div class="card-top pro" style="left:460px; top:235px;"></div>
+          <div class="card-top" style="left:820px; top:260px;"></div>
+        </div>
+      </div>
+      <p class="note">A brand-tinted callout frames the two paths as related-but-different alternatives. The primary + ghost CTA pairing adds hierarchy without hiding the API path.</p>
+    </div>
+
+    <!-- 6 CORNER FLAGS -->
+    <div class="cell">
+      <div class="label"><span class="num">6</span> Corner flags</div>
+      <div class="stage-wrap">
+        <div class="stage">
+          <p class="page-title">Pick a plan that grows with you</p>
+          <button class="page-close"><i class="ph ph-x" style="font-size:20px"></i></button>
+
+          <div class="flag left">
+            <div class="iconbox"><i class="ph-fill ph-users-three"></i></div>
+            <div>
+              Team & Enterprise
+              <span class="sub">Volume pricing & SSO</span>
+            </div>
+          </div>
+
+          <div class="flag right">
+            <div class="iconbox"><i class="ph-fill ph-code"></i></div>
+            <div>
+              API access
+              <span class="sub">For developers</span>
+            </div>
+          </div>
+
+          <div class="card-top" style="left:100px; top:260px;"></div>
+          <div class="card-top pro" style="left:460px; top:235px;"></div>
+          <div class="card-top" style="left:820px; top:260px;"></div>
+        </div>
+      </div>
+      <p class="note">Anchored flag markers dock to the outer edges, framing the card grid. Keeps the headline uncluttered while giving each path a distinct location and strong shape.</p>
+    </div>
+
+  </div>
+</div>
+
+</body>
+</html>
