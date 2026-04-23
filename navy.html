@@ -139,12 +139,12 @@
   .pro-discount-chip {
     position: relative;
     display: inline-flex; align-items: center; gap: 6px;
-    background: #171717; color: #fff;
+    background: #F59E0B; color: #0A1925;
     font-size: 11px; font-weight: 800; letter-spacing: 0.06em;
     padding: 5px 12px; border-radius: 999px;
     white-space: nowrap;
     font-variant-numeric: tabular-nums;
-    /* Bob + glow pulse: the chip itself draws attention, not the button. */
+    /* Amber chip on a navy page — warm complement carries the urgency. */
     animation: pro-chip-bob 2.6s ease-in-out infinite,
                pro-chip-glow 2.2s ease-in-out infinite;
   }
@@ -152,21 +152,21 @@
     content: ''; position: absolute;
     top: -4px; left: 50%;
     width: 8px; height: 8px;
-    background: #171717; transform: translateX(-50%) rotate(45deg);
+    background: #F59E0B; transform: translateX(-50%) rotate(45deg);
     border-radius: 1px;
   }
-  .pro-discount-chip i { font-size: 12px; color: #4b6f94; }
+  .pro-discount-chip i { font-size: 12px; color: #0A1925; }
   @keyframes pro-chip-bob {
     0%, 100% { transform: translateY(0); }
     50%      { transform: translateY(-3px); }
   }
   @keyframes pro-chip-glow {
-    0%, 100% { box-shadow: 0 4px 10px rgba(0,0,0,0.25),
-                           0 0 0 0   rgba(10, 25, 37, 0.55); }
-    70%      { box-shadow: 0 4px 10px rgba(0,0,0,0.25),
-                           0 0 0 9px rgba(10, 25, 37, 0); }
-    100%     { box-shadow: 0 4px 10px rgba(0,0,0,0.25),
-                           0 0 0 0   rgba(10, 25, 37, 0); }
+    0%, 100% { box-shadow: 0 4px 10px rgba(0,0,0,0.18),
+                           0 0 0 0   rgba(245, 158, 11, 0.55); }
+    70%      { box-shadow: 0 4px 10px rgba(0,0,0,0.18),
+                           0 0 0 9px rgba(245, 158, 11, 0); }
+    100%     { box-shadow: 0 4px 10px rgba(0,0,0,0.18),
+                           0 0 0 0   rgba(245, 158, 11, 0); }
   }
 
   /* Summary-row mirror of the card chip. Same bob + glow behaviour. */
@@ -175,8 +175,8 @@
     display: inline-flex; align-items: center; gap: 6px;
     margin-top: 4px;
     padding: 5px 12px;
-    background: #171717;
-    color: #fff;
+    background: #F59E0B;
+    color: #0A1925;
     border-radius: 999px;
     font-size: 11px; font-weight: 800;
     letter-spacing: 0.06em;
@@ -188,22 +188,22 @@
   .pro-bumped-pill::before {
     content: ''; position: absolute;
     top: -4px; left: 50%;
-    width: 8px; height: 8px; background: #171717;
+    width: 8px; height: 8px; background: #F59E0B;
     transform: translateX(-50%) rotate(45deg);
     border-radius: 1px;
   }
-  .pro-bumped-pill i { font-size: 12px; color: #4b6f94; }
+  .pro-bumped-pill i { font-size: 12px; color: #0A1925; }
   @keyframes pro-pill-bob {
     0%, 100% { transform: translateY(0); }
     50%      { transform: translateY(-3px); }
   }
   @keyframes pro-pill-glow {
-    0%, 100% { box-shadow: 0 6px 16px rgba(0,0,0,0.22),
-                           0 0 0 0   rgba(10, 25, 37, 0.55); }
-    70%      { box-shadow: 0 6px 16px rgba(0,0,0,0.22),
-                           0 0 0 9px rgba(10, 25, 37, 0); }
-    100%     { box-shadow: 0 6px 16px rgba(0,0,0,0.22),
-                           0 0 0 0   rgba(10, 25, 37, 0); }
+    0%, 100% { box-shadow: 0 6px 16px rgba(0,0,0,0.18),
+                           0 0 0 0   rgba(245, 158, 11, 0.55); }
+    70%      { box-shadow: 0 6px 16px rgba(0,0,0,0.18),
+                           0 0 0 9px rgba(245, 158, 11, 0); }
+    100%     { box-shadow: 0 6px 16px rgba(0,0,0,0.18),
+                           0 0 0 0   rgba(245, 158, 11, 0); }
   }
 
   /* Plan hover hint (sits above the whole card, triggered by card hover) */
