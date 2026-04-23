@@ -139,12 +139,12 @@
   .pro-discount-chip {
     position: relative;
     display: inline-flex; align-items: center; gap: 6px;
-    background: #ff5500; color: #0A1925;
+    background: #ff5500; color: #ffffff;
     font-size: 11px; font-weight: 800; letter-spacing: 0.06em;
     padding: 5px 12px; border-radius: 999px;
     white-space: nowrap;
     font-variant-numeric: tabular-nums;
-    /* Amber chip on a navy page — warm complement carries the urgency. */
+    /* Orange chip on a navy page — white text for maximum contrast. */
     animation: pro-chip-bob 2.6s ease-in-out infinite,
                pro-chip-glow 2.2s ease-in-out infinite;
   }
@@ -155,7 +155,7 @@
     background: #ff5500; transform: translateX(-50%) rotate(45deg);
     border-radius: 1px;
   }
-  .pro-discount-chip i { font-size: 12px; color: #0A1925; }
+  .pro-discount-chip i { font-size: 12px; color: #ffffff; }
   @keyframes pro-chip-bob {
     0%, 100% { transform: translateY(0); }
     50%      { transform: translateY(-3px); }
@@ -176,7 +176,7 @@
     margin-top: 4px;
     padding: 5px 12px;
     background: #ff5500;
-    color: #0A1925;
+    color: #ffffff;
     border-radius: 999px;
     font-size: 11px; font-weight: 800;
     letter-spacing: 0.06em;
@@ -192,7 +192,7 @@
     transform: translateX(-50%) rotate(45deg);
     border-radius: 1px;
   }
-  .pro-bumped-pill i { font-size: 12px; color: #0A1925; }
+  .pro-bumped-pill i { font-size: 12px; color: #ffffff; }
   @keyframes pro-pill-bob {
     0%, 100% { transform: translateY(0); }
     50%      { transform: translateY(-3px); }
@@ -555,7 +555,7 @@
     display: inline-flex; align-items: center; gap: 5px;
     padding: 5px 12px;
     background: #ff5500;
-    color: #0A1925;
+    color: #ffffff;
     border-radius: 999px;
     font-size: 11px; font-weight: 800;
     letter-spacing: 0.02em;
@@ -573,7 +573,7 @@
     transform: translateX(-50%) rotate(45deg);
     border-radius: 1px;
   }
-  .fb-cta-badge i { font-size: 12px; color: #0A1925; }
+  .fb-cta-badge i { font-size: 12px; color: #ffffff; }
   @keyframes fb-cta-badge-pulse {
     0%, 100% { transform: translate(-50%, 0); }
     50%      { transform: translate(-50%, -4px); }
@@ -1449,7 +1449,7 @@
           saveEl.classList.add('hidden');
         } else {
           saveEl.classList.remove('hidden');
-          saveEl.innerHTML = `<button type="button" class="underline underline-offset-[3px] decoration-from-font hover:text-ink-primary" data-switch-yearly>Switch to annual to save $1,200 per year</button>`;
+          saveEl.innerHTML = `<button type="button" class="underline underline-offset-[3px] decoration-from-font text-[#ff5500] hover:text-[#e14a00]" data-switch-yearly>Switch to annual to save $1,200 per year</button>`;
           saveEl.classList.remove('text-success-fg');
           saveEl.classList.add('text-ink-secondary');
           saveEl.querySelector('[data-switch-yearly]').addEventListener('click', () => {
@@ -1594,7 +1594,7 @@
           // Base monthly→annual saving is \$240. While the hour bump is live,
           // the \$60 extra piles on so the nudge reflects the full value.
           const yearlySave = 240 + (bumped ? save : 0);
-          proHint.innerHTML = `<button type="button" class="underline underline-offset-[3px] decoration-from-font hover:text-ink-primary" data-pro-switch-yearly>Switch to annual to save $${yearlySave} per year</button>`;
+          proHint.innerHTML = `<button type="button" class="underline underline-offset-[3px] decoration-from-font text-[#ff5500] hover:text-[#e14a00]" data-pro-switch-yearly>Switch to annual to save $${yearlySave} per year</button>`;
           proHint.classList.remove('text-success-fg', 'hidden');
           proHint.classList.add('text-ink-secondary');
           const switchBtn = proHint.querySelector('[data-pro-switch-yearly]');
