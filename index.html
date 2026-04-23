@@ -288,6 +288,44 @@
     max-width: calc(100% - 4px);
   }
 
+  /* Custom "10+" chip becomes [-] [input] [+] when active */
+  .seat-chip.custom.active {
+    padding: 0 2px;
+    box-shadow: inset 0 0 0 1px #0A1925, 0 0 0 3px rgba(10,25,37,0.08);
+  }
+  .seat-chip-stepper {
+    display: flex; align-items: center; justify-content: space-between;
+    width: 100%; height: 100%;
+  }
+  .seat-chip-stepper .step {
+    width: 22px; height: 26px;
+    display: inline-flex; align-items: center; justify-content: center;
+    border-radius: 3px;
+    color: #0A1925;
+    background: transparent;
+    transition: background .12s;
+    flex: none;
+  }
+  .seat-chip-stepper .step:hover:not(:disabled) { background: #e6ebf1; }
+  .seat-chip-stepper .step:disabled { opacity: 0.3; cursor: not-allowed; }
+  .seat-chip-stepper .step i { font-size: 14px; line-height: 1; }
+  .seat-chip-input {
+    flex: 1; min-width: 0;
+    background: transparent;
+    border: none;
+    outline: none;
+    text-align: center;
+    font: inherit;
+    color: inherit;
+    font-variant-numeric: tabular-nums;
+    font-weight: 700;
+    padding: 0;
+    caret-color: #ff5500;
+  }
+  .seat-chip-input::-webkit-outer-spin-button,
+  .seat-chip-input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+  .seat-chip-input { -moz-appearance: textfield; }
+
   /* Feedback modal (close-intent survey → doubles discount) */
   .fb-backdrop {
     position: fixed; inset: 0;
@@ -894,27 +932,22 @@
             <div class="illus illus-pro" aria-hidden="true"></div>
             <div class="flex items-baseline justify-between gap-2" style="width:312px;">
               <h3 class="text-[24px] font-bold text-ink-primary leading-none">Pro</h3>
-              <div class="flex flex-col items-end gap-1">
-                <div class="flex items-baseline gap-1">
-                  <p class="text-[24px] font-bold text-ink-primary leading-none"><span class="usd">$</span>20</p>
-                  <span class="text-[13px] font-medium text-ink-tertiary">/seat/mo</span>
-                </div>
-                <p class="text-[12px] font-medium text-ink-tertiary">billed annually</p>
-              </div>
+              <div class="flex flex-col items-end gap-1" data-team-price="pro"></div>
             </div>
           </div>
 
           <!-- seat-count chips -->
           <div class="flex flex-col gap-2" style="width:312px; height:60px;">
             <p class="text-[12px] font-medium text-ink-secondary">How many seats?</p>
-            <div class="seat-chip-row" id="pro-team-chips">
+            <div class="seat-chip-row" id="pro-team-chips" data-team-chips="pro">
               <button type="button" class="seat-chip" data-value="3">3</button>
               <button type="button" class="seat-chip active" data-value="5">
                 <span class="seat-chip-badge">MOST BOUGHT</span>
                 5
               </button>
-              <button type="button" class="seat-chip" data-value="10">10</button>
-              <button type="button" class="seat-chip" data-value="25">25</button>
+              <button type="button" class="seat-chip custom" data-value="custom" aria-label="Enter a custom seat count">
+                <span class="custom-label">10+</span>
+              </button>
             </div>
           </div>
 
@@ -963,27 +996,22 @@
             <div class="illus illus-gold" aria-hidden="true"></div>
             <div class="flex items-baseline justify-between gap-2" style="width:312px;">
               <h3 class="text-[24px] font-bold text-ink-primary leading-none">Gold</h3>
-              <div class="flex flex-col items-end gap-1">
-                <div class="flex items-baseline gap-1">
-                  <p class="text-[24px] font-bold text-ink-primary leading-none"><span class="usd">$</span>99</p>
-                  <span class="text-[13px] font-medium text-ink-tertiary">/seat/mo</span>
-                </div>
-                <p class="text-[12px] font-medium text-ink-tertiary">billed annually</p>
-              </div>
+              <div class="flex flex-col items-end gap-1" data-team-price="gold"></div>
             </div>
           </div>
 
           <!-- seat-count chips -->
           <div class="flex flex-col gap-2" style="width:312px; height:60px;">
             <p class="text-[12px] font-medium text-ink-secondary">How many seats?</p>
-            <div class="seat-chip-row" id="gold-team-chips">
+            <div class="seat-chip-row" id="gold-team-chips" data-team-chips="gold">
               <button type="button" class="seat-chip" data-value="3">3</button>
               <button type="button" class="seat-chip active" data-value="5">
                 <span class="seat-chip-badge">MOST BOUGHT</span>
                 5
               </button>
-              <button type="button" class="seat-chip" data-value="10">10</button>
-              <button type="button" class="seat-chip" data-value="25">25</button>
+              <button type="button" class="seat-chip custom" data-value="custom" aria-label="Enter a custom seat count">
+                <span class="custom-label">10+</span>
+              </button>
             </div>
           </div>
 
@@ -1719,36 +1747,138 @@
       // state or a reload left another segment visually active.
       setTopView('individual');
 
-      // Seat-count chips wire up CTA + price + savings hint for team cards
-      const check = `<i class="ph-fill ph-check-circle text-[13px]"></i>`;
-      const HINT_PRO = {
-        '3':  `${check}Buy 2 more seats to save $150`,
-        '5':  `${check}Buy 5 more seats to save $400`,
-        '10': `${check}Buy 15 more seats to save $1,250`,
-        '25': `${check}You're saving $1,250`,
+      // Team seat-count chips with tiered pricing + custom "10+" stepper.
+      // Pro : 1-4=$20, 5-9=$18, 10+=$17 per seat; 5,000 credits / seat.
+      // Gold: 1-4=$99, 5-9=$89, 10+=$84 per seat; 50,000 credits / seat.
+      const TEAM_PLANS = {
+        pro:  { list: 20, tiers: [[4,20], [9,18], [Infinity,17]], creditsPerSeat: 5000,  ctaId: 'pro-team-cta',  hintId: 'pro-team-hint',  creditsId: 'pro-team-credits',  ctaLabel: 'Buy {n} Seats' },
+        gold: { list: 99, tiers: [[4,99], [9,89], [Infinity,84]], creditsPerSeat: 50000, ctaId: 'gold-team-cta', hintId: 'gold-team-hint', creditsId: 'gold-team-credits', ctaLabel: 'Buy {n} Seats' },
       };
-      const HINT_GOLD = {
-        '3':  `${check}Buy 2 more seats to save $750`,
-        '5':  `${check}Buy 5 more seats to save $2,000`,
-        '10': `${check}Buy 15 more seats to save $6,250`,
-        '25': `${check}You're saving $6,250`,
-      };
-      function wireSeatChips(chipsSel, ctaId, hintId, hintMap) {
-        const chips = document.querySelectorAll(chipsSel);
-        const cta   = document.getElementById(ctaId);
-        const hint  = document.getElementById(hintId);
-        chips.forEach(chip => {
-          chip.addEventListener('click', () => {
-            chips.forEach(c => c.classList.remove('active'));
-            chip.classList.add('active');
-            const n = chip.dataset.value;
-            cta.textContent = `Buy ${n} Seats`;
-            hint.innerHTML = hintMap[n];
+
+      function rateFor(plan, n) {
+        for (const [cap, rate] of plan.tiers) if (n <= cap) return rate;
+        return plan.tiers[plan.tiers.length - 1][1];
+      }
+
+      function wireTeamCard(planKey) {
+        const plan      = TEAM_PLANS[planKey];
+        const priceEl   = document.querySelector(`[data-team-price="${planKey}"]`);
+        const chipsRow  = document.querySelector(`[data-team-chips="${planKey}"]`);
+        const cta       = document.getElementById(plan.ctaId);
+        const hint      = document.getElementById(plan.hintId);
+        const credits   = document.getElementById(plan.creditsId);
+        const chipNodes = chipsRow.querySelectorAll('.seat-chip');
+        const customChip = chipsRow.querySelector('[data-value="custom"]');
+        const customLbl  = customChip.querySelector('.custom-label');
+
+        const state = { n: 5, custom: false, hasTyped: false };
+        let stepper = null, input = null, decBtn = null, incBtn = null;
+
+        function bump(delta) {
+          state.n = Math.max(10, Math.min(999, state.n + delta));
+          state.hasTyped = true;
+          render();
+        }
+
+        function teardownStepper() {
+          if (stepper) { stepper.remove(); stepper = input = decBtn = incBtn = null; }
+          customLbl.style.display = '';
+          customLbl.textContent = '10+';
+        }
+
+        function setStandard(val) {
+          state.custom = false;
+          state.hasTyped = false;
+          state.n = val;
+          teardownStepper();
+          render();
+        }
+
+        function activateCustom() {
+          const firstTime = !state.custom;
+          state.custom = true;
+          if (!state.hasTyped) state.n = 10;
+
+          customLbl.style.display = 'none';
+          if (!stepper) {
+            stepper = document.createElement('div');
+            stepper.className = 'seat-chip-stepper';
+            stepper.innerHTML = `
+              <button type="button" class="step" data-dec aria-label="Decrease seats"><i class="ph ph-minus"></i></button>
+              <input type="number" class="seat-chip-input" min="10" max="999" aria-label="Seat count">
+              <button type="button" class="step" data-inc aria-label="Increase seats"><i class="ph ph-plus"></i></button>`;
+            customChip.appendChild(stepper);
+            input  = stepper.querySelector('input');
+            decBtn = stepper.querySelector('[data-dec]');
+            incBtn = stepper.querySelector('[data-inc]');
+            decBtn.addEventListener('click', (e) => { e.stopPropagation(); bump(-1); input.focus(); });
+            incBtn.addEventListener('click', (e) => { e.stopPropagation(); bump(+1); input.focus(); });
+            input.addEventListener('click', (e) => e.stopPropagation());
+            input.addEventListener('input', () => {
+              const v = parseInt(input.value, 10);
+              if (Number.isNaN(v)) return;
+              state.n = Math.max(10, Math.min(999, v));
+              state.hasTyped = true;
+              render(/* skipInputSync */ true);
+            });
+            input.addEventListener('blur', () => {
+              if (!input.value || parseInt(input.value, 10) < 10) input.value = state.n;
+            });
+          }
+          input.value = state.n;
+          if (firstTime) { input.focus(); input.select(); }
+          render(/* skipInputSync */ true);
+        }
+
+        chipNodes.forEach(c => {
+          c.addEventListener('click', () => {
+            if (c.dataset.value === 'custom') activateCustom();
+            else setStandard(parseInt(c.dataset.value, 10));
           });
         });
+
+        function render(skipInputSync) {
+          const n = state.n;
+          const rate = rateFor(plan, n);
+          const hasDiscount = rate < plan.list;
+
+          chipNodes.forEach(c => {
+            const v = c.dataset.value;
+            const active = (v === 'custom' && state.custom) || (!state.custom && parseInt(v, 10) === n);
+            c.classList.toggle('active', active);
+          });
+
+          priceEl.innerHTML = `
+            <div class="flex items-baseline gap-2">
+              ${hasDiscount ? `<p class="text-[14px] font-medium line-through text-ink-tertiary leading-none"><span class="usd">$</span>${plan.list}</p>` : ''}
+              <div class="flex items-baseline gap-1">
+                <p class="text-[24px] font-bold text-ink-primary leading-none"><span class="usd">$</span>${rate}</p>
+                <span class="text-[13px] font-medium text-ink-tertiary">/seat/mo</span>
+              </div>
+            </div>
+            <p class="text-[12px] font-medium text-ink-tertiary">billed annually</p>`;
+
+          if (credits) credits.textContent = (n * plan.creditsPerSeat).toLocaleString();
+          cta.textContent = plan.ctaLabel.replace('{n}', n);
+
+          const savings = n * (plan.list - rate) * 12;
+          if (savings > 0) {
+            hint.className = 'text-[12px] font-medium text-success-fg flex items-center justify-center gap-1 leading-none';
+            hint.innerHTML = `<i class="ph-fill ph-check-circle text-[13px]"></i>You're saving $${savings.toLocaleString()} / year vs list`;
+          } else {
+            hint.className = 'text-[12px] font-medium text-ink-tertiary flex items-center justify-center gap-1 leading-none';
+            hint.textContent = 'Volume pricing starts at 5 seats';
+          }
+
+          if (input && !skipInputSync) input.value = n;
+          if (decBtn) decBtn.disabled = n <= 10;
+        }
+
+        render();
       }
-      wireSeatChips('#pro-team-chips .seat-chip',  'pro-team-cta',  'pro-team-hint',  HINT_PRO);
-      wireSeatChips('#gold-team-chips .seat-chip', 'gold-team-cta', 'gold-team-hint', HINT_GOLD);
+
+      wireTeamCard('pro');
+      wireTeamCard('gold');
     })();
   </script>
 
