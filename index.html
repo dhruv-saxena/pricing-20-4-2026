@@ -18,7 +18,7 @@
       extend: {
         fontFamily: { sans: ['Inter', 'system-ui', 'sans-serif'] },
         colors: {
-          brand: { 50: '#ffeee5', 100: '#ffd1ba', 500: '#ff5500' },
+          brand: { 50: '#eef2f6', 100: '#d4dae2', 500: '#0A1925' },
           ink: { primary: '#171717', secondary: '#525252', tertiary: '#a3a3a3' },
           success: { bg: '#dcfce7', fg: '#16a34a' },
         },
@@ -39,22 +39,22 @@
   }
   .border-primary { border-color: rgba(26, 26, 26, 0.2); }
   .border-tertiary { border-color: rgba(26, 26, 26, 0.06); }
-  .border-brand-secondary { border-color: #ffb48f; }
-  .bg-brand-selected { background-color: rgba(255, 85, 0, 0.12); }
+  .border-brand-secondary { border-color: #b8c1cc; }
+  .bg-brand-selected { background-color: rgba(10, 25, 37, 0.12); }
   .pro-card-bg {
-    background-image: linear-gradient(125.62deg, #ffffff 2.19%, #ffffff 41.38%, #ffeee5 98.14%);
+    background-image: linear-gradient(125.62deg, #ffffff 2.19%, #ffffff 41.38%, #eef2f6 98.14%);
   }
   .pro-title {
-    background: linear-gradient(180deg, #ffd1ba 0%, #ff5500 100%);
+    background: linear-gradient(180deg, #d4dae2 0%, #0A1925 100%);
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
   }
   .pro-btn {
-    background: linear-gradient(180deg, #ff732d 0%, #ff5500 100%);
+    background: linear-gradient(180deg, #1c3550 0%, #0A1925 100%);
   }
   .popular-tag {
-    background: linear-gradient(90deg, #ffd1ba 0%, #ffffff 100%);
+    background: linear-gradient(90deg, #d4dae2 0%, #ffffff 100%);
   }
   .ticker-fade-left {
     background: linear-gradient(90deg, #ffffff 0%, rgba(255, 255, 255, 0) 100%);
@@ -85,7 +85,7 @@
   /* coin-style credit icon */
   .credit-dot {
     width: 16px; height: 16px; border-radius: 999px;
-    background: linear-gradient(180deg, #ffd1ba 0%, #ff5500 100%);
+    background: linear-gradient(180deg, #d4dae2 0%, #0A1925 100%);
     box-shadow: inset 0 -1px 0 rgba(0,0,0,0.1);
     display: inline-block; position: relative;
   }
@@ -122,7 +122,7 @@
     transition: background .15s ease, color .15s ease;
   }
   .plan-seg-btn.is-active {
-    background: #ff5500;
+    background: #0A1925;
     color: #fff;
   }
 
@@ -155,18 +155,18 @@
     background: #171717; transform: translateX(-50%) rotate(45deg);
     border-radius: 1px;
   }
-  .pro-discount-chip i { font-size: 12px; color: #ff8a4c; }
+  .pro-discount-chip i { font-size: 12px; color: #4b6f94; }
   @keyframes pro-chip-bob {
     0%, 100% { transform: translateY(0); }
     50%      { transform: translateY(-3px); }
   }
   @keyframes pro-chip-glow {
     0%, 100% { box-shadow: 0 4px 10px rgba(0,0,0,0.25),
-                           0 0 0 0   rgba(255, 85, 0, 0.55); }
+                           0 0 0 0   rgba(10, 25, 37, 0.55); }
     70%      { box-shadow: 0 4px 10px rgba(0,0,0,0.25),
-                           0 0 0 9px rgba(255, 85, 0, 0); }
+                           0 0 0 9px rgba(10, 25, 37, 0); }
     100%     { box-shadow: 0 4px 10px rgba(0,0,0,0.25),
-                           0 0 0 0   rgba(255, 85, 0, 0); }
+                           0 0 0 0   rgba(10, 25, 37, 0); }
   }
 
   /* Summary-row mirror of the card chip. Same bob + glow behaviour. */
@@ -192,18 +192,18 @@
     transform: translateX(-50%) rotate(45deg);
     border-radius: 1px;
   }
-  .pro-bumped-pill i { font-size: 12px; color: #ff8a4c; }
+  .pro-bumped-pill i { font-size: 12px; color: #4b6f94; }
   @keyframes pro-pill-bob {
     0%, 100% { transform: translateY(0); }
     50%      { transform: translateY(-3px); }
   }
   @keyframes pro-pill-glow {
     0%, 100% { box-shadow: 0 6px 16px rgba(0,0,0,0.22),
-                           0 0 0 0   rgba(255, 85, 0, 0.55); }
+                           0 0 0 0   rgba(10, 25, 37, 0.55); }
     70%      { box-shadow: 0 6px 16px rgba(0,0,0,0.22),
-                           0 0 0 9px rgba(255, 85, 0, 0); }
+                           0 0 0 9px rgba(10, 25, 37, 0); }
     100%     { box-shadow: 0 6px 16px rgba(0,0,0,0.22),
-                           0 0 0 0   rgba(255, 85, 0, 0); }
+                           0 0 0 0   rgba(10, 25, 37, 0); }
   }
 
   /* Plan hover hint (sits above the whole card, triggered by card hover) */
@@ -263,16 +263,16 @@
   }
   .seat-chip:hover:not(.active) { border-color: #171717; color: #171717; }
   .seat-chip.active {
-    background: #fff5ef;
-    border-color: #ff5500;
-    color: #ff5500;
+    background: #f2f5f9;
+    border-color: #0A1925;
+    color: #0A1925;
   }
   .seat-chip-badge {
     position: absolute;
     top: -7px; left: 0; right: 0;
     margin: 0 auto;
     padding: 1px 2px;
-    background: #ff5500;
+    background: #0A1925;
     color: #fff;
     font-size: 8px;
     font-weight: 700;
@@ -337,12 +337,12 @@
     padding: 30px 26px 28px;
     position: relative; overflow: hidden;
     display: flex; flex-direction: column; justify-content: space-between;
-    background: #fff5ef;
+    background: #f2f5f9;
     color: #171717;
   }
   .fb-panel-left::before {
     content: ''; position: absolute; inset: 0;
-    background: radial-gradient(ellipse at bottom left, rgba(255,85,0,0.18), transparent 60%);
+    background: radial-gradient(ellipse at bottom left, rgba(10,25,37,0.18), transparent 60%);
     z-index: 0;
   }
   .fb-panel-left > * { position: relative; z-index: 2; }
@@ -363,8 +363,8 @@
     padding: 5px 10px;
     border-radius: 4px;
     font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
-    background: rgba(255, 85, 0, 0.16);
-    color: #ff5500;
+    background: rgba(10, 25, 37, 0.16);
+    color: #0A1925;
     margin-bottom: 12px;
   }
 
@@ -376,7 +376,7 @@
   .fb-panel-title .amt {
     font-size: 36px; font-weight: 800;
     line-height: 1;
-    background: linear-gradient(180deg, #ff8a4c 0%, #ff5500 100%);
+    background: linear-gradient(180deg, #4b6f94 0%, #0A1925 100%);
     -webkit-background-clip: text; background-clip: text; color: transparent;
   }
   .fb-panel-title .amt .sym {
@@ -396,7 +396,7 @@
     display: inline-flex; align-items: center; gap: 6px;
   }
   .fb-panel-sub .arrow {
-    color: #ff5500;
+    color: #0A1925;
     display: inline-flex;
     animation: fb-arrow-pulse 1.4s ease-in-out infinite;
   }
@@ -440,7 +440,7 @@
   .fb-smiley .emoji { font-size: 26px; line-height: 1; filter: grayscale(30%); transition: filter .2s, transform .2s; }
   .fb-smiley.active .emoji { transform: scale(1.12); filter: none; }
   .fb-smiley:hover:not(.active) { border-color: #171717; }
-  .fb-smiley.active { border-color: #ff5500; background: #fff5ef; }
+  .fb-smiley.active { border-color: #0A1925; background: #f2f5f9; }
 
   .fb-chip-row { display: flex; flex-wrap: wrap; gap: 8px; }
   .fb-chip {
@@ -454,9 +454,9 @@
   }
   .fb-chip:hover:not(.active) { border-color: #171717; color: #171717; }
   .fb-chip.active {
-    border-color: #ff5500;
-    background: #fff5ef;
-    color: #ff5500;
+    border-color: #0A1925;
+    background: #f2f5f9;
+    color: #0A1925;
   }
 
   .fb-actions { display: flex; gap: 8px; margin-top: 36px; }
@@ -464,7 +464,7 @@
     flex: 1;
     height: 48px;
     border-radius: 4px;
-    background: linear-gradient(180deg, #ff732d 0%, #ff5500 100%);
+    background: linear-gradient(180deg, #1c3550 0%, #0A1925 100%);
     color: #fff;
     font-size: 15px; font-weight: 700;
     cursor: pointer;
@@ -573,7 +573,7 @@
     transform: translateX(-50%) rotate(45deg);
     border-radius: 1px;
   }
-  .fb-cta-badge i { font-size: 12px; color: #ff8a4c; }
+  .fb-cta-badge i { font-size: 12px; color: #4b6f94; }
   @keyframes fb-cta-badge-pulse {
     0%, 100% { transform: translate(-50%, 0); }
     50%      { transform: translate(-50%, -4px); }
@@ -596,8 +596,8 @@
     animation: pro-spot 1.2s ease-in-out infinite;
   }
   @keyframes pro-spot {
-    0%, 100% { box-shadow: 0 0 0 0 rgba(255,85,0,0.55),  0 10px 28px rgba(255,85,0,0.45); }
-    50%      { box-shadow: 0 0 0 10px rgba(255,85,0,0),  0 14px 36px rgba(255,85,0,0.7); }
+    0%, 100% { box-shadow: 0 0 0 0 rgba(10,25,37,0.55),  0 10px 28px rgba(10,25,37,0.45); }
+    50%      { box-shadow: 0 0 0 10px rgba(10,25,37,0),  0 14px 36px rgba(10,25,37,0.7); }
   }
 
   /* Feature comparison table */
@@ -1735,11 +1735,11 @@
         <!-- LEFT: offer panel (persistent) -->
         <div class="fb-panel-left">
           <!-- floating confetti -->
-          <span class="fb-conf" style="top:14px;  right:20px; width:10px; height:16px; background:#ff5500; --r:22deg;  --tx:-6px; --ty:-8px;  animation-duration:4.2s;  animation-delay:-0.3s;"></span>
+          <span class="fb-conf" style="top:14px;  right:20px; width:10px; height:16px; background:#0A1925; --r:22deg;  --tx:-6px; --ty:-8px;  animation-duration:4.2s;  animation-delay:-0.3s;"></span>
           <span class="fb-conf" style="top:32px;  right:70px; width:6px;  height:6px;  border-radius:999px; background:#4285f4; --r:0deg;   --tx:4px;  --ty:-12px; animation-duration:5.5s;  animation-delay:-1.1s;"></span>
           <span class="fb-conf" style="bottom:18px; right:28px; width:10px; height:16px; background:#fbbc04; --r:-30deg; --tx:-5px; --ty:-9px;  animation-duration:4.8s;  animation-delay:-0.6s;"></span>
           <span class="fb-conf" style="bottom:60px; right:18px; width:8px;  height:8px;  border-radius:999px; background:#16a34a; --r:0deg;   --tx:6px;  --ty:-14px; animation-duration:6s;    animation-delay:-2s;"></span>
-          <span class="fb-conf" style="top:80px;  right:12px; width:7px;  height:11px; background:#ff8a4c; --r:12deg;  --tx:-4px; --ty:-10px; animation-duration:5.2s;  animation-delay:-1.6s;"></span>
+          <span class="fb-conf" style="top:80px;  right:12px; width:7px;  height:11px; background:#4b6f94; --r:12deg;  --tx:-4px; --ty:-10px; animation-duration:5.2s;  animation-delay:-1.6s;"></span>
 
           <div>
             <span class="fb-gift">🎁</span>
@@ -1919,7 +1919,7 @@
 
       function burstConfetti() {
         if (typeof confetti !== 'function') return;
-        const colors = ['#ff5500', '#ff732d', '#fbbc04', '#16a34a', '#4285f4', '#ea4335', '#ffd1ba', '#171717'];
+        const colors = ['#0A1925', '#1c3550', '#fbbc04', '#16a34a', '#4285f4', '#ea4335', '#d4dae2', '#171717'];
         const common = { colors, scalar: 0.9, ticks: 200, gravity: 0.85 };
         // Center burst
         confetti({ ...common, particleCount: 90, spread: 90, startVelocity: 55, origin: { x: 0.5, y: 0.55 } });
