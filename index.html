@@ -77,6 +77,12 @@
     width: max-content;
     animation: ticker-scroll 45s linear infinite;
   }
+  .ticker-logo {
+    width: auto; display: block;
+    opacity: 0.85;
+    user-select: none;
+    -webkit-user-drag: none;
+  }
   @keyframes ticker-scroll {
     from { transform: translateX(0); }
     to   { transform: translateX(-50%); }
@@ -1333,40 +1339,24 @@
         Loved by 10M+ presenters at
       </p>
       <div class="relative overflow-hidden" style="flex:1; min-width:0; height:56px;">
-        <div class="ticker-row items-center gap-4 h-full text-ink-tertiary">
+        <div class="ticker-row items-center gap-10 h-full">
           <!-- logo set (duplicated below for a seamless loop) -->
-          <span class="font-semibold text-[18px] tracking-tight opacity-60" style="width:93px; text-align:center;">Microsoft</span>
-          <span class="font-normal text-[22px]" style="width:93px; text-align:center;">
-            <span style="color:#4285f4">G</span><span style="color:#ea4335">o</span><span style="color:#fbbc04">o</span><span style="color:#4285f4">g</span><span style="color:#34a853">l</span><span style="color:#ea4335">e</span>
-          </span>
-          <span class="flex items-center justify-center gap-1" style="width:93px;">
-            <span class="inline-block bg-[#fa0f00] text-white font-black rounded px-[6px] py-[1px] text-[14px] leading-none">A</span>
-            <span class="font-semibold text-[15px] text-black">Adobe</span>
-          </span>
-          <span class="flex items-center justify-center gap-1" style="width:93px;">
-            <span class="inline-block rounded-full" style="width:18px;height:18px;background:radial-gradient(circle at 30% 30%, #0081fb, #1c1cff)"></span>
-            <span class="font-medium text-[16px] text-black">Meta</span>
-          </span>
-          <span class="font-serif italic text-[14px] text-black text-center leading-tight" style="width:93px;">McKinsey<br/>&amp; Company</span>
-          <span class="font-normal text-[18px] text-black" style="width:93px; text-align:center; font-family: serif;">amazon</span>
-          <span class="font-black text-[22px] text-black italic" style="width:59px; text-align:center;">EY</span>
+          <img src="https://svgl.app/library/microsoft.svg"                                                         alt="Microsoft" class="ticker-logo" style="height:26px;"/>
+          <img src="https://svgl.app/library/google.svg"                                                            alt="Google"    class="ticker-logo" style="height:26px;"/>
+          <img src="https://svgl.app/library/adobe.svg"                                                             alt="Adobe"     class="ticker-logo" style="height:28px;"/>
+          <img src="https://svgl.app/library/meta.svg"                                                              alt="Meta"      class="ticker-logo" style="height:22px;"/>
+          <img src="https://upload.wikimedia.org/wikipedia/commons/1/16/McKinsey_Script_Mark_2019.svg"              alt="McKinsey &amp; Company" class="ticker-logo" style="height:22px;"/>
+          <img src="https://upload.wikimedia.org/wikipedia/commons/a/a9/Amazon_logo.svg"                            alt="Amazon"    class="ticker-logo" style="height:24px;"/>
+          <img src="https://upload.wikimedia.org/wikipedia/commons/3/34/EY_logo_2019.svg"                           alt="EY"        class="ticker-logo" style="height:34px;"/>
 
           <!-- duplicate set so translateX(-50%) wraps seamlessly -->
-          <span class="font-semibold text-[18px] tracking-tight opacity-60" style="width:93px; text-align:center;" aria-hidden="true">Microsoft</span>
-          <span class="font-normal text-[22px]" style="width:93px; text-align:center;" aria-hidden="true">
-            <span style="color:#4285f4">G</span><span style="color:#ea4335">o</span><span style="color:#fbbc04">o</span><span style="color:#4285f4">g</span><span style="color:#34a853">l</span><span style="color:#ea4335">e</span>
-          </span>
-          <span class="flex items-center justify-center gap-1" style="width:93px;" aria-hidden="true">
-            <span class="inline-block bg-[#fa0f00] text-white font-black rounded px-[6px] py-[1px] text-[14px] leading-none">A</span>
-            <span class="font-semibold text-[15px] text-black">Adobe</span>
-          </span>
-          <span class="flex items-center justify-center gap-1" style="width:93px;" aria-hidden="true">
-            <span class="inline-block rounded-full" style="width:18px;height:18px;background:radial-gradient(circle at 30% 30%, #0081fb, #1c1cff)"></span>
-            <span class="font-medium text-[16px] text-black">Meta</span>
-          </span>
-          <span class="font-serif italic text-[14px] text-black text-center leading-tight" style="width:93px;" aria-hidden="true">McKinsey<br/>&amp; Company</span>
-          <span class="font-normal text-[18px] text-black" style="width:93px; text-align:center; font-family: serif;" aria-hidden="true">amazon</span>
-          <span class="font-black text-[22px] text-black italic" style="width:59px; text-align:center;" aria-hidden="true">EY</span>
+          <img src="https://svgl.app/library/microsoft.svg"                                                         alt="" aria-hidden="true" class="ticker-logo" style="height:26px;"/>
+          <img src="https://svgl.app/library/google.svg"                                                            alt="" aria-hidden="true" class="ticker-logo" style="height:26px;"/>
+          <img src="https://svgl.app/library/adobe.svg"                                                             alt="" aria-hidden="true" class="ticker-logo" style="height:28px;"/>
+          <img src="https://svgl.app/library/meta.svg"                                                              alt="" aria-hidden="true" class="ticker-logo" style="height:22px;"/>
+          <img src="https://upload.wikimedia.org/wikipedia/commons/1/16/McKinsey_Script_Mark_2019.svg"              alt="" aria-hidden="true" class="ticker-logo" style="height:22px;"/>
+          <img src="https://upload.wikimedia.org/wikipedia/commons/a/a9/Amazon_logo.svg"                            alt="" aria-hidden="true" class="ticker-logo" style="height:24px;"/>
+          <img src="https://upload.wikimedia.org/wikipedia/commons/3/34/EY_logo_2019.svg"                           alt="" aria-hidden="true" class="ticker-logo" style="height:34px;"/>
         </div>
         <div class="absolute inset-y-0 left-0 ticker-fade-left pointer-events-none" style="width:120px;"></div>
         <div class="absolute inset-y-0 right-0 ticker-fade-right pointer-events-none" style="width:96px;"></div>
