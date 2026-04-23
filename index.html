@@ -31,7 +31,12 @@
 </script>
 <style>
   html, body { background: #ffffff; color: #171717; }
-  body { font-family: 'Inter', system-ui, sans-serif; -webkit-font-smoothing: antialiased; }
+  body {
+    font-family: 'Inter', system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    /* Keep content clear of the fixed marquee footer. */
+    padding-bottom: 92px;
+  }
   .border-primary { border-color: rgba(26, 26, 26, 0.2); }
   .border-tertiary { border-color: rgba(26, 26, 26, 0.06); }
   .border-brand-secondary { border-color: #ffb48f; }
@@ -53,9 +58,28 @@
   }
   .ticker-fade-left {
     background: linear-gradient(90deg, #ffffff 0%, rgba(255, 255, 255, 0) 100%);
+    z-index: 1;
   }
   .ticker-fade-right {
     background: linear-gradient(90deg, rgba(255, 255, 255, 0) 0%, #ffffff 100%);
+    z-index: 1;
+  }
+  /* Footer pinned to the viewport bottom; marquee row scrolls R→L forever. */
+  .site-footer {
+    position: fixed;
+    left: 0; right: 0; bottom: 0;
+    background: #ffffff;
+    box-shadow: 0 -1px 0 rgba(0,0,0,0.06);
+    z-index: 30;
+  }
+  .ticker-row {
+    display: flex; flex-wrap: nowrap;
+    width: max-content;
+    animation: ticker-scroll 45s linear infinite;
+  }
+  @keyframes ticker-scroll {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-50%); }
   }
   /* coin-style credit icon */
   .credit-dot {
@@ -1299,37 +1323,56 @@
       <p class="text-[13px] font-medium text-ink-secondary">We're a SOC 2 Type II, GDPR-compliant organization.</p>
     </section>
 
-    <!-- Footer logo ticker -->
-    <footer class="mt-10" style="height:92px;">
-      <div class="flex items-center gap-4 h-full" style="padding: 24px 140px 0;">
-        <p class="text-[14px] font-medium uppercase tracking-[0.28px] text-ink-secondary whitespace-nowrap flex items-center gap-1">
-          <span class="text-brand-500">♥</span>
-          Loved by 10M+ presenters at
-        </p>
-        <div class="relative overflow-hidden" style="width:695px; height:56px;">
-          <div class="flex items-center gap-4 h-full text-ink-tertiary">
-            <span class="font-semibold text-[18px] tracking-tight opacity-60" style="width:93px; text-align:center;">Microsoft</span>
-            <span class="font-normal text-[22px]" style="width:93px; text-align:center;">
-              <span style="color:#4285f4">G</span><span style="color:#ea4335">o</span><span style="color:#fbbc04">o</span><span style="color:#4285f4">g</span><span style="color:#34a853">l</span><span style="color:#ea4335">e</span>
-            </span>
-            <span class="flex items-center justify-center gap-1" style="width:93px;">
-              <span class="inline-block bg-[#fa0f00] text-white font-black rounded px-[6px] py-[1px] text-[14px] leading-none">A</span>
-              <span class="font-semibold text-[15px] text-black">Adobe</span>
-            </span>
-            <span class="flex items-center justify-center gap-1" style="width:93px;">
-              <span class="inline-block rounded-full" style="width:18px;height:18px;background:radial-gradient(circle at 30% 30%, #0081fb, #1c1cff)"></span>
-              <span class="font-medium text-[16px] text-black">Meta</span>
-            </span>
-            <span class="font-serif italic text-[14px] text-black text-center leading-tight" style="width:93px;">McKinsey<br/>&amp; Company</span>
-            <span class="font-normal text-[18px] text-black" style="width:93px; text-align:center; font-family: serif;">amazon</span>
-            <span class="font-black text-[22px] text-black italic" style="width:59px; text-align:center;">EY</span>
-          </div>
-          <div class="absolute inset-y-0 left-0 ticker-fade-left" style="width:120px;"></div>
-          <div class="absolute inset-y-0 right-0 ticker-fade-right" style="width:96px;"></div>
-        </div>
-      </div>
-    </footer>
   </div>
+
+  <!-- Footer logo ticker — fixed to the viewport bottom, full-width -->
+  <footer class="site-footer" style="height:92px;">
+    <div class="flex items-center gap-4 h-full" style="padding: 24px 140px 0;">
+      <p class="text-[14px] font-medium uppercase tracking-[0.28px] text-ink-secondary whitespace-nowrap flex items-center gap-1">
+        <span class="text-brand-500">♥</span>
+        Loved by 10M+ presenters at
+      </p>
+      <div class="relative overflow-hidden" style="flex:1; min-width:0; height:56px;">
+        <div class="ticker-row items-center gap-4 h-full text-ink-tertiary">
+          <!-- logo set (duplicated below for a seamless loop) -->
+          <span class="font-semibold text-[18px] tracking-tight opacity-60" style="width:93px; text-align:center;">Microsoft</span>
+          <span class="font-normal text-[22px]" style="width:93px; text-align:center;">
+            <span style="color:#4285f4">G</span><span style="color:#ea4335">o</span><span style="color:#fbbc04">o</span><span style="color:#4285f4">g</span><span style="color:#34a853">l</span><span style="color:#ea4335">e</span>
+          </span>
+          <span class="flex items-center justify-center gap-1" style="width:93px;">
+            <span class="inline-block bg-[#fa0f00] text-white font-black rounded px-[6px] py-[1px] text-[14px] leading-none">A</span>
+            <span class="font-semibold text-[15px] text-black">Adobe</span>
+          </span>
+          <span class="flex items-center justify-center gap-1" style="width:93px;">
+            <span class="inline-block rounded-full" style="width:18px;height:18px;background:radial-gradient(circle at 30% 30%, #0081fb, #1c1cff)"></span>
+            <span class="font-medium text-[16px] text-black">Meta</span>
+          </span>
+          <span class="font-serif italic text-[14px] text-black text-center leading-tight" style="width:93px;">McKinsey<br/>&amp; Company</span>
+          <span class="font-normal text-[18px] text-black" style="width:93px; text-align:center; font-family: serif;">amazon</span>
+          <span class="font-black text-[22px] text-black italic" style="width:59px; text-align:center;">EY</span>
+
+          <!-- duplicate set so translateX(-50%) wraps seamlessly -->
+          <span class="font-semibold text-[18px] tracking-tight opacity-60" style="width:93px; text-align:center;" aria-hidden="true">Microsoft</span>
+          <span class="font-normal text-[22px]" style="width:93px; text-align:center;" aria-hidden="true">
+            <span style="color:#4285f4">G</span><span style="color:#ea4335">o</span><span style="color:#fbbc04">o</span><span style="color:#4285f4">g</span><span style="color:#34a853">l</span><span style="color:#ea4335">e</span>
+          </span>
+          <span class="flex items-center justify-center gap-1" style="width:93px;" aria-hidden="true">
+            <span class="inline-block bg-[#fa0f00] text-white font-black rounded px-[6px] py-[1px] text-[14px] leading-none">A</span>
+            <span class="font-semibold text-[15px] text-black">Adobe</span>
+          </span>
+          <span class="flex items-center justify-center gap-1" style="width:93px;" aria-hidden="true">
+            <span class="inline-block rounded-full" style="width:18px;height:18px;background:radial-gradient(circle at 30% 30%, #0081fb, #1c1cff)"></span>
+            <span class="font-medium text-[16px] text-black">Meta</span>
+          </span>
+          <span class="font-serif italic text-[14px] text-black text-center leading-tight" style="width:93px;" aria-hidden="true">McKinsey<br/>&amp; Company</span>
+          <span class="font-normal text-[18px] text-black" style="width:93px; text-align:center; font-family: serif;" aria-hidden="true">amazon</span>
+          <span class="font-black text-[22px] text-black italic" style="width:59px; text-align:center;" aria-hidden="true">EY</span>
+        </div>
+        <div class="absolute inset-y-0 left-0 ticker-fade-left pointer-events-none" style="width:120px;"></div>
+        <div class="absolute inset-y-0 right-0 ticker-fade-right pointer-events-none" style="width:96px;"></div>
+      </div>
+    </div>
+  </footer>
 
   <script>
     (function () {
