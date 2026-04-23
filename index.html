@@ -206,19 +206,34 @@
                            0 0 0 0   rgba(255, 85, 0, 0); }
   }
 
-  /* Plan hover hint — light caption sitting above the card, not a bubble */
+  /* Plan hover hint — soft light bubble above the card */
   .plan-hint {
     position: absolute;
     left: 50%;
-    bottom: calc(100% + 8px);
+    bottom: calc(100% + 10px);
     transform: translateX(-50%) translateY(2px);
     width: 220px;
-    color: #737373;
+    background: #ffffff;
+    color: #525252;
+    border: 1px solid #e5e5e5;
     font-size: 12px; font-weight: 500; line-height: 1.4;
+    padding: 8px 12px;
+    border-radius: 6px;
     text-align: center;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.06);
     opacity: 0; pointer-events: none;
     transition: opacity .18s ease, transform .18s ease;
     z-index: 5;
+  }
+  .plan-hint::after {
+    content: '';
+    position: absolute;
+    top: 100%; left: 50%;
+    transform: translateX(-50%) translateY(-5px) rotate(45deg);
+    width: 9px; height: 9px;
+    background: #ffffff;
+    border-right: 1px solid #e5e5e5;
+    border-bottom: 1px solid #e5e5e5;
   }
   section:hover > .plan-hint {
     opacity: 1;
