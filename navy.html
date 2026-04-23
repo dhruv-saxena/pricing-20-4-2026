@@ -139,7 +139,7 @@
   .pro-discount-chip {
     position: relative;
     display: inline-flex; align-items: center; gap: 6px;
-    background: #F59E0B; color: #0A1925;
+    background: #FFB700; color: #0A1925;
     font-size: 11px; font-weight: 800; letter-spacing: 0.06em;
     padding: 5px 12px; border-radius: 999px;
     white-space: nowrap;
@@ -152,7 +152,7 @@
     content: ''; position: absolute;
     top: -4px; left: 50%;
     width: 8px; height: 8px;
-    background: #F59E0B; transform: translateX(-50%) rotate(45deg);
+    background: #FFB700; transform: translateX(-50%) rotate(45deg);
     border-radius: 1px;
   }
   .pro-discount-chip i { font-size: 12px; color: #0A1925; }
@@ -162,11 +162,11 @@
   }
   @keyframes pro-chip-glow {
     0%, 100% { box-shadow: 0 4px 10px rgba(0,0,0,0.18),
-                           0 0 0 0   rgba(245, 158, 11, 0.55); }
+                           0 0 0 0   rgba(255, 183, 0, 0.55); }
     70%      { box-shadow: 0 4px 10px rgba(0,0,0,0.18),
-                           0 0 0 9px rgba(245, 158, 11, 0); }
+                           0 0 0 9px rgba(255, 183, 0, 0); }
     100%     { box-shadow: 0 4px 10px rgba(0,0,0,0.18),
-                           0 0 0 0   rgba(245, 158, 11, 0); }
+                           0 0 0 0   rgba(255, 183, 0, 0); }
   }
 
   /* Summary-row mirror of the card chip. Same bob + glow behaviour. */
@@ -175,7 +175,7 @@
     display: inline-flex; align-items: center; gap: 6px;
     margin-top: 4px;
     padding: 5px 12px;
-    background: #F59E0B;
+    background: #FFB700;
     color: #0A1925;
     border-radius: 999px;
     font-size: 11px; font-weight: 800;
@@ -188,7 +188,7 @@
   .pro-bumped-pill::before {
     content: ''; position: absolute;
     top: -4px; left: 50%;
-    width: 8px; height: 8px; background: #F59E0B;
+    width: 8px; height: 8px; background: #FFB700;
     transform: translateX(-50%) rotate(45deg);
     border-radius: 1px;
   }
@@ -199,11 +199,11 @@
   }
   @keyframes pro-pill-glow {
     0%, 100% { box-shadow: 0 6px 16px rgba(0,0,0,0.18),
-                           0 0 0 0   rgba(245, 158, 11, 0.55); }
+                           0 0 0 0   rgba(255, 183, 0, 0.55); }
     70%      { box-shadow: 0 6px 16px rgba(0,0,0,0.18),
-                           0 0 0 9px rgba(245, 158, 11, 0); }
+                           0 0 0 9px rgba(255, 183, 0, 0); }
     100%     { box-shadow: 0 6px 16px rgba(0,0,0,0.18),
-                           0 0 0 0   rgba(245, 158, 11, 0); }
+                           0 0 0 0   rgba(255, 183, 0, 0); }
   }
 
   /* Plan hover hint (sits above the whole card, triggered by card hover) */
