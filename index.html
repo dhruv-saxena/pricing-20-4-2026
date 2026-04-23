@@ -326,6 +326,44 @@
   .seat-chip-input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
   .seat-chip-input { -moz-appearance: textfield; }
 
+  /* Price breakdown block (between seat chips and Buy button) */
+  .price-summary {
+    border: 1px solid #e5e5e5;
+    border-radius: 6px;
+    background: #fff;
+    padding: 12px 14px;
+    font-variant-numeric: tabular-nums;
+    display: flex; flex-direction: column; gap: 6px;
+  }
+  .price-summary .row {
+    display: flex; align-items: center; justify-content: space-between;
+    font-size: 13px; color: #171717;
+  }
+  .price-summary .row .lbl {
+    color: #525252;
+    display: inline-flex; align-items: center; gap: 8px;
+  }
+  .price-summary .row .value { color: #171717; font-weight: 500; }
+  .price-summary .row.discount .value { color: #16a34a; font-weight: 600; }
+  .price-summary .badge-discount {
+    background: #16a34a; color: #fff;
+    font-size: 11px; font-weight: 700; letter-spacing: 0.02em;
+    padding: 2px 8px; border-radius: 999px; line-height: 1;
+    white-space: nowrap;
+  }
+  .price-summary .sep {
+    height: 1px; background: #e5e5e5; margin: 4px 0;
+  }
+  .price-summary .row.total .lbl {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    font-size: 10px; font-weight: 700; letter-spacing: 0.6px;
+    text-transform: uppercase; color: #737373;
+  }
+  .price-summary .row.total .value {
+    font-size: 22px; font-weight: 800; color: #0A1925; letter-spacing: -0.01em;
+  }
+  .price-summary .row .value.neg::before { content: '−'; margin-right: 1px; }
+
   /* Feedback modal (close-intent survey → doubles discount) */
   .fb-backdrop {
     position: fixed; inset: 0;
@@ -951,6 +989,8 @@
             </div>
           </div>
 
+          <div class="price-summary" data-team-summary="pro" style="width:312px;"></div>
+
           <div class="flex flex-col gap-[8px]" style="width:312px;">
             <div class="relative group">
               <button class="pro-btn w-full h-12 rounded-[4px] flex items-center justify-center text-[16px] font-bold text-white" id="pro-team-cta">
@@ -1014,6 +1054,8 @@
               </button>
             </div>
           </div>
+
+          <div class="price-summary" data-team-summary="gold" style="width:312px;"></div>
 
           <div class="flex flex-col gap-[8px]" style="width:312px;">
             <div class="relative group">
@@ -1763,6 +1805,7 @@
       function wireTeamCard(planKey) {
         const plan      = TEAM_PLANS[planKey];
         const priceEl   = document.querySelector(`[data-team-price="${planKey}"]`);
+        const summaryEl = document.querySelector(`[data-team-summary="${planKey}"]`);
         const chipsRow  = document.querySelector(`[data-team-chips="${planKey}"]`);
         const cta       = document.getElementById(plan.ctaId);
         const hint      = document.getElementById(plan.hintId);
@@ -1860,6 +1903,31 @@
 
           if (credits) credits.textContent = (n * plan.creditsPerSeat).toLocaleString();
           cta.textContent = plan.ctaLabel.replace('{n}', n);
+
+          // Monthly totals for the breakdown block
+          const subtotalMo = n * plan.list;
+          const discountMo = n * (plan.list - rate);
+          const totalMo    = subtotalMo - discountMo;
+          const perSeatOff = plan.list - rate;
+
+          if (summaryEl) {
+            const discountRow = hasDiscount ? `
+              <div class="row discount">
+                <span class="lbl">Volume discount <span class="badge-discount">$${perSeatOff}/seat</span></span>
+                <span class="value neg"><span class="usd">$</span>${discountMo.toLocaleString()}</span>
+              </div>` : '';
+            summaryEl.innerHTML = `
+              <div class="row">
+                <span class="lbl">${n} seats × <span class="usd">$</span>${plan.list}/mo</span>
+                <span class="value"><span class="usd">$</span>${subtotalMo.toLocaleString()}</span>
+              </div>
+              ${discountRow}
+              <div class="sep"></div>
+              <div class="row total">
+                <span class="lbl">Billed annually</span>
+                <span class="value"><span class="usd">$</span>${totalMo.toLocaleString()}<span class="text-[12px] font-medium text-ink-tertiary" style="font-size: 13px; color: #737373; font-weight: 500; letter-spacing: 0; margin-left: 2px;">/mo</span></span>
+              </div>`;
+          }
 
           const savings = n * (plan.list - rate) * 12;
           if (savings > 0) {
