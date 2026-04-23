@@ -332,17 +332,17 @@
   /* --- Two-column survey layout --- */
   .fb-survey-wrap { display: grid; grid-template-columns: 240px 1fr; }
 
-  /* Left offer panel (peach / N3 treatment) */
+  /* Left offer panel — pale amber wash to mirror the chip's warmth */
   .fb-panel-left {
     padding: 30px 26px 28px;
     position: relative; overflow: hidden;
     display: flex; flex-direction: column; justify-content: space-between;
-    background: #f2f5f9;
+    background: #FFF8E1;
     color: #171717;
   }
   .fb-panel-left::before {
     content: ''; position: absolute; inset: 0;
-    background: radial-gradient(ellipse at bottom left, rgba(10,25,37,0.18), transparent 60%);
+    background: radial-gradient(ellipse at bottom left, rgba(255,183,0,0.22), transparent 60%);
     z-index: 0;
   }
   .fb-panel-left > * { position: relative; z-index: 2; }
@@ -363,8 +363,8 @@
     padding: 5px 10px;
     border-radius: 4px;
     font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
-    background: rgba(10, 25, 37, 0.16);
-    color: #0A1925;
+    background: rgba(255, 183, 0, 0.22);
+    color: #B45309;
     margin-bottom: 12px;
   }
 
@@ -396,7 +396,7 @@
     display: inline-flex; align-items: center; gap: 6px;
   }
   .fb-panel-sub .arrow {
-    color: #0A1925;
+    color: #B45309;
     display: inline-flex;
     animation: fb-arrow-pulse 1.4s ease-in-out infinite;
   }
