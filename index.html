@@ -68,25 +68,20 @@
   .site-footer {
     position: fixed;
     left: 0; right: 0; bottom: 0;
-    background: #ffffff;
+    background: rgba(255,255,255,0.85);
+    backdrop-filter: blur(20px) saturate(150%);
+    -webkit-backdrop-filter: blur(20px) saturate(150%);
     box-shadow: 0 -1px 0 rgba(0,0,0,0.06);
-    z-index: 30;
+    z-index: 50;
   }
-  .ticker-row {
-    display: flex; flex-wrap: nowrap;
-    width: max-content;
-    animation: ticker-scroll 45s linear infinite;
+  @keyframes sp-marquee {
+    0%   { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
   }
-  .ticker-logo {
-    width: auto; display: block;
-    opacity: 0.85;
-    user-select: none;
-    -webkit-user-drag: none;
-  }
-  @keyframes ticker-scroll {
-    from { transform: translateX(0); }
-    to   { transform: translateX(-50%); }
-  }
+  .sp-track { animation: sp-marquee 40s linear infinite; }
+  .sp-wrap:hover .sp-track { animation-play-state: paused; }
+  .sp-logo { position: relative; flex: none; height: 40px; width: 93.333px; overflow: hidden; }
+  .sp-logo > img { position: absolute; display: block; max-width: none; left: 50%; top: 50%; transform: translate(-50%, -50%); }
   /* coin-style credit icon */
   .credit-dot {
     width: 16px; height: 16px; border-radius: 999px;
@@ -1331,38 +1326,56 @@
 
   </div>
 
-  <!-- Footer logo ticker — fixed to the viewport bottom, full-width -->
-  <footer class="site-footer" style="height:92px;">
-    <div class="flex items-center gap-4 h-full" style="padding: 24px 140px 0;">
-      <p class="text-[14px] font-medium uppercase tracking-[0.28px] text-ink-secondary whitespace-nowrap flex items-center gap-1">
-        <span class="text-brand-500">♥</span>
-        Loved by 10M+ presenters at
-      </p>
-      <div class="relative overflow-hidden" style="flex:1; min-width:0; height:56px;">
-        <div class="ticker-row items-center gap-10 h-full">
-          <!-- logo set (duplicated below for a seamless loop) -->
-          <img src="https://svgl.app/library/microsoft.svg"                                                         alt="Microsoft" class="ticker-logo" style="height:26px;"/>
-          <img src="https://svgl.app/library/google.svg"                                                            alt="Google"    class="ticker-logo" style="height:26px;"/>
-          <img src="https://svgl.app/library/adobe.svg"                                                             alt="Adobe"     class="ticker-logo" style="height:28px;"/>
-          <img src="https://svgl.app/library/meta.svg"                                                              alt="Meta"      class="ticker-logo" style="height:22px;"/>
-          <img src="https://upload.wikimedia.org/wikipedia/commons/1/16/McKinsey_Script_Mark_2019.svg"              alt="McKinsey &amp; Company" class="ticker-logo" style="height:22px;"/>
-          <img src="https://upload.wikimedia.org/wikipedia/commons/a/a9/Amazon_logo.svg"                            alt="Amazon"    class="ticker-logo" style="height:24px;"/>
-          <img src="https://upload.wikimedia.org/wikipedia/commons/3/34/EY_logo_2019.svg"                           alt="EY"        class="ticker-logo" style="height:34px;"/>
+  <!-- Sticky social-proof footer (Figma: logo footer) — fixed to viewport bottom -->
+  <aside role="complementary" aria-label="Trusted by" class="site-footer">
+    <div class="mx-auto flex flex-col items-start" style="max-width:1280px; padding: 24px 24px 12px;">
+      <div class="flex flex-col items-center w-full" style="gap:32px;">
+        <div class="flex items-center w-full" style="gap:16px; padding-top:12px;">
+          <p class="shrink-0 whitespace-nowrap text-center uppercase text-ink-secondary" style="font-size:14px; font-weight:500; letter-spacing:0.28px; line-height:normal;">
+            <span aria-hidden>&#9829;&#65039;</span>
+            <span>Loved by 10M+ presenters at</span>
+          </p>
+          <div class="sp-wrap relative overflow-hidden flex-1" style="height:56px;">
+            <div class="sp-track absolute left-0 top-0 flex items-center" style="height:48px; width:max-content; gap:16px;">
+              <!-- Set A -->
+              <div class="sp-logo"><img src="https://www.figma.com/api/mcp/asset/579b52f5-8b94-4205-b8bc-744905d17b65" alt="Microsoft" style="height:15.4px; width:72.097px; margin-left:-0.15px; margin-top:-0.5px;"></div>
+              <div class="sp-logo"><img src="https://www.figma.com/api/mcp/asset/07067c51-1c85-4130-b2f2-94a384e079c4" alt="Google"    style="height:17.778px; width:52.545px; margin-left:-0.49px; margin-top:0.5px;"></div>
+              <div class="sp-logo">
+                <div class="absolute overflow-hidden" style="height:15.4px; width:58.448px; left:calc(50% - 0.52px); top:calc(50% - 0.5px); transform:translate(-50%,-50%);">
+                  <img src="https://www.figma.com/api/mcp/asset/b3596d44-39c5-4f65-ad18-d0bba52747ad" alt="Adobe" style="position:absolute; display:block; max-width:none; left:0; top:0.015px; width:17.4px; height:15.4px;">
+                  <img src="https://www.figma.com/api/mcp/asset/b3156655-c5a3-444e-971f-e2cd4ad5d8d7" alt=""      style="position:absolute; display:block; max-width:none; left:22.53px; top:2.76px; width:35.92px; height:9.42px;">
+                </div>
+              </div>
+              <div class="sp-logo"><img src="https://www.figma.com/api/mcp/asset/a9ed6c21-e4b4-41df-ba12-1861955b4eb3" alt="Meta"      style="height:11.667px; width:57.906px; margin-left:-0.21px; margin-top:0;"></div>
+              <div class="sp-logo"><img src="https://www.figma.com/api/mcp/asset/154fe61d-4cbf-44bb-98a3-51e92443af01" alt="McKinsey"  style="height:20px; width:65.263px; margin-left:-0.37px; margin-top:0;"></div>
+              <div class="sp-logo"><img src="https://www.figma.com/api/mcp/asset/61237982-c079-4af9-951a-20bcccb88665" alt="Amazon"    style="height:15.556px; width:51.538px; margin-left:-0.56px; margin-top:3.25px;"></div>
+              <div class="sp-logo"><img src="https://www.figma.com/api/mcp/asset/699abc3f-6a9b-4f97-bfc0-8f5503e7b413" alt="Notion"    style="height:17.6px; width:48.389px; margin-left:-0.09px; margin-top:0.5px;"></div>
+              <div class="sp-logo" style="width:58.571px;"><img src="https://www.figma.com/api/mcp/asset/bb40f465-5410-4b97-819d-b082616e43b3" alt="EY" style="height:24px; width:23.775px; margin-left:0.27px; margin-top:0;"></div>
+              <div class="sp-logo"><img src="https://www.figma.com/api/mcp/asset/22286540-6746-405a-bb28-da20c303d559" alt="BCG"       style="height:15.714px; width:39.212px; margin-left:-0.09px; margin-top:0.51px;"></div>
 
-          <!-- duplicate set so translateX(-50%) wraps seamlessly -->
-          <img src="https://svgl.app/library/microsoft.svg"                                                         alt="" aria-hidden="true" class="ticker-logo" style="height:26px;"/>
-          <img src="https://svgl.app/library/google.svg"                                                            alt="" aria-hidden="true" class="ticker-logo" style="height:26px;"/>
-          <img src="https://svgl.app/library/adobe.svg"                                                             alt="" aria-hidden="true" class="ticker-logo" style="height:28px;"/>
-          <img src="https://svgl.app/library/meta.svg"                                                              alt="" aria-hidden="true" class="ticker-logo" style="height:22px;"/>
-          <img src="https://upload.wikimedia.org/wikipedia/commons/1/16/McKinsey_Script_Mark_2019.svg"              alt="" aria-hidden="true" class="ticker-logo" style="height:22px;"/>
-          <img src="https://upload.wikimedia.org/wikipedia/commons/a/a9/Amazon_logo.svg"                            alt="" aria-hidden="true" class="ticker-logo" style="height:24px;"/>
-          <img src="https://upload.wikimedia.org/wikipedia/commons/3/34/EY_logo_2019.svg"                           alt="" aria-hidden="true" class="ticker-logo" style="height:34px;"/>
+              <!-- Set B (seamless duplicate) -->
+              <div class="sp-logo"><img src="https://www.figma.com/api/mcp/asset/579b52f5-8b94-4205-b8bc-744905d17b65" alt="" aria-hidden="true" style="height:15.4px; width:72.097px; margin-left:-0.15px; margin-top:-0.5px;"></div>
+              <div class="sp-logo"><img src="https://www.figma.com/api/mcp/asset/07067c51-1c85-4130-b2f2-94a384e079c4" alt="" aria-hidden="true" style="height:17.778px; width:52.545px; margin-left:-0.49px; margin-top:0.5px;"></div>
+              <div class="sp-logo">
+                <div class="absolute overflow-hidden" style="height:15.4px; width:58.448px; left:calc(50% - 0.52px); top:calc(50% - 0.5px); transform:translate(-50%,-50%);">
+                  <img src="https://www.figma.com/api/mcp/asset/b3596d44-39c5-4f65-ad18-d0bba52747ad" alt="" aria-hidden="true" style="position:absolute; display:block; max-width:none; left:0; top:0.015px; width:17.4px; height:15.4px;">
+                  <img src="https://www.figma.com/api/mcp/asset/b3156655-c5a3-444e-971f-e2cd4ad5d8d7" alt="" aria-hidden="true" style="position:absolute; display:block; max-width:none; left:22.53px; top:2.76px; width:35.92px; height:9.42px;">
+                </div>
+              </div>
+              <div class="sp-logo"><img src="https://www.figma.com/api/mcp/asset/a9ed6c21-e4b4-41df-ba12-1861955b4eb3" alt="" aria-hidden="true" style="height:11.667px; width:57.906px; margin-left:-0.21px; margin-top:0;"></div>
+              <div class="sp-logo"><img src="https://www.figma.com/api/mcp/asset/154fe61d-4cbf-44bb-98a3-51e92443af01" alt="" aria-hidden="true" style="height:20px; width:65.263px; margin-left:-0.37px; margin-top:0;"></div>
+              <div class="sp-logo"><img src="https://www.figma.com/api/mcp/asset/61237982-c079-4af9-951a-20bcccb88665" alt="" aria-hidden="true" style="height:15.556px; width:51.538px; margin-left:-0.56px; margin-top:3.25px;"></div>
+              <div class="sp-logo"><img src="https://www.figma.com/api/mcp/asset/699abc3f-6a9b-4f97-bfc0-8f5503e7b413" alt="" aria-hidden="true" style="height:17.6px; width:48.389px; margin-left:-0.09px; margin-top:0.5px;"></div>
+              <div class="sp-logo" style="width:58.571px;"><img src="https://www.figma.com/api/mcp/asset/bb40f465-5410-4b97-819d-b082616e43b3" alt="" aria-hidden="true" style="height:24px; width:23.775px; margin-left:0.27px; margin-top:0;"></div>
+              <div class="sp-logo"><img src="https://www.figma.com/api/mcp/asset/22286540-6746-405a-bb28-da20c303d559" alt="" aria-hidden="true" style="height:15.714px; width:39.212px; margin-left:-0.09px; margin-top:0.51px;"></div>
+            </div>
+            <div class="pointer-events-none absolute bottom-0 left-0 h-full" style="width:120px; background: linear-gradient(to right, #fff, rgba(255,255,255,0));"></div>
+            <div class="pointer-events-none absolute bottom-0 right-0 h-full" style="width:96px; background: linear-gradient(to left, #fff, rgba(255,255,255,0));"></div>
+          </div>
         </div>
-        <div class="absolute inset-y-0 left-0 ticker-fade-left pointer-events-none" style="width:120px;"></div>
-        <div class="absolute inset-y-0 right-0 ticker-fade-right pointer-events-none" style="width:96px;"></div>
       </div>
     </div>
-  </footer>
+  </aside>
 
   <script>
     (function () {
@@ -1777,7 +1790,7 @@
       const TAG_FORM    = 'Help us improve and get';
       const TAG_SUCCESS = "You've unlocked";
       const SUB_FORM_HTML    = '<span class="fb-panel-sub-text">Answer two simple questions</span><span class="arrow"><i class="ph-bold ph-arrow-right"></i></span>';
-      const SUB_SUCCESS_HTML = '<span class="fb-panel-sub-text">Thanks for your feedback!</span>';
+      const SUB_SUCCESS_HTML = '';
 
       let sentiment = null;
       const improves = new Set();
