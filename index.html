@@ -206,14 +206,6 @@
                            0 0 0 0   rgba(255, 85, 0, 0); }
   }
 
-  /* Team-view overrides: drop the Basic column from the compare table. */
-  body[data-view="team"] .compare-grid {
-    grid-template-columns: 320px 1fr 1fr !important;
-  }
-  body[data-view="team"] .compare-grid > *:nth-child(4n+2) {
-    display: none !important;
-  }
-
   /* Plan hover hint — soft light bubble above the card */
   .plan-hint {
     position: absolute;
@@ -1181,7 +1173,7 @@
     </section>
 
     <!-- MINI PLAN SUMMARY (sticks to the top of the viewport on scroll) -->
-    <section class="grid grid-cols-[320px_1fr_1fr_1fr] compare-grid gap-0 bg-white sticky top-0 z-40 border-b border-tertiary" style="margin: 0 140px;">
+    <section class="grid grid-cols-[320px_1fr_1fr_1fr] gap-0 bg-white sticky top-0 z-40 border-b border-tertiary" style="margin: 0 140px;">
       <div class="flex items-center p-5">
         <p class="text-[28px] font-medium text-ink-primary leading-[1.2] tracking-[-0.01em]">Compare features across all our plans</p>
       </div>
@@ -1197,7 +1189,7 @@
         </div>
         <button class="mt-2 h-9 px-4 rounded-[4px] border border-brand-500 text-brand-500 text-[13px] font-bold hover:bg-brand-50">Buy Basic</button>
       </div>
-      <div class="flex flex-col items-center justify-center gap-2 p-5 border-l border-tertiary" data-sum="pro">
+      <div class="flex flex-col items-center justify-center gap-2 p-5 border-l border-tertiary">
         <div class="flex flex-col items-center leading-none gap-1">
           <p class="text-[11px] font-medium text-success-fg hidden" id="sum-pro-save"></p>
           <div class="flex items-baseline gap-1">
@@ -1209,7 +1201,7 @@
         <button class="pro-btn mt-2 h-9 px-4 rounded-[4px] text-white text-[13px] font-bold">Buy Pro</button>
         <div id="sum-pro-pill-slot" class="flex justify-center"></div>
       </div>
-      <div class="flex flex-col items-center justify-center gap-2 p-5 border-l border-tertiary" data-sum="gold">
+      <div class="flex flex-col items-center justify-center gap-2 p-5 border-l border-tertiary">
         <div class="flex flex-col items-center leading-none gap-1">
           <div class="flex items-baseline gap-1">
             <p class="text-[22px] font-bold text-ink-primary leading-none"><span class="usd">$</span>99</p>
@@ -1227,7 +1219,7 @@
       <div class="mt-6">
         <h3 class="text-[18px] font-bold text-ink-primary mb-3 pl-5">AI Features</h3>
         <div>
-          <div class="grid grid-cols-[320px_1fr_1fr_1fr] compare-grid text-[14px]">
+          <div class="grid grid-cols-[320px_1fr_1fr_1fr] text-[14px]">
             <div class="feature-row-label">AI Credits (annual) <span class="feature-tip" title="Annual credits consumed by AI tasks">&#9432;</span></div>
             <div class="feature-row-cell">1,500</div>
             <div class="feature-row-cell">5,000</div>
@@ -1265,7 +1257,7 @@
       <div class="mt-8">
         <h3 class="text-[18px] font-bold text-ink-primary mb-3 pl-5">Sharing &amp; Export</h3>
         <div>
-          <div class="grid grid-cols-[320px_1fr_1fr_1fr] compare-grid text-[14px]">
+          <div class="grid grid-cols-[320px_1fr_1fr_1fr] text-[14px]">
             <div class="feature-row-label">PowerPoint/PDF Export <span class="feature-tip" title="Download as PDF or PPT">&#9432;</span></div>
             <div class="feature-row-cell"><i class="ph-fill ph-check-circle text-success-fg text-[18px]"></i></div>
             <div class="feature-row-cell"><i class="ph-fill ph-check-circle text-success-fg text-[18px]"></i></div>
@@ -1293,7 +1285,7 @@
       <div class="mt-8">
         <h3 class="text-[18px] font-bold text-ink-primary mb-3 pl-5">Collaboration</h3>
         <div>
-          <div class="grid grid-cols-[320px_1fr_1fr_1fr] compare-grid text-[14px]">
+          <div class="grid grid-cols-[320px_1fr_1fr_1fr] text-[14px]">
             <div class="feature-row-label">Guests <span class="feature-tip" title="External collaborators without a workspace seat">&#9432;</span></div>
             <div class="feature-row-cell">Up to 5 guests</div>
             <div class="feature-row-cell">Up to 10 guests</div>
@@ -1311,7 +1303,7 @@
       <div class="mt-8">
         <h3 class="text-[18px] font-bold text-ink-primary mb-3 pl-5">Brand kit</h3>
         <div>
-          <div class="grid grid-cols-[320px_1fr_1fr_1fr] compare-grid text-[14px]">
+          <div class="grid grid-cols-[320px_1fr_1fr_1fr] text-[14px]">
             <div class="feature-row-label">Custom Brand Colors <span class="feature-tip" title="Set your brand's color palette">&#9432;</span></div>
             <div class="feature-row-cell"><i class="ph-fill ph-check-circle text-success-fg text-[18px]"></i></div>
             <div class="feature-row-cell"><i class="ph-fill ph-check-circle text-success-fg text-[18px]"></i></div>
@@ -1344,7 +1336,7 @@
       <div class="mt-8">
         <h3 class="text-[18px] font-bold text-ink-primary mb-3 pl-5">Analytics</h3>
         <div>
-          <div class="grid grid-cols-[320px_1fr_1fr_1fr] compare-grid text-[14px]">
+          <div class="grid grid-cols-[320px_1fr_1fr_1fr] text-[14px]">
             <div class="feature-row-label">Views <span class="feature-tip" title="Track how many times your presentation was viewed">&#9432;</span></div>
             <div class="feature-row-cell"><i class="ph-fill ph-check-circle text-success-fg text-[18px]"></i></div>
             <div class="feature-row-cell"><i class="ph-fill ph-check-circle text-success-fg text-[18px]"></i></div>
@@ -1377,7 +1369,7 @@
       <div class="mt-8">
         <h3 class="text-[18px] font-bold text-ink-primary mb-3 pl-5">Integrations</h3>
         <div>
-          <div class="grid grid-cols-[320px_1fr_1fr_1fr] compare-grid text-[14px]">
+          <div class="grid grid-cols-[320px_1fr_1fr_1fr] text-[14px]">
             <div class="feature-row-label">PowerPoint <span class="feature-tip" title="Use Presentations.ai inside PowerPoint">&#9432;</span></div>
             <div class="feature-row-cell"><i class="ph-fill ph-check-circle text-success-fg text-[18px]"></i></div>
             <div class="feature-row-cell"><i class="ph-fill ph-check-circle text-success-fg text-[18px]"></i></div>
@@ -1752,14 +1744,6 @@
         Object.entries(views).forEach(([key, el]) => {
           if (el) el.classList.toggle('hidden', key !== target);
         });
-        // Advertise the view to CSS (compare-grid collapses Basic on team).
-        document.body.dataset.view = target;
-        // Keep the sticky summary row in sync with the chosen view.
-        if (target === 'team') {
-          if (typeof renderTeamSummary === 'function') renderTeamSummary();
-        } else if (target === 'individual') {
-          if (typeof restoreIndividualSummary === 'function') restoreIndividualSummary();
-        }
       }
       topSeg.querySelectorAll('.top-view-seg-btn').forEach(btn => {
         btn.addEventListener('click', () => setTopView(btn.dataset.view));
@@ -1781,34 +1765,69 @@
         return plan.tiers[plan.tiers.length - 1][1];
       }
 
-      // Shared state so changing seats on Pro also changes Gold, and vice versa.
-      const TEAM_STATE = { n: 5, custom: false, hasTyped: false };
-      const teamCardRenderers = [];
-
-      // Snapshot the summary cells' individual-mode markup so we can restore
-      // them after switching away from team view.
-      const SUM_PRO_CELL  = document.querySelector('[data-sum="pro"]');
-      const SUM_GOLD_CELL = document.querySelector('[data-sum="gold"]');
-      const SUM_PRO_ORIG  = SUM_PRO_CELL.innerHTML;
-      const SUM_GOLD_ORIG = SUM_GOLD_CELL.innerHTML;
+      // Shared seat-count state — Pro and Gold team cards mirror each other.
+      const teamState = { n: 5, custom: false, hasTyped: false };
+      const teamRenders = [];
+      // typingIn = the input element the user is currently typing into; its
+      // value should NOT be overwritten during render. Clicks on +/- sync
+      // both inputs normally.
+      let typingIn = null;
+      function renderAllTeams() { teamRenders.forEach(fn => fn()); }
 
       function wireTeamCard(planKey) {
-        const plan      = TEAM_PLANS[planKey];
-        const priceEl   = document.querySelector(`[data-team-price="${planKey}"]`);
-        const chipsRow  = document.querySelector(`[data-team-chips="${planKey}"]`);
-        const cta       = document.getElementById(plan.ctaId);
-        const hint      = document.getElementById(plan.hintId);
-        const credits   = document.getElementById(plan.creditsId);
-        const chipNodes = chipsRow.querySelectorAll('.seat-chip');
+        const plan       = TEAM_PLANS[planKey];
+        const priceEl    = document.querySelector(`[data-team-price="${planKey}"]`);
+        const chipsRow   = document.querySelector(`[data-team-chips="${planKey}"]`);
+        const cta        = document.getElementById(plan.ctaId);
+        const hint       = document.getElementById(plan.hintId);
+        const credits    = document.getElementById(plan.creditsId);
+        const chipNodes  = chipsRow.querySelectorAll('.seat-chip');
         const customChip = chipsRow.querySelector('[data-value="custom"]');
         const customLbl  = customChip.querySelector('.custom-label');
 
+        // Per-card DOM handles for the stepper (each card gets its own).
         let stepper = null, input = null, decBtn = null, incBtn = null;
 
-        function bump(delta) {
-          TEAM_STATE.n = Math.max(10, Math.min(999, TEAM_STATE.n + delta));
-          TEAM_STATE.hasTyped = true;
-          renderAllTeams();
+        function ensureStepper() {
+          if (stepper) return;
+          stepper = document.createElement('div');
+          stepper.className = 'seat-chip-stepper';
+          stepper.innerHTML = `
+            <button type="button" class="step" data-dec aria-label="Decrease seats"><i class="ph ph-minus"></i></button>
+            <input type="number" class="seat-chip-input" min="10" max="999" aria-label="Seat count">
+            <button type="button" class="step" data-inc aria-label="Increase seats"><i class="ph ph-plus"></i></button>`;
+          customChip.appendChild(stepper);
+          input  = stepper.querySelector('input');
+          decBtn = stepper.querySelector('[data-dec]');
+          incBtn = stepper.querySelector('[data-inc]');
+
+          decBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            teamState.n = Math.max(10, Math.min(999, teamState.n - 1));
+            teamState.hasTyped = true;
+            renderAllTeams();
+            input.focus();
+          });
+          incBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            teamState.n = Math.max(10, Math.min(999, teamState.n + 1));
+            teamState.hasTyped = true;
+            renderAllTeams();
+            input.focus();
+          });
+          input.addEventListener('click', (e) => e.stopPropagation());
+          input.addEventListener('input', () => {
+            const v = parseInt(input.value, 10);
+            if (Number.isNaN(v)) return;
+            teamState.n = Math.max(10, Math.min(999, v));
+            teamState.hasTyped = true;
+            typingIn = input;
+            renderAllTeams();
+            typingIn = null;
+          });
+          input.addEventListener('blur', () => {
+            if (!input.value || parseInt(input.value, 10) < 10) input.value = teamState.n;
+          });
         }
 
         function teardownStepper() {
@@ -1817,78 +1836,40 @@
           customLbl.textContent = '10+';
         }
 
-        function setStandard(val) {
-          TEAM_STATE.custom = false;
-          TEAM_STATE.hasTyped = false;
-          TEAM_STATE.n = val;
-          renderAllTeams();
-        }
-
-        function ensureStepper(focusOnBuild) {
-          customLbl.style.display = 'none';
-          if (!stepper) {
-            stepper = document.createElement('div');
-            stepper.className = 'seat-chip-stepper';
-            stepper.innerHTML = `
-              <button type="button" class="step" data-dec aria-label="Decrease seats"><i class="ph ph-minus"></i></button>
-              <input type="number" class="seat-chip-input" min="10" max="999" aria-label="Seat count">
-              <button type="button" class="step" data-inc aria-label="Increase seats"><i class="ph ph-plus"></i></button>`;
-            customChip.appendChild(stepper);
-            input  = stepper.querySelector('input');
-            decBtn = stepper.querySelector('[data-dec]');
-            incBtn = stepper.querySelector('[data-inc]');
-            decBtn.addEventListener('click', (e) => { e.stopPropagation(); bump(-1); input.focus(); });
-            incBtn.addEventListener('click', (e) => { e.stopPropagation(); bump(+1); input.focus(); });
-            input.addEventListener('click', (e) => e.stopPropagation());
-            input.addEventListener('input', () => {
-              const v = parseInt(input.value, 10);
-              if (Number.isNaN(v)) return;
-              TEAM_STATE.n = Math.max(10, Math.min(999, v));
-              TEAM_STATE.hasTyped = true;
-              // Don't overwrite THIS input (would jump the caret) but do update
-              // the twin card's stepper via renderAllTeams().
-              teamCardRenderers.forEach(r => r(r._planKey === planKey));
-              renderTeamSummary();
-            });
-            input.addEventListener('blur', () => {
-              if (!input.value || parseInt(input.value, 10) < 10) input.value = TEAM_STATE.n;
-            });
-            if (focusOnBuild) { input.focus(); input.select(); }
-          }
-          input.value = TEAM_STATE.n;
-          if (decBtn) decBtn.disabled = TEAM_STATE.n <= 10;
-        }
-
-        function activateCustom() {
-          const firstTime = !TEAM_STATE.custom;
-          TEAM_STATE.custom = true;
-          if (!TEAM_STATE.hasTyped) TEAM_STATE.n = 10;
-          ensureStepper(firstTime);
-          // Twin card also needs its stepper built/synced
-          teamCardRenderers.forEach(r => r());
-          renderTeamSummary();
-        }
-
         chipNodes.forEach(c => {
           c.addEventListener('click', () => {
-            if (c.dataset.value === 'custom') activateCustom();
-            else setStandard(parseInt(c.dataset.value, 10));
+            if (c.dataset.value === 'custom') {
+              const firstTime = !teamState.custom;
+              teamState.custom = true;
+              if (!teamState.hasTyped) teamState.n = 10;
+              renderAllTeams();
+              if (firstTime && input) { input.focus(); input.select(); }
+            } else {
+              teamState.custom = false;
+              teamState.hasTyped = false;
+              teamState.n = parseInt(c.dataset.value, 10);
+              renderAllTeams();
+            }
           });
         });
 
-        function render(skipInputSync) {
-          const n = TEAM_STATE.n;
+        function render() {
+          const n = teamState.n;
           const rate = rateFor(plan, n);
           const hasDiscount = rate < plan.list;
 
           chipNodes.forEach(c => {
             const v = c.dataset.value;
-            const active = (v === 'custom' && TEAM_STATE.custom) || (!TEAM_STATE.custom && parseInt(v, 10) === n);
+            const active = (v === 'custom' && teamState.custom) || (!teamState.custom && parseInt(v, 10) === n);
             c.classList.toggle('active', active);
           });
 
-          if (TEAM_STATE.custom) {
-            ensureStepper(false);
+          if (teamState.custom) {
+            customLbl.style.display = 'none';
+            ensureStepper();
+            // Skip syncing only the input the user is actively typing into.
+            if (input && input !== typingIn) input.value = n;
+            if (decBtn) decBtn.disabled = n <= 10;
           } else {
             teardownStepper();
           }
@@ -1916,54 +1897,9 @@
             hint.className = 'text-[12px] font-medium text-ink-tertiary flex items-center justify-center gap-1 leading-none';
             hint.textContent = 'Volume pricing starts at 5 seats';
           }
-
-          if (input && !skipInputSync) input.value = TEAM_STATE.n;
-          if (decBtn) decBtn.disabled = TEAM_STATE.n <= 10;
         }
 
-        render._planKey = planKey;
-        teamCardRenderers.push(render);
-      }
-
-      function renderAllTeams() {
-        teamCardRenderers.forEach(r => r());
-        renderTeamSummary();
-      }
-
-      function renderTeamSummary() {
-        // Only meaningful while the user is on the Teams & Enterprise view.
-        if (document.body.dataset.view !== 'team') return;
-        [['pro', SUM_PRO_CELL], ['gold', SUM_GOLD_CELL]].forEach(([key, cell]) => {
-          const plan = TEAM_PLANS[key];
-          const n = TEAM_STATE.n;
-          const rate = rateFor(plan, n);
-          const hasDiscount = rate < plan.list;
-          const totalList = (n * plan.list).toLocaleString();
-          const totalNow  = (n * rate).toLocaleString();
-          const btnCls = key === 'pro'
-            ? 'pro-btn mt-2 h-9 px-4 rounded-[4px] text-white text-[13px] font-bold'
-            : 'mt-2 h-9 px-4 rounded-[4px] border border-brand-500 text-brand-500 text-[13px] font-bold hover:bg-brand-50';
-          cell.innerHTML = `
-            <div class="flex flex-col items-center leading-none gap-1">
-              <div class="flex items-baseline gap-2">
-                ${hasDiscount ? `<p class="text-[14px] font-medium line-through text-ink-tertiary leading-none"><span class="usd">$</span>${totalList}</p>` : ''}
-                <div class="flex items-baseline gap-1">
-                  <p class="text-[22px] font-bold text-ink-primary leading-none"><span class="usd">$</span>${totalNow}</p>
-                  <p class="text-[12px] text-ink-tertiary">/mo</p>
-                </div>
-              </div>
-              <p class="text-[11px] font-medium text-ink-tertiary">${n} seats &middot; billed annually</p>
-            </div>
-            <button class="${btnCls}">Buy ${key[0].toUpperCase() + key.slice(1)}</button>`;
-        });
-      }
-
-      function restoreIndividualSummary() {
-        SUM_PRO_CELL.innerHTML  = SUM_PRO_ORIG;
-        SUM_GOLD_CELL.innerHTML = SUM_GOLD_ORIG;
-        // Pro's individual state still lives in renderPro() — re-run it so the
-        // current monthly/annual toggle + hour-bump state paints correctly.
-        renderPro();
+        teamRenders.push(render);
       }
 
       wireTeamCard('pro');
